@@ -7,14 +7,17 @@
 //
 
 #import "KSDMasterViewController.h"
-
 #import "KSDDetailViewController.h"
+#import "KSDAddStockPopoverViewController.h"
+
 
 @interface KSDMasterViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
 
-@implementation KSDMasterViewController
+@implementation KSDMasterViewController {
+  UIPopoverController *_popoverController;
+}
 
 - (void)awakeFromNib
 {
@@ -42,22 +45,14 @@
 
 - (void)insertNewObject:(id)sender
 {
-    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
-    
-    // If appropriate, configure the new managed object.
-    // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-    [newManagedObject setValue:@"AAPL" forKey:@"symbol"];
-    
-    // Save the context.
-    NSError *error = nil;
-    if (![context save:&error]) {
-         // Replace this implementation with code to handle the error appropriately.
-         // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
+  KSDAddStockPopoverViewController *popoverViewController = [KSDAddStockPopoverViewController new];
+  _popoverController =
+  [[UIPopoverController alloc] initWithContentViewController:popoverViewController];
+  _popoverController.popoverContentSize = CGSizeMake(320, 64);
+  popoverViewController.presentingPopoverController = _popoverController;
+  popoverViewController.masterViewController = self;
+  
+  [_popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 #pragma mark - Table View
@@ -213,8 +208,7 @@
 }
  */
 
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
-{
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = [[object valueForKey:@"symbol"] description];
 }

@@ -25,6 +25,8 @@
 		AE05C93718D10DC400C60920 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE05C91218D10DC400C60920 /* CoreData.framework */; };
 		AE05C93F18D10DC400C60920 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AE05C93D18D10DC400C60920 /* InfoPlist.strings */; };
 		AE05C94118D10DC400C60920 /* KStockDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE05C94018D10DC400C60920 /* KStockDataTests.m */; };
+		AE287D7818D2457100F16174 /* KSDAddStockPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE287D7618D2457100F16174 /* KSDAddStockPopoverViewController.m */; };
+		AE287D7918D2457100F16174 /* KSDAddStockPopoverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE287D7718D2457100F16174 /* KSDAddStockPopoverViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,9 @@
 		AE05C93C18D10DC400C60920 /* KStockDataTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KStockDataTests-Info.plist"; sourceTree = "<group>"; };
 		AE05C93E18D10DC400C60920 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AE05C94018D10DC400C60920 /* KStockDataTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KStockDataTests.m; sourceTree = "<group>"; };
+		AE287D7518D2457100F16174 /* KSDAddStockPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KSDAddStockPopoverViewController.h; path = ../KSDAddStockPopoverViewController.h; sourceTree = "<group>"; };
+		AE287D7618D2457100F16174 /* KSDAddStockPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KSDAddStockPopoverViewController.m; path = ../KSDAddStockPopoverViewController.m; sourceTree = "<group>"; };
+		AE287D7718D2457100F16174 /* KSDAddStockPopoverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KSDAddStockPopoverViewController.xib; path = ../KSDAddStockPopoverViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +128,9 @@
 		AE05C91418D10DC400C60920 /* KStockData */ = {
 			isa = PBXGroup;
 			children = (
+				AE287D7518D2457100F16174 /* KSDAddStockPopoverViewController.h */,
+				AE287D7618D2457100F16174 /* KSDAddStockPopoverViewController.m */,
+				AE287D7718D2457100F16174 /* KSDAddStockPopoverViewController.xib */,
 				AE05C91D18D10DC400C60920 /* KSDAppDelegate.h */,
 				AE05C91E18D10DC400C60920 /* KSDAppDelegate.m */,
 				AE05C92018D10DC400C60920 /* Main.storyboard */,
@@ -245,6 +253,7 @@
 			files = (
 				AE05C92D18D10DC400C60920 /* Images.xcassets in Resources */,
 				AE05C91918D10DC400C60920 /* InfoPlist.strings in Resources */,
+				AE287D7918D2457100F16174 /* KSDAddStockPopoverViewController.xib in Resources */,
 				AE05C92218D10DC400C60920 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,6 +275,7 @@
 			files = (
 				AE05C92518D10DC400C60920 /* KStockData.xcdatamodeld in Sources */,
 				AE05C92818D10DC400C60920 /* KSDMasterViewController.m in Sources */,
+				AE287D7818D2457100F16174 /* KSDAddStockPopoverViewController.m in Sources */,
 				AE05C91B18D10DC400C60920 /* main.m in Sources */,
 				AE05C92B18D10DC400C60920 /* KSDDetailViewController.m in Sources */,
 				AE05C91F18D10DC400C60920 /* KSDAppDelegate.m in Sources */,
@@ -475,6 +485,7 @@
 				AE05C94618D10DC400C60920 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AE05C94718D10DC400C60920 /* Build configuration list for PBXNativeTarget "KStockDataTests" */ = {
 			isa = XCConfigurationList;
@@ -483,6 +494,7 @@
 				AE05C94918D10DC400C60920 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
