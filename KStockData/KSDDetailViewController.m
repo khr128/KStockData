@@ -7,28 +7,71 @@
 //
 
 #import "KSDDetailViewController.h"
+#import <objc/message.h>
+
+#define YAHOO_FINANCE_COMMAND_URL "http://finance.yahoo.com/d/quotes.csv?"
 
 @interface KSDDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
 @end
 
-@implementation KSDDetailViewController
+@implementation KSDDetailViewController {
+  NSArray *_yahooCommandTags;
+  NSDictionary *_labelDictionary;
+}
+
+- (void)awakeFromNib {
+  _yahooCommandTags = @[@"n", @"k", @"q", @"j", @"r1", @"y"];
+  _labelDictionary = @{@"n": @"nameLabel",
+                       @"k": @"fiftyTwoWeekHighLabel",
+                       @"q": @"exDividendDateLabel",
+                       @"j": @"fiftyTwoWeekLowLabel",
+                       @"r1": @"dividendPayDateLabel",
+                       @"y": @"dividendYieldLabel"
+                       };
+}
 
 #pragma mark - Managing the detail item
 
-- (void)setDetailItem:(id)newDetailItem
-{
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-        
-        // Update the view.
-        [self configureView];
-    }
+- (void)setDetailItem:(id)newDetailItem {
+  _detailItem = newDetailItem;
+  
+  // Update the view.
+  [self configureView];
+  
+  if (self.masterPopoverController != nil) {
+    [self.masterPopoverController dismissPopoverAnimated:YES];
+  }
+}
 
-    if (self.masterPopoverController != nil) {
-        [self.masterPopoverController dismissPopoverAnimated:YES];
-    }        
+- (void)stockDataFor:(NSString *)symbol
+{
+  NSString *url = [[NSString alloc]
+                   initWithFormat:@"%ss=%@&f=%@",
+                   YAHOO_FINANCE_COMMAND_URL,
+                   symbol,
+                   [_yahooCommandTags componentsJoinedByString:@""]];
+  NSURL *webServiceURL = [[NSURL alloc] initWithString:url];
+  NSURLRequest *request = [ NSURLRequest requestWithURL:webServiceURL];
+  NSURLResponse *response;
+  NSError *error;
+  NSData *data =
+  [NSURLConnection sendSynchronousRequest:request
+                        returningResponse:&response
+                                    error:&error];
+  NSString *csv = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
+                   stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+  NSArray *array = [csv componentsSeparatedByString: @","];
+  
+  [array enumerateObjectsUsingBlock:^(NSString *string, NSUInteger index, BOOL *stop) {
+    NSString *trimmedValueString = [string stringByTrimmingCharactersInSet:
+                                    [NSCharacterSet characterSetWithCharactersInString:@"\""]];
+    NSLog(@"%@", trimmedValueString);
+    
+    UILabel *label = objc_msgSend(self, NSSelectorFromString(_labelDictionary[_yahooCommandTags[index]]));
+    label.text = trimmedValueString;
+  }];
 }
 
 - (void)configureView
@@ -36,7 +79,9 @@
     // Update the user interface for the detail item.
 
   if (self.detailItem) {
-      self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
+    NSString *symbol = [[self.detailItem valueForKey:@"symbol"] description];
+    self.symbolLabel.text = symbol;
+    [self stockDataFor:symbol];
   }
 }
 

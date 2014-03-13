@@ -12,5 +12,11 @@
 
 @property (strong, nonatomic) id detailItem;
 
-@property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *symbolLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *fiftyTwoWeekHighLabel;
+@property (weak, nonatomic) IBOutlet UILabel *exDividendDateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *fiftyTwoWeekLowLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dividendPayDateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dividendYieldLabel;
 @end
