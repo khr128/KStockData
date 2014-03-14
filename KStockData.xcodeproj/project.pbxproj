@@ -24,9 +24,10 @@
 		AE05C93618D10DC400C60920 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE05C91018D10DC400C60920 /* UIKit.framework */; };
 		AE05C93718D10DC400C60920 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE05C91218D10DC400C60920 /* CoreData.framework */; };
 		AE05C93F18D10DC400C60920 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AE05C93D18D10DC400C60920 /* InfoPlist.strings */; };
-		AE05C94118D10DC400C60920 /* KStockDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE05C94018D10DC400C60920 /* KStockDataTests.m */; };
+		AE05C94118D10DC400C60920 /* NSStringKhrCSVTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE05C94018D10DC400C60920 /* NSStringKhrCSVTests.m */; };
 		AE287D7818D2457100F16174 /* KSDAddStockPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE287D7618D2457100F16174 /* KSDAddStockPopoverViewController.m */; };
 		AE287D7918D2457100F16174 /* KSDAddStockPopoverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE287D7718D2457100F16174 /* KSDAddStockPopoverViewController.xib */; };
+		AE287D7C18D2659500F16174 /* NSString+NSString_KhrCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = AE287D7B18D2659500F16174 /* NSString+NSString_KhrCSV.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,10 +63,12 @@
 		AE05C93318D10DC400C60920 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		AE05C93C18D10DC400C60920 /* KStockDataTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KStockDataTests-Info.plist"; sourceTree = "<group>"; };
 		AE05C93E18D10DC400C60920 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		AE05C94018D10DC400C60920 /* KStockDataTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KStockDataTests.m; sourceTree = "<group>"; };
+		AE05C94018D10DC400C60920 /* NSStringKhrCSVTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSStringKhrCSVTests.m; sourceTree = "<group>"; };
 		AE287D7518D2457100F16174 /* KSDAddStockPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KSDAddStockPopoverViewController.h; path = ../KSDAddStockPopoverViewController.h; sourceTree = "<group>"; };
 		AE287D7618D2457100F16174 /* KSDAddStockPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KSDAddStockPopoverViewController.m; path = ../KSDAddStockPopoverViewController.m; sourceTree = "<group>"; };
 		AE287D7718D2457100F16174 /* KSDAddStockPopoverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KSDAddStockPopoverViewController.xib; path = ../KSDAddStockPopoverViewController.xib; sourceTree = "<group>"; };
+		AE287D7A18D2659500F16174 /* NSString+NSString_KhrCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NSString_KhrCSV.h"; sourceTree = "<group>"; };
+		AE287D7B18D2659500F16174 /* NSString+NSString_KhrCSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+NSString_KhrCSV.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +144,8 @@
 				AE05C92C18D10DC400C60920 /* Images.xcassets */,
 				AE05C92318D10DC400C60920 /* KStockData.xcdatamodeld */,
 				AE05C91518D10DC400C60920 /* Supporting Files */,
+				AE287D7A18D2659500F16174 /* NSString+NSString_KhrCSV.h */,
+				AE287D7B18D2659500F16174 /* NSString+NSString_KhrCSV.m */,
 			);
 			path = KStockData;
 			sourceTree = "<group>";
@@ -159,7 +164,7 @@
 		AE05C93A18D10DC400C60920 /* KStockDataTests */ = {
 			isa = PBXGroup;
 			children = (
-				AE05C94018D10DC400C60920 /* KStockDataTests.m */,
+				AE05C94018D10DC400C60920 /* NSStringKhrCSVTests.m */,
 				AE05C93B18D10DC400C60920 /* Supporting Files */,
 			);
 			path = KStockDataTests;
@@ -278,6 +283,7 @@
 				AE287D7818D2457100F16174 /* KSDAddStockPopoverViewController.m in Sources */,
 				AE05C91B18D10DC400C60920 /* main.m in Sources */,
 				AE05C92B18D10DC400C60920 /* KSDDetailViewController.m in Sources */,
+				AE287D7C18D2659500F16174 /* NSString+NSString_KhrCSV.m in Sources */,
 				AE05C91F18D10DC400C60920 /* KSDAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,7 +292,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE05C94118D10DC400C60920 /* KStockDataTests.m in Sources */,
+				AE05C94118D10DC400C60920 /* NSStringKhrCSVTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,5 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *dividendPayDateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dividendYieldLabel;
 @property (weak, nonatomic) IBOutlet UILabel *previousCloseLabel;
+@property (weak, nonatomic) IBOutlet UILabel *daysLowLabel;
+@property (weak, nonatomic) IBOutlet UILabel *daysHighLabel;
 
 @end
