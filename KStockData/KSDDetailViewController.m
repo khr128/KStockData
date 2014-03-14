@@ -8,6 +8,7 @@
 
 #import "KSDDetailViewController.h"
 #import <objc/message.h>
+#import "NSString+NSString_KhrCSV.h"
 
 #define YAHOO_FINANCE_COMMAND_URL "http://finance.yahoo.com/d/quotes.csv?"
 
@@ -63,17 +64,13 @@
   [NSURLConnection sendSynchronousRequest:request
                         returningResponse:&response
                                     error:&error];
-  NSString *csv = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
-                   stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-  NSArray *array = [csv componentsSeparatedByString: @","];
+  NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+  NSArray *array = [csv khr_csv];
   
   [array enumerateObjectsUsingBlock:^(NSString *string, NSUInteger index, BOOL *stop) {
-    NSString *trimmedValueString = [string stringByTrimmingCharactersInSet:
-                                    [NSCharacterSet characterSetWithCharactersInString:@"\""]];
-    NSLog(@"%@", trimmedValueString);
-    
+    NSLog(@"%@", string);
     UILabel *label = objc_msgSend(self, NSSelectorFromString(_labelDictionary[_yahooCommandTags[index]]));
-    label.text = trimmedValueString;
+    label.text = string;
   }];
 }
 

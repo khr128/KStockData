@@ -20,7 +20,7 @@
 - (void)setUp
 {
     [super setUp];
-  _testCSVString = @"\"1\",2,\"3,4\",5\r\n";
+  _testCSVString = @"\"1\",2,\"3,4\",5,6,7,8,\"9\"\r\n";
 }
 
 - (void)tearDown
@@ -39,9 +39,16 @@
 
 - (void)testShouldExtractCorrectValues {
   NSArray *csv = [_testCSVString khr_csv];
-  XCTAssertEqual(csv.count, 4, @"Incorrect CSV value count");
+  XCTAssertEqual(csv.count, 8, @"Incorrect CSV value count");
   [csv enumerateObjectsUsingBlock:^(NSString *valueString, NSUInteger index, BOOL *stop) {
-    NSString *expectedString = [NSString stringWithFormat:@"%d", index+1];
+    NSString *expectedString = [NSString stringWithFormat:@"%d", index + 1];
+    if (index == 2) {
+      expectedString = @"3,4";
+    } else if (index == 3) {
+      expectedString = @"5";
+    } else if (index > 3) {
+      expectedString = [NSString stringWithFormat:@"%d", index + 2];
+    }
     XCTAssertEqualObjects(valueString, expectedString, @"Incorrect value");
   }];
 }

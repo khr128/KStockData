@@ -14,8 +14,10 @@
   NSScanner *scanner = [NSScanner scannerWithString:self];
   NSCharacterSet *commaSet = [NSCharacterSet characterSetWithCharactersInString:@","];
   NSCharacterSet *doubleQuotationSet = [NSCharacterSet characterSetWithCharactersInString:@"\""];
+  NSCharacterSet *lineEndSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 
   NSString *valueString;
+  NSUInteger maxLocation = [self length] - 1;
   
   while ([scanner isAtEnd] == NO) {
     NSUInteger startingLocation = scanner.scanLocation;
@@ -30,10 +32,16 @@
       scanner.scanLocation = doubleQuotationLocation+1;
       [scanner scanUpToCharactersFromSet:doubleQuotationSet intoString:&valueString];
       [scanner scanUpToCharactersFromSet:commaSet intoString:nil];
-      scanner.scanLocation += 1;
-   }
+      if ([scanner isAtEnd] == NO) {
+        scanner.scanLocation += 1;
+      }
+    } else {
+      if (commaLocation < maxLocation) {
+        scanner.scanLocation = commaLocation + 1;
+      }
+    }
 
-    [values addObject:valueString];
+    [values addObject:[valueString stringByTrimmingCharactersInSet:lineEndSet]];
   }
   return values;
 }
