@@ -23,7 +23,7 @@
 }
 
 - (void)awakeFromNib {
-  _yahooCommandTags = @[@"n", @"k", @"q", @"j", @"r1", @"y", @"p", @"g", @"h"];
+  _yahooCommandTags = @[@"n", @"k", @"q", @"j", @"r1", @"y", @"p", @"g", @"h", @"l1", @"o", @"k3"];
   _labelDictionary = @{@"n": @"nameLabel",
                        @"k": @"fiftyTwoWeekHighLabel",
                        @"q": @"exDividendDateLabel",
@@ -32,7 +32,10 @@
                        @"y": @"dividendYieldLabel",
                        @"p": @"previousCloseLabel",
                        @"g": @"daysLowLabel",
-                       @"h": @"daysHighLabel"
+                       @"h": @"daysHighLabel",
+                       @"l1": @"lastTradeWithTimeLabel",
+                       @"o": @"openLabel",
+                       @"k3":@"lastTradeSizeLabel"
                        };
 }
 

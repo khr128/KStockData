@@ -22,5 +22,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *previousCloseLabel;
 @property (weak, nonatomic) IBOutlet UILabel *daysLowLabel;
 @property (weak, nonatomic) IBOutlet UILabel *daysHighLabel;
+@property (weak, nonatomic) IBOutlet UILabel *lastTradeWithTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *openLabel;
+@property (weak, nonatomic) IBOutlet UILabel *lastTradeSizeLabel;
 
 @end

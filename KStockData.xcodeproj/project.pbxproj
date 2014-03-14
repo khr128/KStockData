@@ -69,6 +69,7 @@
 		AE287D7718D2457100F16174 /* KSDAddStockPopoverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KSDAddStockPopoverViewController.xib; path = ../KSDAddStockPopoverViewController.xib; sourceTree = "<group>"; };
 		AE287D7A18D2659500F16174 /* NSString+NSString_KhrCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NSString_KhrCSV.h"; sourceTree = "<group>"; };
 		AE287D7B18D2659500F16174 /* NSString+NSString_KhrCSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+NSString_KhrCSV.m"; sourceTree = "<group>"; };
+		AE287D7E18D3474E00F16174 /* LEDBOARD.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = LEDBOARD.TTF; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +132,7 @@
 		AE05C91418D10DC400C60920 /* KStockData */ = {
 			isa = PBXGroup;
 			children = (
+				AE287D7D18D3473600F16174 /* Resources */,
 				AE287D7518D2457100F16174 /* KSDAddStockPopoverViewController.h */,
 				AE287D7618D2457100F16174 /* KSDAddStockPopoverViewController.m */,
 				AE287D7718D2457100F16174 /* KSDAddStockPopoverViewController.xib */,
@@ -177,6 +179,14 @@
 				AE05C93D18D10DC400C60920 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AE287D7D18D3473600F16174 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AE287D7E18D3474E00F16174 /* LEDBOARD.TTF */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

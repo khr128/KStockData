@@ -8,6 +8,7 @@
 
 #import "KSDAddStockPopoverViewController.h"
 #import "KSDMasterViewController.h"
+#import "KSDDetailViewController.h"
 
 @interface KSDAddStockPopoverViewController ()
 
@@ -46,7 +47,7 @@
   
   // If appropriate, configure the new managed object.
   // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-  [newManagedObject setValue:[textField.text capitalizedString] forKey:@"symbol"];
+  [newManagedObject setValue:[textField.text uppercaseString] forKey:@"symbol"];
   
   // Save the context.
   NSError *error = nil;
@@ -58,7 +59,8 @@
   }
   
   [self.presentingPopoverController dismissPopoverAnimated:YES];
-  
+  self.masterViewController.detailViewController.detailItem = newManagedObject;
+
   return YES;
 }
 
