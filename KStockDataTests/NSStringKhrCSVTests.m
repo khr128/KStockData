@@ -56,7 +56,7 @@
 }
 
 - (void)testShouldStripHTML {
-  NSString *noHTML = [_testHTMLString stripHTML];
+  NSString *noHTML = [_testHTMLString khr_stripHTML];
   NSString *expected = @"This and that;";
   XCTAssertEqualObjects(noHTML, expected, @"incorrect HTML stripping");
 }

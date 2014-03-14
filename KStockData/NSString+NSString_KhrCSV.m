@@ -41,12 +41,12 @@
       }
     }
 
-    [values addObject:[[valueString stringByTrimmingCharactersInSet:lineEndSet] stripHTML]];
+    [values addObject:[[valueString stringByTrimmingCharactersInSet:lineEndSet] khr_stripHTML]];
   }
   return values;
 }
 
-- (NSString *) stripHTML {
+- (NSString *) khr_stripHTML {
   NSScanner *scanner = [NSScanner scannerWithString:self];
   NSCharacterSet *openingTokens = [NSCharacterSet characterSetWithCharactersInString:@"<&"];
   NSCharacterSet *semicolonSet = [NSCharacterSet characterSetWithCharactersInString:@";"];
