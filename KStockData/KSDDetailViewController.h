@@ -12,7 +12,6 @@
 
 @property (strong, nonatomic) id detailItem;
 
-@property (weak, nonatomic) IBOutlet UILabel *symbolLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *fiftyTwoWeekHighLabel;
 @property (weak, nonatomic) IBOutlet UILabel *exDividendDateLabel;
@@ -25,5 +24,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *lastTradeWithTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *openLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lastTradeSizeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *lastTradeTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *changePercentLabel;
+@property (weak, nonatomic) IBOutlet UILabel *peRatioLabel;
+@property (weak, nonatomic) IBOutlet UILabel *volumeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tickerTrendLabel;
 
 @end

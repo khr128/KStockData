@@ -60,7 +60,10 @@
   
   [self.presentingPopoverController dismissPopoverAnimated:YES];
   self.masterViewController.detailViewController.detailItem = newManagedObject;
-
+  
+  NSIndexPath *rowIndexPath = self.masterViewController.tableView.indexPathForSelectedRow;
+  [self.masterViewController.tableView deselectRowAtIndexPath:rowIndexPath animated:YES];
+  
   return YES;
 }
 

@@ -15,12 +15,14 @@
 
 @implementation NSStringKhrCSVTests {
   NSString *_testCSVString;
+  NSString *_testHTMLString;
 }
 
 - (void)setUp
 {
     [super setUp];
   _testCSVString = @"\"1\",2,\"3,4\",5,6,7,8,\"9\"\r\n";
+  _testHTMLString = @"This &nbsp;<b>and that;</b>&nbsp;";
 }
 
 - (void)tearDown
@@ -41,7 +43,7 @@
   NSArray *csv = [_testCSVString khr_csv];
   XCTAssertEqual(csv.count, 8, @"Incorrect CSV value count");
   [csv enumerateObjectsUsingBlock:^(NSString *valueString, NSUInteger index, BOOL *stop) {
-    NSString *expectedString = [NSString stringWithFormat:@"%d", index + 1];
+    NSString *expectedString = [NSString stringWithFormat:@"%u", index + 1];
     if (index == 2) {
       expectedString = @"3,4";
     } else if (index == 3) {
@@ -52,5 +54,12 @@
     XCTAssertEqualObjects(valueString, expectedString, @"Incorrect value");
   }];
 }
+
+- (void)testShouldStripHTML {
+  NSString *noHTML = [_testHTMLString stripHTML];
+  NSString *expected = @"This and that;";
+  XCTAssertEqualObjects(noHTML, expected, @"incorrect HTML stripping");
+}
+
 
 @end

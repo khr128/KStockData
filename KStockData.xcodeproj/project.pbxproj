@@ -28,6 +28,8 @@
 		AE287D7818D2457100F16174 /* KSDAddStockPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE287D7618D2457100F16174 /* KSDAddStockPopoverViewController.m */; };
 		AE287D7918D2457100F16174 /* KSDAddStockPopoverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE287D7718D2457100F16174 /* KSDAddStockPopoverViewController.xib */; };
 		AE287D7C18D2659500F16174 /* NSString+NSString_KhrCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = AE287D7B18D2659500F16174 /* NSString+NSString_KhrCSV.m */; };
+		AEB6643718D352BC003D504A /* LEDBDREV.TTF in Resources */ = {isa = PBXBuildFile; fileRef = AEB6643618D3526E003D504A /* LEDBDREV.TTF */; };
+		AEB6643918D369EE003D504A /* scoreboard.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEB6643818D369E1003D504A /* scoreboard.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +71,8 @@
 		AE287D7718D2457100F16174 /* KSDAddStockPopoverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KSDAddStockPopoverViewController.xib; path = ../KSDAddStockPopoverViewController.xib; sourceTree = "<group>"; };
 		AE287D7A18D2659500F16174 /* NSString+NSString_KhrCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NSString_KhrCSV.h"; sourceTree = "<group>"; };
 		AE287D7B18D2659500F16174 /* NSString+NSString_KhrCSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+NSString_KhrCSV.m"; sourceTree = "<group>"; };
-		AE287D7E18D3474E00F16174 /* LEDBOARD.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = LEDBOARD.TTF; sourceTree = "<group>"; };
+		AEB6643618D3526E003D504A /* LEDBDREV.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = LEDBDREV.TTF; sourceTree = "<group>"; };
+		AEB6643818D369E1003D504A /* scoreboard.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = scoreboard.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,7 +187,8 @@
 		AE287D7D18D3473600F16174 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				AE287D7E18D3474E00F16174 /* LEDBOARD.TTF */,
+				AEB6643818D369E1003D504A /* scoreboard.ttf */,
+				AEB6643618D3526E003D504A /* LEDBDREV.TTF */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -266,6 +270,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEB6643918D369EE003D504A /* scoreboard.ttf in Resources */,
+				AEB6643718D352BC003D504A /* LEDBDREV.TTF in Resources */,
 				AE05C92D18D10DC400C60920 /* Images.xcassets in Resources */,
 				AE05C91918D10DC400C60920 /* InfoPlist.strings in Resources */,
 				AE287D7918D2457100F16174 /* KSDAddStockPopoverViewController.xib in Resources */,

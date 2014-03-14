@@ -26,7 +26,8 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>LEDBOARD.TTF</string>
+		<string>LEDBDREV.TTF</string>
+		<string>scoreboard.ttf</string>
 	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>

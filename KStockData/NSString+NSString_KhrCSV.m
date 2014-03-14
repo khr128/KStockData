@@ -41,8 +41,47 @@
       }
     }
 
-    [values addObject:[valueString stringByTrimmingCharactersInSet:lineEndSet]];
+    [values addObject:[[valueString stringByTrimmingCharactersInSet:lineEndSet] stripHTML]];
   }
   return values;
+}
+
+- (NSString *) stripHTML {
+  NSScanner *scanner = [NSScanner scannerWithString:self];
+  NSCharacterSet *openingTokens = [NSCharacterSet characterSetWithCharactersInString:@"<&"];
+  NSCharacterSet *semicolonSet = [NSCharacterSet characterSetWithCharactersInString:@";"];
+  NSCharacterSet *closingBracketSet = [NSCharacterSet characterSetWithCharactersInString:@">"];
+
+  NSMutableString *processedString = [NSMutableString new];
+  NSString *scanString;
+  
+  while ([scanner isAtEnd] == NO) {
+    [scanner scanUpToCharactersFromSet:openingTokens intoString:&scanString];
+    if (scanString) {
+      [processedString appendString:scanString];
+      scanString = nil;
+    }
+    if ([scanner isAtEnd] == NO) {
+      unichar c = [self characterAtIndex:scanner.scanLocation];
+      switch (c) {
+        case '<':
+          NSLog(@"Hit angular");
+          scanner.scanLocation++;
+          [scanner scanUpToCharactersFromSet:closingBracketSet intoString:nil];
+          scanner.scanLocation++;
+          break;
+        case '&':
+          NSLog(@"Hit amp");
+          scanner.scanLocation++;
+          [scanner scanUpToCharactersFromSet:semicolonSet intoString:nil];
+          scanner.scanLocation++;
+          break;
+          
+        default:
+          break;
+      }
+    }
+  }
+  return processedString;
 }
 @end

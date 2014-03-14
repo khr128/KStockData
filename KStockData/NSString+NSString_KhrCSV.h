@@ -10,4 +10,5 @@
 
 @interface NSString (NSString_KhrCSV)
 - (NSArray *)khr_csv;
+- (NSString *)stripHTML;
 @end

@@ -23,7 +23,7 @@
 }
 
 - (void)awakeFromNib {
-  _yahooCommandTags = @[@"n", @"k", @"q", @"j", @"r1", @"y", @"p", @"g", @"h", @"l1", @"o", @"k3"];
+  _yahooCommandTags = @[@"n", @"k", @"q", @"j", @"r1", @"y", @"p", @"g", @"h", @"l1", @"o", @"k3", @"t1", @"c", @"r", @"v", @"t7"];
   _labelDictionary = @{@"n": @"nameLabel",
                        @"k": @"fiftyTwoWeekHighLabel",
                        @"q": @"exDividendDateLabel",
@@ -35,7 +35,12 @@
                        @"h": @"daysHighLabel",
                        @"l1": @"lastTradeWithTimeLabel",
                        @"o": @"openLabel",
-                       @"k3":@"lastTradeSizeLabel"
+                       @"k3": @"lastTradeSizeLabel",
+                       @"t1": @"lastTradeTimeLabel",
+                       @"c": @"changePercentLabel",
+                       @"r": @"peRatioLabel",
+                       @"v": @"volumeLabel",
+                       @"t7": @"tickerTrendLabel"
                        };
 }
 
@@ -70,21 +75,25 @@
   NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
   NSArray *array = [csv khr_csv];
   
+//  NSLog(@"%@", [UIFont familyNames]);
+  UIFont *font = [UIFont fontWithName:@"LED BOARD REVERSED" size:17];
+//  UIFont *font = [UIFont fontWithName:@"Score Board" size:17];
+  
   [array enumerateObjectsUsingBlock:^(NSString *string, NSUInteger index, BOOL *stop) {
-    NSLog(@"%@", string);
+//    NSLog(@"%@", string);
     UILabel *label = objc_msgSend(self, NSSelectorFromString(_labelDictionary[_yahooCommandTags[index]]));
     label.text = string;
+    label.font = font;
+    label.textColor = [UIColor greenColor];
   }];
 }
 
 - (void)configureView
 {
-    // Update the user interface for the detail item.
-
-  if (self.detailItem) {
+   if (self.detailItem) {
     NSString *symbol = [[self.detailItem valueForKey:@"symbol"] description];
-    self.symbolLabel.text = symbol;
     [self stockDataFor:symbol];
+    self.title = symbol;
   }
 }
 
