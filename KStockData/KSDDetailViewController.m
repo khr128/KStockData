@@ -23,7 +23,7 @@
 }
 
 - (void)awakeFromNib {
-  _yahooCommandTags = @[@"n", @"k", @"q", @"j", @"r1", @"y", @"p", @"g", @"h", @"l1", @"o", @"a", @"t1", @"c", @"r", @"v", @"t7"];
+  _yahooCommandTags = @[@"n", @"k", @"q", @"j", @"r1", @"y", @"p", @"g", @"h", @"l1", @"o", @"a", @"t1", @"c", @"r", @"v", @"t7", @"p6", @"p5", @"e"];
   _labelDictionary = @{@"n": @"nameLabel",
                        @"k": @"fiftyTwoWeekHighLabel",
                        @"q": @"exDividendDateLabel",
@@ -40,7 +40,10 @@
                        @"c": @"changePercentLabel",
                        @"r": @"peRatioLabel",
                        @"v": @"volumeLabel",
-                       @"t7": @"tickerTrendLabel"
+                       @"t7": @"tickerTrendLabel",
+                       @"p6": @"priceToBookLabel",
+                       @"p5": @"priceToSalesLabel",
+                       @"e": @"earningsPerShareLabel"
                        };
 }
 

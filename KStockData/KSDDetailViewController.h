@@ -29,5 +29,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *peRatioLabel;
 @property (weak, nonatomic) IBOutlet UILabel *volumeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *tickerTrendLabel;
+@property (weak, nonatomic) IBOutlet UILabel *priceToBookLabel;
+@property (weak, nonatomic) IBOutlet UILabel *priceToSalesLabel;
+@property (weak, nonatomic) IBOutlet UILabel *earningsPerShareLabel;
 
 @end
