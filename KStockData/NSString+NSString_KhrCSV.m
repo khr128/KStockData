@@ -8,13 +8,22 @@
 
 #import "NSString+NSString_KhrCSV.h"
 
+static NSCharacterSet *commaSet = nil;
+static NSCharacterSet *doubleQuotationSet = nil;
+static NSCharacterSet *lineEndSet = nil;
+
+
 @implementation NSString (NSString_KhrCSV)
 - (NSArray *)khr_csv {
   NSMutableArray *values = [NSMutableArray new];
   NSScanner *scanner = [NSScanner scannerWithString:self];
-  NSCharacterSet *commaSet = [NSCharacterSet characterSetWithCharactersInString:@","];
-  NSCharacterSet *doubleQuotationSet = [NSCharacterSet characterSetWithCharactersInString:@"\""];
-  NSCharacterSet *lineEndSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+  
+  static dispatch_once_t token;
+  dispatch_once(&token, ^{
+    commaSet = [NSCharacterSet characterSetWithCharactersInString:@","];
+    doubleQuotationSet = [NSCharacterSet characterSetWithCharactersInString:@"\""];
+    lineEndSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+  });
 
   NSString *valueString;
   NSUInteger maxLocation = [self length] - 1;
@@ -46,11 +55,19 @@
   return values;
 }
 
+static NSCharacterSet *openingTokens = nil;
+static NSCharacterSet *semicolonSet = nil;
+static NSCharacterSet *closingBracketSet = nil;
+
 - (NSString *) khr_stripHTML {
   NSScanner *scanner = [NSScanner scannerWithString:self];
-  NSCharacterSet *openingTokens = [NSCharacterSet characterSetWithCharactersInString:@"<&"];
-  NSCharacterSet *semicolonSet = [NSCharacterSet characterSetWithCharactersInString:@";"];
-  NSCharacterSet *closingBracketSet = [NSCharacterSet characterSetWithCharactersInString:@">"];
+  
+  static dispatch_once_t token;
+  dispatch_once(&token, ^{
+    openingTokens = [NSCharacterSet characterSetWithCharactersInString:@"<&"];
+    semicolonSet = [NSCharacterSet characterSetWithCharactersInString:@"; <"];
+    closingBracketSet = [NSCharacterSet characterSetWithCharactersInString:@">"];
+  });
 
   NSMutableString *processedString = [NSMutableString new];
   NSString *scanString;
@@ -65,19 +82,28 @@
       unichar c = [self characterAtIndex:scanner.scanLocation];
       switch (c) {
         case '<':
-          NSLog(@"Hit angular");
           scanner.scanLocation++;
           [scanner scanUpToCharactersFromSet:closingBracketSet intoString:nil];
           scanner.scanLocation++;
           break;
         case '&':
-          NSLog(@"Hit amp");
-          scanner.scanLocation++;
-          [scanner scanUpToCharactersFromSet:semicolonSet intoString:nil];
-          scanner.scanLocation++;
+          [scanner scanUpToCharactersFromSet:semicolonSet intoString:&scanString];
+          unichar c2 = [self characterAtIndex:scanner.scanLocation];
+          if (c2 == ';') {
+            scanner.scanLocation++;
+          } else {
+            if (scanString) {
+              [processedString appendString:scanString];
+            }
+            if (c2 == ' ') {
+              [processedString appendString:@" "];
+            }
+          }
+          scanString = nil;
           break;
           
         default:
+          scanner.scanLocation++;
           break;
       }
     }

@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *daysHighLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lastTradeWithTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *openLabel;
-@property (weak, nonatomic) IBOutlet UILabel *lastTradeSizeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *askLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lastTradeTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *changePercentLabel;
 @property (weak, nonatomic) IBOutlet UILabel *peRatioLabel;

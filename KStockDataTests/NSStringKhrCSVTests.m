@@ -22,7 +22,7 @@
 {
     [super setUp];
   _testCSVString = @"\"1\",2,\"3,4\",5,6,7,8,\"9\"\r\n";
-  _testHTMLString = @"This &nbsp;<b>and that;</b>&nbsp;";
+  _testHTMLString = @"This &nbsp;<b>&x that; &y </b>&nbsp;";
 }
 
 - (void)tearDown
@@ -57,7 +57,7 @@
 
 - (void)testShouldStripHTML {
   NSString *noHTML = [_testHTMLString khr_stripHTML];
-  NSString *expected = @"This and that;";
+  NSString *expected = @"This &x that; &y ";
   XCTAssertEqualObjects(noHTML, expected, @"incorrect HTML stripping");
 }
 
