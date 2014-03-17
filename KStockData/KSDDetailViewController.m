@@ -23,7 +23,7 @@
 }
 
 - (void)awakeFromNib {
-  _yahooCommandTags = @[@"n", @"k", @"q", @"j", @"r1", @"y", @"p", @"g", @"h", @"l1", @"o", @"a", @"t1", @"c", @"r", @"v", @"t7", @"p6", @"p5", @"e"];
+  _yahooCommandTags = @[@"n", @"k", @"q", @"j", @"r1", @"y", @"p", @"g", @"h", @"l1", @"o", @"b2", @"t1", @"c", @"r", @"v", @"t7", @"p6", @"p5", @"e"];
   _labelDictionary = @{@"n": @"nameLabel",
                        @"k": @"fiftyTwoWeekHighLabel",
                        @"q": @"exDividendDateLabel",
@@ -35,7 +35,7 @@
                        @"h": @"daysHighLabel",
                        @"l1": @"lastTradeWithTimeLabel",
                        @"o": @"openLabel",
-                       @"a": @"askLabel",
+                       @"b2": @"askLabel",
                        @"t1": @"lastTradeTimeLabel",
                        @"c": @"changePercentLabel",
                        @"r": @"peRatioLabel",
