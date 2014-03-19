@@ -9,7 +9,8 @@
 #import "KSDMasterViewController.h"
 #import "KSDDetailViewController.h"
 #import "KSDAddStockPopoverViewController.h"
-
+#import "KSDStockDataRetriever.h"
+#import "NSString+NSString_KhrCSV.h"
 
 @interface KSDMasterViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -208,9 +209,25 @@
 }
  */
 
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[object valueForKey:@"symbol"] description];
+static void (^changeRetrievalHandler)(NSURLResponse *response, NSData *data, NSError *error);
+
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {  
+  NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+  NSString *symbol = [[object valueForKey:@"symbol"] description];
+  
+  void (^changeRetrievalHandler)(NSURLResponse *response, NSData *data, NSError *error) =
+  ^(NSURLResponse *response, NSData *data, NSError *error) {
+    dispatch_queue_t mainQueue = dispatch_get_main_queue();
+    dispatch_async(mainQueue, ^{
+      NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+      NSArray *array = [csv khr_csv];
+      cell.textLabel.text = [NSString stringWithFormat:@"%@   (%@)", symbol, array[0]];
+    });
+  };
+  
+  cell.textLabel.text = symbol;
+  
+  [KSDStockDataRetriever stockDataFor:symbol commands:@"c" completionHadler:changeRetrievalHandler];
 }
 
 @end
