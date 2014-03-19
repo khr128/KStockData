@@ -30,6 +30,7 @@
 		AE287D7C18D2659500F16174 /* NSString+NSString_KhrCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = AE287D7B18D2659500F16174 /* NSString+NSString_KhrCSV.m */; };
 		AEB6643718D352BC003D504A /* LEDBDREV.TTF in Resources */ = {isa = PBXBuildFile; fileRef = AEB6643618D3526E003D504A /* LEDBDREV.TTF */; };
 		AEB6643918D369EE003D504A /* scoreboard.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEB6643818D369E1003D504A /* scoreboard.ttf */; };
+		AEE4C02F18DA160D00695BF3 /* KSDStockDataRetriever.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE4C02E18DA160D00695BF3 /* KSDStockDataRetriever.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,8 @@
 		AE287D7B18D2659500F16174 /* NSString+NSString_KhrCSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+NSString_KhrCSV.m"; sourceTree = "<group>"; };
 		AEB6643618D3526E003D504A /* LEDBDREV.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = LEDBDREV.TTF; sourceTree = "<group>"; };
 		AEB6643818D369E1003D504A /* scoreboard.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = scoreboard.ttf; sourceTree = "<group>"; };
+		AEE4C02D18DA160D00695BF3 /* KSDStockDataRetriever.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDStockDataRetriever.h; sourceTree = "<group>"; };
+		AEE4C02E18DA160D00695BF3 /* KSDStockDataRetriever.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDStockDataRetriever.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +138,7 @@
 		AE05C91418D10DC400C60920 /* KStockData */ = {
 			isa = PBXGroup;
 			children = (
+				AEE4C02C18DA15BA00695BF3 /* WebService */,
 				AE287D7D18D3473600F16174 /* Resources */,
 				AE287D7518D2457100F16174 /* KSDAddStockPopoverViewController.h */,
 				AE287D7618D2457100F16174 /* KSDAddStockPopoverViewController.m */,
@@ -191,6 +195,15 @@
 				AEB6643618D3526E003D504A /* LEDBDREV.TTF */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		AEE4C02C18DA15BA00695BF3 /* WebService */ = {
+			isa = PBXGroup;
+			children = (
+				AEE4C02D18DA160D00695BF3 /* KSDStockDataRetriever.h */,
+				AEE4C02E18DA160D00695BF3 /* KSDStockDataRetriever.m */,
+			);
+			name = WebService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -296,6 +309,7 @@
 			files = (
 				AE05C92518D10DC400C60920 /* KStockData.xcdatamodeld in Sources */,
 				AE05C92818D10DC400C60920 /* KSDMasterViewController.m in Sources */,
+				AEE4C02F18DA160D00695BF3 /* KSDStockDataRetriever.m in Sources */,
 				AE287D7818D2457100F16174 /* KSDAddStockPopoverViewController.m in Sources */,
 				AE05C91B18D10DC400C60920 /* main.m in Sources */,
 				AE05C92B18D10DC400C60920 /* KSDDetailViewController.m in Sources */,

@@ -9,8 +9,7 @@
 #import "KSDDetailViewController.h"
 #import <objc/message.h>
 #import "NSString+NSString_KhrCSV.h"
-
-#define YAHOO_FINANCE_COMMAND_URL "http://finance.yahoo.com/d/quotes.csv?"
+#import "KSDStockDataRetriever.h"
 
 @interface KSDDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -60,44 +59,44 @@
   }
 }
 
+static void (^dataRetrievalHandler)(NSURLResponse *response, NSData *data, NSError *error);
+
 - (void)stockDataFor:(NSString *)symbol
 {
-  NSString *url = [[NSString alloc]
-                   initWithFormat:@"%ss=%@&f=%@",
-                   YAHOO_FINANCE_COMMAND_URL,
-                   symbol,
-                   [_yahooCommandTags componentsJoinedByString:@""]];
-  NSURL *webServiceURL = [[NSURL alloc] initWithString:url];
-  NSURLRequest *request = [ NSURLRequest requestWithURL:webServiceURL];
-  NSOperationQueue *requestQueue = [NSOperationQueue new];
-  [NSURLConnection sendAsynchronousRequest:request
-                                     queue:requestQueue
-                         completionHandler: ^(NSURLResponse *response, NSData *data, NSError *error) {
-                           NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                           NSArray *array = [csv khr_csv];
-                           
-                           //  NSLog(@"%@", [UIFont familyNames]);
-                           UIFont *font = [UIFont fontWithName:@"LED BOARD REVERSED" size:17];
-                           //  UIFont *font = [UIFont fontWithName:@"Score Board" size:17];
-                           
-                           dispatch_queue_t mainQueue = dispatch_get_main_queue();
-                           dispatch_sync(mainQueue, ^{
-                             [array enumerateObjectsUsingBlock:^(NSString *string, NSUInteger index, BOOL *stop) {
-                               //    NSLog(@"%@", string);
-                               UILabel *label =
-                               objc_msgSend(self, NSSelectorFromString(_labelDictionary[_yahooCommandTags[index]]));
-                               [UIView transitionWithView:label duration:0.3
-                                                  options:UIViewAnimationOptionCurveEaseInOut
-                                               animations:^{ label.alpha = 0; }
-                                               completion:^(BOOL finished){
-                                                 label.text = string;
-                                                 label.font = font;
-                                                 label.textColor = [UIColor greenColor];
-                                                 label.alpha = 1.0;
-                                               }];
-                             }];
-                           });
-                         }];
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    dataRetrievalHandler =
+    ^(NSURLResponse *response, NSData *data, NSError *error) {
+      NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+      NSArray *array = [csv khr_csv];
+      
+      //  NSLog(@"%@", [UIFont familyNames]);
+      UIFont *font = [UIFont fontWithName:@"LED BOARD REVERSED" size:17];
+      //  UIFont *font = [UIFont fontWithName:@"Score Board" size:17];
+      
+      dispatch_queue_t mainQueue = dispatch_get_main_queue();
+      dispatch_sync(mainQueue, ^{
+        [array enumerateObjectsUsingBlock:^(NSString *string, NSUInteger index, BOOL *stop) {
+          //    NSLog(@"%@", string);
+          UILabel *label =
+          objc_msgSend(self, NSSelectorFromString(_labelDictionary[_yahooCommandTags[index]]));
+          [UIView transitionWithView:label duration:0.3
+                             options:UIViewAnimationOptionCurveEaseInOut
+                          animations:^{ label.alpha = 0; }
+                          completion:^(BOOL finished){
+                            label.text = string;
+                            label.font = font;
+                            label.textColor = [UIColor greenColor];
+                            label.alpha = 1.0;
+                          }];
+        }];
+      });
+    };
+  });
+  
+  [KSDStockDataRetriever stockDataFor:symbol
+                             commands:[_yahooCommandTags componentsJoinedByString:@""]
+                     completionHadler:dataRetrievalHandler];
  }
 
 - (void)configureView
