@@ -85,9 +85,15 @@
   [array enumerateObjectsUsingBlock:^(NSString *string, NSUInteger index, BOOL *stop) {
 //    NSLog(@"%@", string);
     UILabel *label = objc_msgSend(self, NSSelectorFromString(_labelDictionary[_yahooCommandTags[index]]));
-    label.text = string;
-    label.font = font;
-    label.textColor = [UIColor greenColor];
+    [UIView transitionWithView:label duration:0.3
+                       options:UIViewAnimationOptionCurveEaseInOut
+                    animations:^{ label.alpha = 0; }
+                    completion:^(BOOL finished){
+                      label.text = string;
+                      label.font = font;
+                      label.textColor = [UIColor greenColor];
+                      label.alpha = 1.0;
+                    }];
   }];
 }
 
