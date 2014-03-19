@@ -22,7 +22,7 @@
 }
 
 - (void)awakeFromNib {
-  _yahooCommandTags = @[@"n", @"k", @"q", @"j", @"r1", @"y", @"p", @"g", @"h", @"l1", @"o", @"b2", @"t1", @"c", @"r", @"v", @"t7", @"p6", @"p5", @"e"];
+  _yahooCommandTags = @[@"n", @"k", @"q", @"j", @"r1", @"y", @"p", @"g", @"h", @"l1", @"o", @"b2", @"t1", @"r", @"v", @"t7", @"p6", @"p5", @"e"];
   _labelDictionary = @{@"n": @"nameLabel",
                        @"k": @"fiftyTwoWeekHighLabel",
                        @"q": @"exDividendDateLabel",
@@ -36,8 +36,7 @@
                        @"o": @"openLabel",
                        @"b2": @"askLabel",
                        @"t1": @"lastTradeTimeLabel",
-                       @"c": @"changePercentLabel",
-                       @"r": @"peRatioLabel",
+                        @"r": @"peRatioLabel",
                        @"v": @"volumeLabel",
                        @"t7": @"tickerTrendLabel",
                        @"p6": @"priceToBookLabel",
@@ -86,7 +85,7 @@ static void (^dataRetrievalHandler)(NSURLResponse *response, NSData *data, NSErr
                           completion:^(BOOL finished){
                             label.text = string;
                             label.font = font;
-                            label.textColor = [UIColor greenColor];
+                            label.textColor = [UIColor yellowColor];
                             label.alpha = 1.0;
                           }];
         }];

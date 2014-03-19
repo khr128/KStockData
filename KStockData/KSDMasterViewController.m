@@ -11,6 +11,7 @@
 #import "KSDAddStockPopoverViewController.h"
 #import "KSDStockDataRetriever.h"
 #import "NSString+NSString_KhrCSV.h"
+#import "KSDSymbolTableViewCell.h"
 
 @interface KSDMasterViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -71,9 +72,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
   [self configureCell:cell atIndexPath:indexPath];
-    return cell;
+  
+  UIView *bgColorView = [[UIView alloc] init];
+  bgColorView.backgroundColor = [UIColor darkGrayColor];
+//  bgColorView.layer.cornerRadius = 7;
+  bgColorView.layer.masksToBounds = YES;
+  [cell setSelectedBackgroundView:bgColorView];
+  return cell;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -221,7 +228,16 @@ static void (^changeRetrievalHandler)(NSURLResponse *response, NSData *data, NSE
     dispatch_async(mainQueue, ^{
       NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
       NSArray *array = [csv khr_csv];
-      cell.textLabel.text = [NSString stringWithFormat:@"%@   (%@)", symbol, array[0]];
+      NSString *change = array[0];
+      
+      UILabel *changeLabel = ((KSDSymbolTableViewCell*) cell).changeLabel;
+      changeLabel.text = change;
+      UIFont *font = [UIFont fontWithName:@"LED BOARD REVERSED" size:17];
+      changeLabel.font = font;
+
+      UIColor *textColor =  ([change characterAtIndex:0] == '+' ? [UIColor greenColor] : [UIColor redColor]);
+      changeLabel.textColor = textColor;
+      cell.textLabel.textColor = textColor;
     });
   };
   

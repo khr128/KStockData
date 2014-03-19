@@ -31,6 +31,7 @@
 		AEB6643718D352BC003D504A /* LEDBDREV.TTF in Resources */ = {isa = PBXBuildFile; fileRef = AEB6643618D3526E003D504A /* LEDBDREV.TTF */; };
 		AEB6643918D369EE003D504A /* scoreboard.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEB6643818D369E1003D504A /* scoreboard.ttf */; };
 		AEE4C02F18DA160D00695BF3 /* KSDStockDataRetriever.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE4C02E18DA160D00695BF3 /* KSDStockDataRetriever.m */; };
+		AEE4C03218DA3AD700695BF3 /* KSDSymbolTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE4C03118DA3AD700695BF3 /* KSDSymbolTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,8 @@
 		AEB6643818D369E1003D504A /* scoreboard.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = scoreboard.ttf; sourceTree = "<group>"; };
 		AEE4C02D18DA160D00695BF3 /* KSDStockDataRetriever.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDStockDataRetriever.h; sourceTree = "<group>"; };
 		AEE4C02E18DA160D00695BF3 /* KSDStockDataRetriever.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDStockDataRetriever.m; sourceTree = "<group>"; };
+		AEE4C03018DA3AD700695BF3 /* KSDSymbolTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDSymbolTableViewCell.h; sourceTree = "<group>"; };
+		AEE4C03118DA3AD700695BF3 /* KSDSymbolTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDSymbolTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +158,8 @@
 				AE05C91518D10DC400C60920 /* Supporting Files */,
 				AE287D7A18D2659500F16174 /* NSString+NSString_KhrCSV.h */,
 				AE287D7B18D2659500F16174 /* NSString+NSString_KhrCSV.m */,
+				AEE4C03018DA3AD700695BF3 /* KSDSymbolTableViewCell.h */,
+				AEE4C03118DA3AD700695BF3 /* KSDSymbolTableViewCell.m */,
 			);
 			path = KStockData;
 			sourceTree = "<group>";
@@ -315,6 +320,7 @@
 				AE05C92B18D10DC400C60920 /* KSDDetailViewController.m in Sources */,
 				AE287D7C18D2659500F16174 /* NSString+NSString_KhrCSV.m in Sources */,
 				AE05C91F18D10DC400C60920 /* KSDAppDelegate.m in Sources */,
+				AEE4C03218DA3AD700695BF3 /* KSDSymbolTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,7 +25,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *openLabel;
 @property (weak, nonatomic) IBOutlet UILabel *askLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lastTradeTimeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *changePercentLabel;
 @property (weak, nonatomic) IBOutlet UILabel *peRatioLabel;
 @property (weak, nonatomic) IBOutlet UILabel *volumeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *tickerTrendLabel;
