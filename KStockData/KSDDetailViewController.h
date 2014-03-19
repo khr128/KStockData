@@ -31,5 +31,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *priceToBookLabel;
 @property (weak, nonatomic) IBOutlet UILabel *priceToSalesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *earningsPerShareLabel;
+@property (weak, nonatomic) IBOutlet UILabel *shortRatioLabel;
+@property (weak, nonatomic) IBOutlet UILabel *pegRatioLabel;
 
 @end

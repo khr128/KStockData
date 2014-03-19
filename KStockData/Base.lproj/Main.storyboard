@@ -49,7 +49,7 @@
                                 <rect key="frame" x="144" y="127" width="232" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ex-Dividend Date:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AzF-5N-b1w">
@@ -66,7 +66,7 @@
                                     <constraint firstAttribute="width" constant="135" id="MDj-8w-oIE"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="52-week low:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eba-C5-QNF">
@@ -80,7 +80,7 @@
                                 <rect key="frame" x="144" y="156" width="232" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dividend Pay Date:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wqa-Y8-YMK">
@@ -94,7 +94,7 @@
                                 <rect key="frame" x="548" y="156" width="135" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dividend Yield:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wl6-su-iDK">
@@ -108,7 +108,7 @@
                                 <rect key="frame" x="548" y="185" width="135" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Previous Close:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dlb-KL-BTw">
@@ -122,7 +122,7 @@
                                 <rect key="frame" x="144" y="185" width="232" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day's Low:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Nw-F5-CLj">
@@ -136,7 +136,7 @@
                                 <rect key="frame" x="144" y="286" width="232" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day's High:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uYN-qK-omE">
@@ -150,7 +150,7 @@
                                 <rect key="frame" x="144" y="315" width="232" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Trade:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KcB-uO-ieE">
@@ -167,7 +167,7 @@
                                 <rect key="frame" x="548" y="259" width="135" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Open:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yBw-ci-d6i">
@@ -184,7 +184,7 @@
                                 <rect key="frame" x="144" y="257" width="232" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="* * * * * * * * * * *" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2bb-qI-rFN">
@@ -205,7 +205,7 @@
                                 <rect key="frame" x="548" y="315" width="135" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Trade Time:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRT-wn-CGj">
@@ -219,7 +219,7 @@
                                 <rect key="frame" x="548" y="286" width="135" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="* * * * * * * * * * *" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RzU-FV-Ipa">
@@ -240,7 +240,7 @@
                                 <rect key="frame" x="144" y="416" width="232" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Volume:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gM2-K4-YHP">
@@ -254,7 +254,7 @@
                                 <rect key="frame" x="144" y="344" width="232" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ticker Trend:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxE-a0-G72">
@@ -268,7 +268,7 @@
                                 <rect key="frame" x="548" y="344" width="135" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price/Book:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gqq-7b-0bN">
@@ -282,7 +282,7 @@
                                 <rect key="frame" x="548" y="416" width="135" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price/Sales:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="egt-46-jS6">
@@ -296,7 +296,7 @@
                                 <rect key="frame" x="144" y="445" width="232" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Earnings/Share:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wsM-PL-GLY">
@@ -310,7 +310,35 @@
                                 <rect key="frame" x="548" y="445" width="135" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Short Ratio:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tw6-Pj-k8H">
+                                <rect key="frame" x="20" y="474" width="92" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xe3-F3-92m">
+                                <rect key="frame" x="144" y="474" width="232" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="PEG Ratio:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N73-fQ-Wr0">
+                                <rect key="frame" x="384" y="474" width="85" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d7f-cj-l7D">
+                                <rect key="frame" x="548" y="474" width="135" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.94165934470000001" blue="0.16415969350000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -437,9 +465,11 @@
                         <outlet property="nameLabel" destination="UjV-QV-lab" id="jIl-6m-MKh"/>
                         <outlet property="openLabel" destination="z3h-5A-SIj" id="Npv-yZ-Ndf"/>
                         <outlet property="peRatioLabel" destination="W6J-9E-goi" id="2Wj-Io-0Ha"/>
+                        <outlet property="pegRatioLabel" destination="d7f-cj-l7D" id="SkU-cG-N4m"/>
                         <outlet property="previousCloseLabel" destination="TV3-gQ-sPG" id="E7D-oT-7CN"/>
                         <outlet property="priceToBookLabel" destination="F6d-Sh-iBs" id="pPP-t1-eKi"/>
                         <outlet property="priceToSalesLabel" destination="dGM-RX-chK" id="gUL-BF-9rw"/>
+                        <outlet property="shortRatioLabel" destination="Xe3-F3-92m" id="N6u-I3-UPs"/>
                         <outlet property="tickerTrendLabel" destination="crx-tq-Q4y" id="SNO-8M-J7N"/>
                         <outlet property="volumeLabel" destination="3qJ-Tw-HKx" id="Hv2-Fa-WDw"/>
                     </connections>

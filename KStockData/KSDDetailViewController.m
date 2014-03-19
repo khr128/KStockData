@@ -22,26 +22,28 @@
 }
 
 - (void)awakeFromNib {
-  _yahooCommandTags = @[@"n", @"k", @"q", @"j", @"r1", @"y", @"p", @"g", @"h", @"l1", @"o", @"b2", @"t1", @"r", @"v", @"t7", @"p6", @"p5", @"e"];
-  _labelDictionary = @{@"n": @"nameLabel",
-                       @"k": @"fiftyTwoWeekHighLabel",
-                       @"q": @"exDividendDateLabel",
-                       @"j": @"fiftyTwoWeekLowLabel",
-                       @"r1": @"dividendPayDateLabel",
-                       @"y": @"dividendYieldLabel",
-                       @"p": @"previousCloseLabel",
-                       @"g": @"daysLowLabel",
-                       @"h": @"daysHighLabel",
-                       @"l1": @"lastTradeWithTimeLabel",
-                       @"o": @"openLabel",
-                       @"b2": @"askLabel",
-                       @"t1": @"lastTradeTimeLabel",
-                        @"r": @"peRatioLabel",
-                       @"v": @"volumeLabel",
-                       @"t7": @"tickerTrendLabel",
-                       @"p6": @"priceToBookLabel",
-                       @"p5": @"priceToSalesLabel",
-                       @"e": @"earningsPerShareLabel"
+  _yahooCommandTags = @[@"n", @"k", @"q", @"j", @"r1", @"y", @"p", @"g", @"h", @"l1", @"o", @"b2", @"t1", @"r", @"v", @"t7", @"p6", @"p5", @"e", @"s7", @"r5"];
+  _labelDictionary = @{@"n"  :  @"nameLabel",
+                       @"k"  :  @"fiftyTwoWeekHighLabel",
+                       @"q"  :  @"exDividendDateLabel",
+                       @"j"  :  @"fiftyTwoWeekLowLabel",
+                       @"r1" :  @"dividendPayDateLabel",
+                       @"y"  :  @"dividendYieldLabel",
+                       @"p"  :  @"previousCloseLabel",
+                       @"g"  :  @"daysLowLabel",
+                       @"h"  :  @"daysHighLabel",
+                       @"l1" :  @"lastTradeWithTimeLabel",
+                       @"o"  :  @"openLabel",
+                       @"b2" :  @"askLabel",
+                       @"t1" :  @"lastTradeTimeLabel",
+                       @"r"  :  @"peRatioLabel",
+                       @"v"  :  @"volumeLabel",
+                       @"t7" :  @"tickerTrendLabel",
+                       @"p6" :  @"priceToBookLabel",
+                       @"p5" :  @"priceToSalesLabel",
+                       @"e"  :  @"earningsPerShareLabel",
+                       @"s7" :  @"shortRatioLabel",
+                       @"r5" :  @"pegRatioLabel"
                        };
 }
 
