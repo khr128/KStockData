@@ -449,7 +449,13 @@
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Detail" id="mOI-FS-AaM"/>
+                    <navigationItem key="navigationItem" title="Detail" id="mOI-FS-AaM">
+                        <barButtonItem key="rightBarButtonItem" title="Charts" style="plain" id="hV2-RV-SWW">
+                            <connections>
+                                <segue destination="IGB-B6-aBv" kind="push" id="rlx-Wg-kdo"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="askLabel" destination="Ual-qN-Gvr" id="Ed3-zr-tUF"/>
                         <outlet property="daysHighLabel" destination="uNL-rn-lJy" id="0zy-f1-ODB"/>
@@ -477,6 +483,26 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="448" y="248"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Avg-Si-q1I">
+            <objects>
+                <viewController storyboardIdentifier="ChartsVC" id="IGB-B6-aBv" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="W5V-aq-cuK"/>
+                        <viewControllerLayoutGuide type="bottom" id="YVd-bm-jHs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yHa-Ug-pY2">
+                        <rect key="frame" x="0.0" y="0.0" width="703" height="768"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ie0-8f-d63"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YBz-7N-Rco" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1214" y="192"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">
@@ -570,6 +596,7 @@
             <point key="canvasLocation" x="-350" y="313"/>
         </scene>
     </scenes>
+    <color key="tintColor" red="1" green="0.062338846089999997" blue="0.022952879690000001" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
