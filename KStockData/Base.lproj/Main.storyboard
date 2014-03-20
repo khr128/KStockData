@@ -450,7 +450,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Detail" id="mOI-FS-AaM">
-                        <barButtonItem key="rightBarButtonItem" title="Charts" style="plain" id="hV2-RV-SWW">
+                        <barButtonItem key="rightBarButtonItem" title="Charts" id="hV2-RV-SWW">
                             <connections>
                                 <segue destination="IGB-B6-aBv" kind="push" id="rlx-Wg-kdo"/>
                             </connections>
@@ -482,12 +482,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="448" y="248"/>
+            <point key="canvasLocation" x="144" y="296"/>
         </scene>
-        <!--View Controller-->
+        <!--Charts View Controller-->
         <scene sceneID="Avg-Si-q1I">
             <objects>
-                <viewController storyboardIdentifier="ChartsVC" id="IGB-B6-aBv" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChartsVC" id="IGB-B6-aBv" customClass="KSDChartsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="W5V-aq-cuK"/>
                         <viewControllerLayoutGuide type="bottom" id="YVd-bm-jHs"/>
@@ -502,7 +502,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YBz-7N-Rco" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1214" y="192"/>
+            <point key="canvasLocation" x="922" y="301"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">
@@ -593,7 +593,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SLD-UC-DBI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-350" y="313"/>
+            <point key="canvasLocation" x="-681" y="301"/>
         </scene>
     </scenes>
     <color key="tintColor" red="1" green="0.062338846089999997" blue="0.022952879690000001" alpha="1" colorSpace="calibratedRGB"/>
