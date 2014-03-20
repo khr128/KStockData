@@ -111,10 +111,12 @@
     return NO;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-    self.detailViewController.detailItem = object;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+  self.detailViewController.detailItem = object;
+  
+  UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+  [self configureCell:cell atIndexPath:indexPath];
 }
 
 #pragma mark - Fetched results controller
@@ -216,9 +218,7 @@
 }
  */
 
-static void (^changeRetrievalHandler)(NSURLResponse *response, NSData *data, NSError *error);
-
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {  
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
   NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
   NSString *symbol = [[object valueForKey:@"symbol"] description];
   
