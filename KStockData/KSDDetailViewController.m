@@ -61,6 +61,7 @@
 }
 
 static void (^dataRetrievalHandler)(NSURLResponse *response, NSData *data, NSError *error);
+static void (^chartRetrievalHandler)(NSURLResponse *response, NSData *data, NSError *error);
 
 - (void)stockDataFor:(NSString *)symbol
 {
@@ -98,6 +99,19 @@ static void (^dataRetrievalHandler)(NSURLResponse *response, NSData *data, NSErr
   [KSDStockDataRetriever stockDataFor:symbol
                              commands:[_yahooCommandTags componentsJoinedByString:@""]
                      completionHadler:dataRetrievalHandler];
+  
+  static dispatch_once_t chartOnceToken;
+  dispatch_once(&chartOnceToken, ^{
+    chartRetrievalHandler =
+    ^(NSURLResponse *response, NSData *data, NSError *error) {
+      NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+      NSLog(@"%@", csv);
+    };
+  });
+  
+  [KSDStockDataRetriever chartDataFor:symbol
+                             years:1.0
+                     completionHadler:chartRetrievalHandler];
  }
 
 - (void)configureView
