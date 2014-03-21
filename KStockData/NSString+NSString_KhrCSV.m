@@ -55,6 +55,33 @@ static NSCharacterSet *lineEndSet = nil;
   return values;
 }
 
+- (NSDictionary *)khr_csv_columns {
+  
+  NSArray *rows = [[self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
+                   componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+  NSArray *keys = [rows[0] khr_csv];
+  
+  NSMutableDictionary *columns = [NSMutableDictionary new];
+  for (NSString *key in keys) {
+    columns[key] = [@[] mutableCopy];
+  }
+  
+  dispatch_queue_t globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+  dispatch_queue_t queue = dispatch_queue_create("khr.kstockdata.columnQueue", NULL);
+  dispatch_set_target_queue(queue, globalQueue);
+  
+  int columnCount = keys.count;
+  dispatch_apply(rows.count, queue, ^(size_t row) {
+    if (row > 0) {
+      NSArray *values = [rows[row] khr_csv];
+      dispatch_apply(columnCount, globalQueue, ^(size_t col) {
+        [columns[keys[col]] addObject:[NSNumber numberWithFloat:[values[col] floatValue]]];
+      });
+    }
+  });
+  return columns;
+}
+
 static NSCharacterSet *openingTokens = nil;
 static NSCharacterSet *semicolonSet = nil;
 static NSCharacterSet *closingBracketSet = nil;

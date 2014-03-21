@@ -496,13 +496,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="703" height="768"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cwR-np-Swv" customClass="KSDChartView">
-                                <rect key="frame" x="0.0" y="66" width="703" height="768"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cwR-np-Swv" customClass="KSDChartView">
+                                <rect key="frame" x="0.0" y="64" width="703" height="704"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="cwR-np-Swv" firstAttribute="top" secondItem="W5V-aq-cuK" secondAttribute="bottom" id="bDF-TK-9Nd"/>
+                            <constraint firstItem="cwR-np-Swv" firstAttribute="leading" secondItem="yHa-Ug-pY2" secondAttribute="leading" id="m5A-V4-EBk"/>
+                            <constraint firstAttribute="trailing" secondItem="cwR-np-Swv" secondAttribute="trailing" id="nYD-YC-pF3"/>
+                            <constraint firstAttribute="bottom" secondItem="cwR-np-Swv" secondAttribute="bottom" id="rVp-fg-0zE"/>
+                        </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <navigationItem key="navigationItem" id="Ie0-8f-d63"/>

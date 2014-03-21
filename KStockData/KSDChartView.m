@@ -25,12 +25,15 @@
 {
     // Drawing code
   CGContextRef context = UIGraphicsGetCurrentContext();
+  CGContextTranslateCTM(context, 0.0, rect.size.height);
+  CGContextScaleCTM(context, 1.0, -1.0);
+  
   CGContextSetLineWidth(context, 2.0);
   CGContextSetLineCap(context, kCGLineCapRound);
   
   CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
   CGContextMoveToPoint(context, 30, 30);
-  CGContextAddLineToPoint(context, 300, 400);
+  CGContextAddLineToPoint(context, rect.origin.x + rect.size.width - 30, rect.origin.y + rect.size.height - 30);
   CGContextStrokePath(context);
 }
 
