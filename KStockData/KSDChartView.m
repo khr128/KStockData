@@ -41,6 +41,9 @@
   //Draw frame
   CGFloat chartWidth = self.frame.size.width - 2*KSD_CHART_FRAME_MARGIN;
   CGFloat chartHeight = self.frame.size.height - 2*KSD_CHART_FRAME_MARGIN;
+  
+  
+  CGContextSetStrokeColorWithColor(context, [UIColor greenColor].CGColor);
 
   CGContextSetLineWidth(context, 2.0);
   CGContextAddRect(context, CGRectMake(0, 0, chartWidth, chartHeight));
@@ -62,7 +65,7 @@
   CGContextBeginPath(context);
   CGContextSetLineWidth(context, 0.5/lineScale);
   
-  CGContextSetStrokeColorWithColor(context, [UIColor blueColor].CGColor);
+  CGContextSetStrokeColorWithColor(context, [UIColor yellowColor].CGColor);
   
   long count = self.data.prices.count;
   CGContextMoveToPoint(context, count-1, [self.data.prices[0] floatValue]);
