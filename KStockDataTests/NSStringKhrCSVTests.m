@@ -24,7 +24,7 @@
     [super setUp];
   _testCSVString = @"\"1\",2,\"3,4\",5,6,7,8,\"9\"\r\n";
   _testHTMLString = @"This &nbsp;<b>&x that; &y </b>&nbsp;";
-  _testCSVColumnsString = @"a,b,c,d\n1,2,3,4\n5,6,7,8\n9,0,1,2\n";
+  _testCSVColumnsString = @"a,b,c,d\n1,2,3,2014-01-02\n5,6,7,2013-12-24\n9,0,1,2013-03-08\n";
 }
 
 - (void)tearDown
@@ -90,7 +90,14 @@
       XCTAssertEqualObjects(values, expectedValues, @"Incorrect values for column key '%@'", key);
     }
     if ([key isEqualToString:@"d"]) {
-      NSArray *expectedValues = @[@4, @8, @2];
+      NSDateFormatter *dateFormatter = [NSDateFormatter new];
+      [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+ 
+      NSArray *expectedValues = @[
+                                 [dateFormatter dateFromString:@"2014-01-02"],
+                                 [dateFormatter dateFromString:@"2013-12-24"],
+                                 [dateFormatter dateFromString:@"2013-03-08"]
+                                 ];
       XCTAssertEqualObjects(values, expectedValues, @"Incorrect values for column key '%@'", key);
     }
    }

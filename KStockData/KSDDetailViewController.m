@@ -19,6 +19,7 @@
 @implementation KSDDetailViewController {
   NSArray *_yahooCommandTags;
   NSDictionary *_labelDictionary;
+  NSDictionary *_chartDataDictionary;
 }
 
 - (void)awakeFromNib {
@@ -105,7 +106,7 @@ static void (^chartRetrievalHandler)(NSURLResponse *response, NSData *data, NSEr
     chartRetrievalHandler =
     ^(NSURLResponse *response, NSData *data, NSError *error) {
       NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-      NSLog(@"%@", csv);
+      _chartDataDictionary = [csv khr_csv_columns];
     };
   });
   

@@ -58,7 +58,7 @@ static NSCharacterSet *lineEndSet = nil;
 - (NSDictionary *)khr_csv_columns {
   
   NSArray *rows = [[self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
-                   componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                   componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
   NSArray *keys = [rows[0] khr_csv];
   
   NSMutableDictionary *columns = [NSMutableDictionary new];
@@ -75,7 +75,16 @@ static NSCharacterSet *lineEndSet = nil;
     if (row > 0) {
       NSArray *values = [rows[row] khr_csv];
       dispatch_apply(columnCount, globalQueue, ^(size_t col) {
-        [columns[keys[col]] addObject:[NSNumber numberWithFloat:[values[col] floatValue]]];
+        id obj = nil;
+        if (NSEqualRanges([values[col] rangeOfString:@"-"], NSMakeRange(NSNotFound, 0))) {
+          obj = [NSNumber numberWithFloat:[values[col] floatValue]];
+        } else {
+          NSDateFormatter *dateFormatter = [NSDateFormatter new];
+          [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+          
+          obj = [dateFormatter dateFromString:values[col]];
+        }
+        [columns[keys[col]] addObject:obj];
       });
     }
   });
