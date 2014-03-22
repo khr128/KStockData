@@ -10,6 +10,8 @@
 #import <objc/message.h>
 #import "NSString+NSString_KhrCSV.h"
 #import "KSDStockDataRetriever.h"
+#import "KSDChartData.h"
+#import "KSDChartsViewController.h"
 
 @interface KSDDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -19,7 +21,7 @@
 @implementation KSDDetailViewController {
   NSArray *_yahooCommandTags;
   NSDictionary *_labelDictionary;
-  NSDictionary *_chartDataDictionary;
+  KSDChartData *_chartData;
 }
 
 - (void)awakeFromNib {
@@ -106,10 +108,16 @@ static void (^chartRetrievalHandler)(NSURLResponse *response, NSData *data, NSEr
     chartRetrievalHandler =
     ^(NSURLResponse *response, NSData *data, NSError *error) {
       NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-      _chartDataDictionary = [csv khr_csv_columns];
+      _chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns]];
+      
+      dispatch_queue_t mainQueue = dispatch_get_main_queue();
+      dispatch_async(mainQueue, ^{
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+      });
     };
   });
   
+  self.navigationItem.rightBarButtonItem.enabled = NO;
   [KSDStockDataRetriever chartDataFor:symbol
                              years:1.0
                      completionHadler:chartRetrievalHandler];
@@ -151,6 +159,20 @@ static void (^chartRetrievalHandler)(NSURLResponse *response, NSData *data, NSEr
     // Called when the view is shown again in the split view, invalidating the button and popover controller.
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     self.masterPopoverController = nil;
+}
+
+#pragma -
+#pragma mark - Navigation
+ 
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+  if ([segue.identifier isEqualToString:@"ChartSegue"]) {
+    KSDChartsViewController *chartsViewController = [segue destinationViewController];
+    chartsViewController.data = _chartData;
+  }
 }
 
 @end

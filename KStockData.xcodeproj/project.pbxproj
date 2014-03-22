@@ -28,6 +28,9 @@
 		AE287D7818D2457100F16174 /* KSDAddStockPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE287D7618D2457100F16174 /* KSDAddStockPopoverViewController.m */; };
 		AE287D7918D2457100F16174 /* KSDAddStockPopoverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE287D7718D2457100F16174 /* KSDAddStockPopoverViewController.xib */; };
 		AE287D7C18D2659500F16174 /* NSString+NSString_KhrCSV.m in Sources */ = {isa = PBXBuildFile; fileRef = AE287D7B18D2659500F16174 /* NSString+NSString_KhrCSV.m */; };
+		AE3055CF18DDBF8600392C23 /* KSDChartData.m in Sources */ = {isa = PBXBuildFile; fileRef = AE3055CE18DDBF8600392C23 /* KSDChartData.m */; };
+		AE3055D218DDDAA400392C23 /* NSArray+KhrMinMax.m in Sources */ = {isa = PBXBuildFile; fileRef = AE3055D118DDDAA400392C23 /* NSArray+KhrMinMax.m */; };
+		AE3055D418DDDB6B00392C23 /* NSArrayKhrMinMaxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE3055D318DDDB6B00392C23 /* NSArrayKhrMinMaxTests.m */; };
 		AE307A3818DBB582007A0F00 /* KSDChartsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE307A3718DBB582007A0F00 /* KSDChartsViewController.m */; };
 		AE307A4118DCBFD5007A0F00 /* KSDChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE307A4018DCBFD5007A0F00 /* KSDChartView.m */; };
 		AEB6643718D352BC003D504A /* LEDBDREV.TTF in Resources */ = {isa = PBXBuildFile; fileRef = AEB6643618D3526E003D504A /* LEDBDREV.TTF */; };
@@ -75,6 +78,11 @@
 		AE287D7718D2457100F16174 /* KSDAddStockPopoverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KSDAddStockPopoverViewController.xib; path = ../KSDAddStockPopoverViewController.xib; sourceTree = "<group>"; };
 		AE287D7A18D2659500F16174 /* NSString+NSString_KhrCSV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NSString_KhrCSV.h"; sourceTree = "<group>"; };
 		AE287D7B18D2659500F16174 /* NSString+NSString_KhrCSV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+NSString_KhrCSV.m"; sourceTree = "<group>"; };
+		AE3055CD18DDBF8600392C23 /* KSDChartData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDChartData.h; sourceTree = "<group>"; };
+		AE3055CE18DDBF8600392C23 /* KSDChartData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDChartData.m; sourceTree = "<group>"; };
+		AE3055D018DDDAA400392C23 /* NSArray+KhrMinMax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+KhrMinMax.h"; sourceTree = "<group>"; };
+		AE3055D118DDDAA400392C23 /* NSArray+KhrMinMax.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+KhrMinMax.m"; sourceTree = "<group>"; };
+		AE3055D318DDDB6B00392C23 /* NSArrayKhrMinMaxTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArrayKhrMinMaxTests.m; sourceTree = "<group>"; };
 		AE307A3618DBB582007A0F00 /* KSDChartsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDChartsViewController.h; sourceTree = "<group>"; };
 		AE307A3718DBB582007A0F00 /* KSDChartsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDChartsViewController.m; sourceTree = "<group>"; };
 		AE307A3F18DCBFD5007A0F00 /* KSDChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDChartView.h; sourceTree = "<group>"; };
@@ -147,6 +155,8 @@
 		AE05C91418D10DC400C60920 /* KStockData */ = {
 			isa = PBXGroup;
 			children = (
+				AE3055CC18DDBEDA00392C23 /* Categories */,
+				AE3055CB18DDBEBC00392C23 /* Charts */,
 				AEE4C02C18DA15BA00695BF3 /* WebService */,
 				AE287D7D18D3473600F16174 /* Resources */,
 				AE287D7518D2457100F16174 /* KSDAddStockPopoverViewController.h */,
@@ -162,14 +172,8 @@
 				AE05C92C18D10DC400C60920 /* Images.xcassets */,
 				AE05C92318D10DC400C60920 /* KStockData.xcdatamodeld */,
 				AE05C91518D10DC400C60920 /* Supporting Files */,
-				AE287D7A18D2659500F16174 /* NSString+NSString_KhrCSV.h */,
-				AE287D7B18D2659500F16174 /* NSString+NSString_KhrCSV.m */,
 				AEE4C03018DA3AD700695BF3 /* KSDSymbolTableViewCell.h */,
 				AEE4C03118DA3AD700695BF3 /* KSDSymbolTableViewCell.m */,
-				AE307A3618DBB582007A0F00 /* KSDChartsViewController.h */,
-				AE307A3718DBB582007A0F00 /* KSDChartsViewController.m */,
-				AE307A3F18DCBFD5007A0F00 /* KSDChartView.h */,
-				AE307A4018DCBFD5007A0F00 /* KSDChartView.m */,
 			);
 			path = KStockData;
 			sourceTree = "<group>";
@@ -190,6 +194,7 @@
 			children = (
 				AE05C94018D10DC400C60920 /* NSStringKhrCSVTests.m */,
 				AE05C93B18D10DC400C60920 /* Supporting Files */,
+				AE3055D318DDDB6B00392C23 /* NSArrayKhrMinMaxTests.m */,
 			);
 			path = KStockDataTests;
 			sourceTree = "<group>";
@@ -210,6 +215,30 @@
 				AEB6643618D3526E003D504A /* LEDBDREV.TTF */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		AE3055CB18DDBEBC00392C23 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				AE307A3618DBB582007A0F00 /* KSDChartsViewController.h */,
+				AE307A3718DBB582007A0F00 /* KSDChartsViewController.m */,
+				AE307A3F18DCBFD5007A0F00 /* KSDChartView.h */,
+				AE307A4018DCBFD5007A0F00 /* KSDChartView.m */,
+				AE3055CD18DDBF8600392C23 /* KSDChartData.h */,
+				AE3055CE18DDBF8600392C23 /* KSDChartData.m */,
+			);
+			name = Charts;
+			sourceTree = "<group>";
+		};
+		AE3055CC18DDBEDA00392C23 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				AE287D7A18D2659500F16174 /* NSString+NSString_KhrCSV.h */,
+				AE287D7B18D2659500F16174 /* NSString+NSString_KhrCSV.m */,
+				AE3055D018DDDAA400392C23 /* NSArray+KhrMinMax.h */,
+				AE3055D118DDDAA400392C23 /* NSArray+KhrMinMax.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		AEE4C02C18DA15BA00695BF3 /* WebService */ = {
@@ -325,9 +354,11 @@
 				AE307A3818DBB582007A0F00 /* KSDChartsViewController.m in Sources */,
 				AE05C92518D10DC400C60920 /* KStockData.xcdatamodeld in Sources */,
 				AE307A4118DCBFD5007A0F00 /* KSDChartView.m in Sources */,
+				AE3055CF18DDBF8600392C23 /* KSDChartData.m in Sources */,
 				AE05C92818D10DC400C60920 /* KSDMasterViewController.m in Sources */,
 				AEE4C02F18DA160D00695BF3 /* KSDStockDataRetriever.m in Sources */,
 				AE287D7818D2457100F16174 /* KSDAddStockPopoverViewController.m in Sources */,
+				AE3055D218DDDAA400392C23 /* NSArray+KhrMinMax.m in Sources */,
 				AE05C91B18D10DC400C60920 /* main.m in Sources */,
 				AE05C92B18D10DC400C60920 /* KSDDetailViewController.m in Sources */,
 				AE287D7C18D2659500F16174 /* NSString+NSString_KhrCSV.m in Sources */,
@@ -340,6 +371,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE3055D418DDDB6B00392C23 /* NSArrayKhrMinMaxTests.m in Sources */,
 				AE05C94118D10DC400C60920 /* NSStringKhrCSVTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

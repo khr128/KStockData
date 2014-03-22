@@ -7,6 +7,7 @@
 //
 
 #import "KSDChartsViewController.h"
+#import "KSDChartView.h"
 
 @interface KSDChartsViewController ()
 
@@ -25,8 +26,8 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+  [super viewDidLoad];
+  self.chartView.data = self.data;
 }
 
 - (void)didReceiveMemoryWarning

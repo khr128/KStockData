@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface KSDChartView : UIView
+@class KSDChartData;
 
+@interface KSDChartView : UIView
+@property (strong, nonatomic) KSDChartData *data;
 @end
