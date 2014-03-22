@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class KSDChartData;
+
 @interface KSDDetailViewController : UIViewController <UISplitViewControllerDelegate>
 
 @property (strong, nonatomic) id detailItem;
+@property (strong, nonatomic) KSDChartData *chartData;
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *fiftyTwoWeekHighLabel;
@@ -33,5 +36,4 @@
 @property (weak, nonatomic) IBOutlet UILabel *earningsPerShareLabel;
 @property (weak, nonatomic) IBOutlet UILabel *shortRatioLabel;
 @property (weak, nonatomic) IBOutlet UILabel *pegRatioLabel;
-
 @end

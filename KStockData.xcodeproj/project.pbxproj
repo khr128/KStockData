@@ -83,6 +83,7 @@
 		AE3055D018DDDAA400392C23 /* NSArray+KhrMinMax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+KhrMinMax.h"; sourceTree = "<group>"; };
 		AE3055D118DDDAA400392C23 /* NSArray+KhrMinMax.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+KhrMinMax.m"; sourceTree = "<group>"; };
 		AE3055D318DDDB6B00392C23 /* NSArrayKhrMinMaxTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArrayKhrMinMaxTests.m; sourceTree = "<group>"; };
+		AE3055D518DE457200392C23 /* Externals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Externals.h; sourceTree = "<group>"; };
 		AE307A3618DBB582007A0F00 /* KSDChartsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDChartsViewController.h; sourceTree = "<group>"; };
 		AE307A3718DBB582007A0F00 /* KSDChartsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDChartsViewController.m; sourceTree = "<group>"; };
 		AE307A3F18DCBFD5007A0F00 /* KSDChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDChartView.h; sourceTree = "<group>"; };
@@ -174,6 +175,7 @@
 				AE05C91518D10DC400C60920 /* Supporting Files */,
 				AEE4C03018DA3AD700695BF3 /* KSDSymbolTableViewCell.h */,
 				AEE4C03118DA3AD700695BF3 /* KSDSymbolTableViewCell.m */,
+				AE3055D518DE457200392C23 /* Externals.h */,
 			);
 			path = KStockData;
 			sourceTree = "<group>";

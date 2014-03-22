@@ -70,7 +70,7 @@ static NSCharacterSet *lineEndSet = nil;
   dispatch_queue_t queue = dispatch_queue_create("khr.kstockdata.columnQueue", NULL);
   dispatch_set_target_queue(queue, globalQueue);
   
-  int columnCount = keys.count;
+  long columnCount = keys.count;
   dispatch_apply(rows.count, queue, ^(size_t row) {
     if (row > 0) {
       NSArray *values = [rows[row] khr_csv];

@@ -13,6 +13,8 @@
 #import "KSDChartData.h"
 #import "KSDChartsViewController.h"
 
+NSString *KSD_STOCK_SYMBOL_SELECTED = @"KSDStockSymbolSelected";
+
 @interface KSDDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
@@ -21,7 +23,6 @@
 @implementation KSDDetailViewController {
   NSArray *_yahooCommandTags;
   NSDictionary *_labelDictionary;
-  KSDChartData *_chartData;
 }
 
 - (void)awakeFromNib {
@@ -113,6 +114,8 @@ static void (^chartRetrievalHandler)(NSURLResponse *response, NSData *data, NSEr
       dispatch_queue_t mainQueue = dispatch_get_main_queue();
       dispatch_async(mainQueue, ^{
         self.navigationItem.rightBarButtonItem.enabled = YES;
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:KSD_STOCK_SYMBOL_SELECTED object:self];
       });
     };
   });

@@ -8,6 +8,8 @@
 
 #import "KSDChartsViewController.h"
 #import "KSDChartView.h"
+#import "Externals.h"
+#import "KSDDetailViewController.h"
 
 @interface KSDChartsViewController ()
 
@@ -28,6 +30,15 @@
 {
   [super viewDidLoad];
   self.chartView.data = self.data;
+  
+  NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+  [nc addObserverForName:KSD_STOCK_SYMBOL_SELECTED
+                  object:nil
+                   queue:nil
+              usingBlock:^(NSNotification *note){
+                KSDDetailViewController *detailsViewController = note.object;
+                self.chartView.data = detailsViewController.chartData;
+              }];
 }
 
 - (void)didReceiveMemoryWarning
