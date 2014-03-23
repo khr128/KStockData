@@ -165,7 +165,7 @@
   CGContextScaleCTM(context, 1.0, -1.0);
   
   //Draw horizontal grid lines
-  int labelCount = self.data.priceLabels.count;
+  long labelCount = self.data.priceLabels.count;
   
   CGContextSetStrokeColorWithColor(context, [UIColor darkGrayColor].CGColor);
   CGContextSetLineWidth(context, 0.5);
@@ -187,6 +187,10 @@
     NSString *label = [value stringValue];
     [self drawString:label at:CGPointMake(transformedLabelX + 10, [transformedPriceLabels[i] floatValue]+2) inContext:context];
   }
+  
+  [self.data.monthLabels enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, NSString *label, BOOL *stop) {
+    
+  }];
   
 }
 

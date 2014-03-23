@@ -37,6 +37,7 @@ NS_INLINE KSDRange KSDRangeMake(float min, float max) {
     _minLow = [_low floatMin];
     
     [self generatePriceLabels];
+    [self generateMonthLabels];
   }
   return self;
 }
@@ -59,6 +60,23 @@ NS_INLINE KSDRange KSDRangeMake(float min, float max) {
   for (int i=0; i <= labelDivisions; ++i) {
     [labels addObject:[NSNumber numberWithFloat:minLabel + i*div]];
   }
-  _priceLabels = labels;
+  _priceLabels = [labels copy];
+}
+
+- (void)generateMonthLabels {
+  NSMutableDictionary *labels = [@{} mutableCopy];
+  NSDateFormatter *dateFormatter = [NSDateFormatter new];
+  [dateFormatter setDateFormat:@"MMMM"];
+  
+  __block NSString *currentMonth = [dateFormatter stringFromDate:_dates[0]];
+  
+  [_dates enumerateObjectsUsingBlock:^(NSDate *date, NSUInteger index, BOOL *stop) {
+    NSString *month = [dateFormatter stringFromDate:date];
+    if ([month isEqualToString:currentMonth] == NO) {
+      labels[[NSNumber numberWithInt:index]] = currentMonth;
+      currentMonth = month;
+    }
+  }];
+  _monthLabels = [labels copy];
 }
 @end
