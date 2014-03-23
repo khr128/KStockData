@@ -49,30 +49,76 @@
   CGContextAddRect(context, CGRectMake(0, 0, chartWidth, chartHeight));
   CGContextStrokePath(context);
  
-  //Draw data
   CGFloat dataWidth = self.data.timeRange.max - self.data.timeRange.min;
-  CGFloat dataHeight = (self.data.priceRange.max - self.data.priceRange.min)*(1 + 2*KSD_TOP_BOTTOM_MARGIN_FRACTION);
+  CGFloat unadjustedDataHeight = self.data.priceRange.max - self.data.priceRange.min;
+  CGFloat dataHeight = unadjustedDataHeight*(1 + 2*KSD_TOP_BOTTOM_MARGIN_FRACTION);
   
   CGFloat lineScale = (fabsf(chartWidth) + fabsf(chartHeight))/(fabsf(dataWidth) + fabsf(dataHeight));
   CGFloat xScale = chartWidth/dataWidth;
   CGFloat yScale = chartHeight/dataHeight;
   
   CGContextScaleCTM(context, xScale, yScale);
-  CGContextTranslateCTM(context, -self.data.timeRange.min,
-                        -(self.data.priceRange.min -
-                          (self.data.priceRange.max - self.data.priceRange.min)*KSD_TOP_BOTTOM_MARGIN_FRACTION));
- 
-  CGContextBeginPath(context);
-  CGContextSetLineWidth(context, 0.5/lineScale);
+  CGContextTranslateCTM(context,
+                        -self.data.timeRange.min,
+                        -(self.data.priceRange.min - unadjustedDataHeight*KSD_TOP_BOTTOM_MARGIN_FRACTION));
+  
+  long count = self.data.prices.count;
+
+  //Draw data
+  CGContextSetLineWidth(context, 0.25/lineScale);
   
   CGContextSetStrokeColorWithColor(context, [UIColor yellowColor].CGColor);
   
-  long count = self.data.prices.count;
   CGContextMoveToPoint(context, count-1, [self.data.prices[0] floatValue]);
   for (int i=1; i < count; ++i) {
     CGContextAddLineToPoint(context, count-i-1, [self.data.prices[i] floatValue]);
   }
   CGContextStrokePath(context);
+  
+  //Draw high/low
+  CGContextSetLineWidth(context, 0.75/lineScale);
+  CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
+  
+  for (int i=0; i < count; ++i) {
+    CGContextMoveToPoint(context, count-i-1, [self.data.low[i] floatValue]);
+    CGContextAddLineToPoint(context, count-i-1, [self.data.high[i] floatValue]);
+  }
+  
+  CGContextStrokePath(context);
+ 
+  //Draw candles
+  CGContextSetFillColorWithColor(context, [UIColor redColor].CGColor);
+  
+  CGFloat candleWidth = 3.75/lineScale;
+  for (int i=0; i < count; ++i) {
+    CGFloat open = [self.data.open[i] floatValue];
+    CGFloat close = [self.data.close[i] floatValue];
+    if (close > open) {
+      CGFloat candleHeight = fabsf(open - close);
+      CGContextAddRect(context, CGRectMake(count - i - 1 - candleWidth/2,
+                                           open,
+                                           candleWidth,
+                                           candleHeight));
+    }
+  }
+  
+  CGContextDrawPath(context, kCGPathEOFill);
+  
+  CGContextSetFillColorWithColor(context, [UIColor greenColor].CGColor);
+  
+  for (int i=0; i < count; ++i) {
+    CGFloat open = [self.data.open[i] floatValue];
+    CGFloat close = [self.data.close[i] floatValue];
+    if (close < open) {
+      CGFloat candleHeight = fabsf(open - close);
+      CGContextAddRect(context, CGRectMake(count - i - 1 - candleWidth/2,
+                                           close,
+                                           candleWidth,
+                                           candleHeight));
+    }
+  }
+  
+  CGContextDrawPath(context, kCGPathEOFill);
 }
 
 @end
