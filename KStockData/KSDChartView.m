@@ -8,6 +8,7 @@
 
 #import "KSDChartView.h"
 #import "KSDChartData.h"
+@import CoreText;
 
 #define KSD_CHART_FRAME_MARGIN 30
 #define KSD_TOP_BOTTOM_MARGIN_FRACTION 0.04
@@ -34,6 +35,8 @@
 {
     // Drawing code
   CGContextRef context = UIGraphicsGetCurrentContext();
+  CGContextSaveGState(context);
+  
   CGContextTranslateCTM(context, 0.0, rect.size.height);
   CGContextScaleCTM(context, 1.0, -1.0);
   CGContextTranslateCTM(context, KSD_CHART_FRAME_MARGIN, KSD_CHART_FRAME_MARGIN);
@@ -43,7 +46,7 @@
   CGFloat chartHeight = self.frame.size.height - 2*KSD_CHART_FRAME_MARGIN;
   
   
-  CGContextSetStrokeColorWithColor(context, [UIColor greenColor].CGColor);
+  CGContextSetStrokeColorWithColor(context, [UIColor darkGrayColor].CGColor);
 
   CGContextSetLineWidth(context, 2.0);
   CGContextAddRect(context, CGRectMake(0, 0, chartWidth, chartHeight));
@@ -93,22 +96,6 @@
   for (int i=0; i < count; ++i) {
     CGFloat open = [self.data.open[i] floatValue];
     CGFloat close = [self.data.close[i] floatValue];
-    if (close > open) {
-      CGFloat candleHeight = fabsf(open - close);
-      CGContextAddRect(context, CGRectMake(count - i - 1 - candleWidth/2,
-                                           open,
-                                           candleWidth,
-                                           candleHeight));
-    }
-  }
-  
-  CGContextDrawPath(context, kCGPathEOFill);
-  
-  CGContextSetFillColorWithColor(context, [UIColor greenColor].CGColor);
-  
-  for (int i=0; i < count; ++i) {
-    CGFloat open = [self.data.open[i] floatValue];
-    CGFloat close = [self.data.close[i] floatValue];
     if (close < open) {
       CGFloat candleHeight = fabsf(open - close);
       CGContextAddRect(context, CGRectMake(count - i - 1 - candleWidth/2,
@@ -118,7 +105,103 @@
     }
   }
   
-  CGContextDrawPath(context, kCGPathEOFill);
+  CGContextDrawPath(context, kCGPathFill);
+  
+  CGContextSetFillColorWithColor(context, [UIColor greenColor].CGColor);
+  
+  for (int i=0; i < count; ++i) {
+    CGFloat open = [self.data.open[i] floatValue];
+    CGFloat close = [self.data.close[i] floatValue];
+    if (close > open) {
+      CGFloat candleHeight = fabsf(open - close);
+      CGContextAddRect(context, CGRectMake(count - i - 1 - candleWidth/2,
+                                           open,
+                                           candleWidth,
+                                           candleHeight));
+    }
+  }
+  
+  CGContextDrawPath(context, kCGPathFill);
+  
+  //Draw y-axis labels
+  
+  //Transform coord to make drawing independent of scale.
+  NSMutableArray *transformedPriceLabels = [[NSMutableArray alloc] initWithCapacity:self.data.priceLabels.count];
+  CGFloat transformedLabelX = 0;
+  CGFloat transformedLabelXRight = 0;
+  CGAffineTransform transform = CGContextGetCTM(context);
+  
+  CGPoint transformedPoint = CGPointApplyAffineTransform(CGPointMake(count, [self.data.priceLabels[0] floatValue]), transform);
+  transformedLabelXRight = transformedPoint.x / self.contentScaleFactor;
+
+  for (NSNumber *labelValue in self.data.priceLabels) {
+    transformedPoint = CGPointApplyAffineTransform(CGPointMake(0, [labelValue floatValue]), transform);
+    [transformedPriceLabels addObject:[NSNumber numberWithFloat:transformedPoint.y/self.contentScaleFactor]];
+    
+    transformedLabelX = transformedPoint.x;
+   }
+  
+  transformedLabelX /= self.contentScaleFactor;
+  
+  //Set unscaled transformation matrix
+  CGContextRestoreGState(context);
+  CGContextTranslateCTM(context, 0.0, rect.size.height);
+  CGContextScaleCTM(context, 1.0, -1.0);
+  
+  //Draw horizontal grid lines
+  int labelCount = self.data.priceLabels.count;
+  
+  CGContextSetStrokeColorWithColor(context, [UIColor darkGrayColor].CGColor);
+  CGContextSetLineWidth(context, 0.5);
+  CGFloat dashArray[] = {3, 5};
+  CGContextSetLineDash(context, 0, dashArray, 2);
+  
+  for (int i=0; i < labelCount; ++i) {
+    CGFloat labelValue = [transformedPriceLabels[i] floatValue];
+    CGContextMoveToPoint(context, transformedLabelX, labelValue);
+    CGContextAddLineToPoint(context, transformedLabelXRight, labelValue);
+  }
+  
+  CGContextStrokePath(context);
+  
+  //Draw y-axis labels
+ 
+  for (int i=0; i<labelCount; ++i) {
+    NSNumber *value = self.data.priceLabels[i];
+    NSString *label = [value stringValue];
+    [self drawString:label at:CGPointMake(transformedLabelX + 10, [transformedPriceLabels[i] floatValue]+2) inContext:context];
+  }
+  
+}
+
+- (void)drawString:(NSString *)label at:(CGPoint)position inContext:(CGContextRef)context {
+  // Prepare font
+  CTFontRef font = CTFontCreateWithName(CFSTR("TimesNewRomanPSMT"), 18, NULL);
+  
+  // Create an attributed string
+  CFStringRef keys[] = { kCTFontAttributeName, kCTForegroundColorAttributeName };
+  CFTypeRef values[] = { font, [UIColor whiteColor].CGColor };
+  CFDictionaryRef attr = CFDictionaryCreate(NULL,
+                                            (const void **)&keys,
+                                            (const void **)&values,
+                                            sizeof(keys) / sizeof(keys[0]),
+                                            &kCFTypeDictionaryKeyCallBacks,
+                                            &kCFTypeDictionaryValueCallBacks);
+  CFAttributedStringRef attrString = CFAttributedStringCreate(NULL, (CFStringRef)label, attr);
+  CFRelease(attr);
+  
+  // Draw the string
+  CTLineRef line = CTLineCreateWithAttributedString(attrString);
+  CGContextSetTextMatrix(context, CGAffineTransformIdentity);
+//  CGContextSetTextMatrix(context, CGAffineTransformMakeScale(1.0, -1.0));
+  
+  CGContextSetTextPosition(context, position.x, position.y);
+  CTLineDraw(line, context);
+  
+  // Clean up
+  CFRelease(line);
+  CFRelease(attrString);
+  CFRelease(font);
 }
 
 @end

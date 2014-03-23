@@ -35,8 +35,30 @@ NS_INLINE KSDRange KSDRangeMake(float min, float max) {
     
     _maxHigh = [_high floatMax];
     _minLow = [_low floatMin];
-  
+    
+    [self generatePriceLabels];
   }
   return self;
+}
+
+- (void)generatePriceLabels {
+  CGFloat minLabel = ceil(_priceRange.min);
+  CGFloat maxLabel = floor(_priceRange.max);
+  
+  if (_priceRange.max - _priceRange.min > 30) {
+    minLabel += 10 - fmodf(minLabel, 10);
+    maxLabel -= fmodf(maxLabel, 10);
+  }
+  
+  CGFloat diff = maxLabel - minLabel;
+  
+  const int labelDivisions = 5;
+  const CGFloat div = diff/labelDivisions;
+  
+  NSMutableArray *labels = [@[] mutableCopy];
+  for (int i=0; i <= labelDivisions; ++i) {
+    [labels addObject:[NSNumber numberWithFloat:minLabel + i*div]];
+  }
+  _priceLabels = labels;
 }
 @end

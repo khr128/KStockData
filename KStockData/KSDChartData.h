@@ -23,6 +23,7 @@ typedef struct KSDRange {
 
 @property (strong, nonatomic, readonly) NSArray *dates;
 @property (strong, nonatomic, readonly) NSArray *prices;
+@property (strong, nonatomic, readonly) NSArray *priceLabels;
 @property (strong, nonatomic, readonly) NSArray *open;
 @property (strong, nonatomic, readonly) NSArray *close;
 
