@@ -29,46 +29,19 @@
   [self setNeedsDisplay];
 }
 
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+- (void)drawChartFrameInContext:(CGContextRef)context chartHeight:(CGFloat)chartHeight chartWidth:(CGFloat)chartWidth
 {
-    // Drawing code
-  CGContextRef context = UIGraphicsGetCurrentContext();
-  CGContextSaveGState(context);
-  
-  CGContextTranslateCTM(context, 0.0, rect.size.height);
-  CGContextScaleCTM(context, 1.0, -1.0);
-  CGContextTranslateCTM(context, KSD_CHART_FRAME_MARGIN, KSD_CHART_FRAME_MARGIN);
-  
-  //Draw frame
-  CGFloat chartWidth = self.frame.size.width - 2*KSD_CHART_FRAME_MARGIN;
-  CGFloat chartHeight = self.frame.size.height - 2*KSD_CHART_FRAME_MARGIN;
-  
-  
+  //Draw frame 
   CGContextSetStrokeColorWithColor(context, [UIColor darkGrayColor].CGColor);
-
+  
   CGContextSetLineWidth(context, 2.0);
   CGContextAddRect(context, CGRectMake(0, 0, chartWidth, chartHeight));
   CGContextStrokePath(context);
- 
-  CGFloat dataWidth = self.data.timeRange.max - self.data.timeRange.min;
-  CGFloat unadjustedDataHeight = self.data.priceRange.max - self.data.priceRange.min;
-  CGFloat dataHeight = unadjustedDataHeight*(1 + 2*KSD_TOP_BOTTOM_MARGIN_FRACTION);
-  
-  CGFloat lineScale = (fabsf(chartWidth) + fabsf(chartHeight))/(fabsf(dataWidth) + fabsf(dataHeight));
-  CGFloat xScale = chartWidth/dataWidth;
-  CGFloat yScale = chartHeight/dataHeight;
-  
-  CGContextScaleCTM(context, xScale, yScale);
-  CGContextTranslateCTM(context,
-                        -self.data.timeRange.min,
-                        -(self.data.priceRange.min - unadjustedDataHeight*KSD_TOP_BOTTOM_MARGIN_FRACTION));
-  
-  long count = self.data.prices.count;
+}
 
-  //Draw data
-  CGContextSetLineWidth(context, 0.25/lineScale);
+- (void)drawDataLineWithWidth:(CGFloat)lineWidth context:(CGContextRef)context count:(long)count
+{
+  CGContextSetLineWidth(context, lineWidth);
   
   CGContextSetStrokeColorWithColor(context, [UIColor yellowColor].CGColor);
   
@@ -77,9 +50,11 @@
     CGContextAddLineToPoint(context, count-i-1, [self.data.prices[i] floatValue]);
   }
   CGContextStrokePath(context);
-  
-  //Draw high/low
-  CGContextSetLineWidth(context, 0.75/lineScale);
+}
+
+- (void)drawHighLowBarsWithWidth:(CGFloat)lineWidth context:(CGContextRef)context count:(long)count
+{
+  CGContextSetLineWidth(context, lineWidth);
   CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
   
   for (int i=0; i < count; ++i) {
@@ -88,11 +63,12 @@
   }
   
   CGContextStrokePath(context);
- 
-  //Draw candles
+}
+
+- (void)drawOpenCloseCandlesinContext:(CGContextRef)context candleWidth:(CGFloat)candleWidth count:(long)count
+{
   CGContextSetFillColorWithColor(context, [UIColor redColor].CGColor);
   
-  CGFloat candleWidth = 3.75/lineScale;
   for (int i=0; i < count; ++i) {
     CGFloat open = [self.data.open[i] floatValue];
     CGFloat close = [self.data.close[i] floatValue];
@@ -122,6 +98,46 @@
   }
   
   CGContextDrawPath(context, kCGPathFill);
+}
+
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect
+{
+    // Drawing code
+  CGContextRef context = UIGraphicsGetCurrentContext();
+  CGContextSaveGState(context);
+  
+  CGContextTranslateCTM(context, 0.0, rect.size.height);
+  CGContextScaleCTM(context, 1.0, -1.0);
+  CGContextTranslateCTM(context, KSD_CHART_FRAME_MARGIN, KSD_CHART_FRAME_MARGIN);
+  
+  CGFloat chartWidth = self.frame.size.width - 2*KSD_CHART_FRAME_MARGIN;
+  CGFloat chartHeight = self.frame.size.height - 2*KSD_CHART_FRAME_MARGIN;
+ 
+  
+  [self drawChartFrameInContext:context chartHeight:chartHeight chartWidth:chartWidth];
+  
+ 
+  CGFloat dataWidth = self.data.timeRange.max - self.data.timeRange.min;
+  CGFloat unadjustedDataHeight = self.data.priceRange.max - self.data.priceRange.min;
+  CGFloat dataHeight = unadjustedDataHeight*(1 + 2*KSD_TOP_BOTTOM_MARGIN_FRACTION);
+  
+  CGFloat lineScale = (fabsf(chartWidth) + fabsf(chartHeight))/(fabsf(dataWidth) + fabsf(dataHeight));
+  CGFloat xScale = chartWidth/dataWidth;
+  CGFloat yScale = chartHeight/dataHeight;
+  
+  CGContextScaleCTM(context, xScale, yScale);
+  CGContextTranslateCTM(context,
+                        -self.data.timeRange.min,
+                        -(self.data.priceRange.min - unadjustedDataHeight*KSD_TOP_BOTTOM_MARGIN_FRACTION));
+  
+  long count = self.data.prices.count;
+  
+
+  [self drawDataLineWithWidth:0.25/lineScale context:context count:count];
+  [self drawHighLowBarsWithWidth:0.75/lineScale context:context count:count];
+  [self drawOpenCloseCandlesinContext:context candleWidth:3.75/lineScale count:count];
   
   //Draw y-axis labels
   
