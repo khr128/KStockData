@@ -145,13 +145,13 @@
   NSMutableArray *transformedPriceLabels = [[NSMutableArray alloc] initWithCapacity:self.data.priceLabels.count];
   CGFloat transformedLabelX = 0;
   CGFloat transformedLabelXRight = 0;
-  CGAffineTransform transform = CGContextGetCTM(context);
+  CGAffineTransform scaledTransform = CGContextGetCTM(context);
   
-  CGPoint transformedPoint = CGPointApplyAffineTransform(CGPointMake(count, [self.data.priceLabels[0] floatValue]), transform);
+  __block CGPoint transformedPoint = CGPointApplyAffineTransform(CGPointMake(count, [self.data.priceLabels[0] floatValue]), scaledTransform);
   transformedLabelXRight = transformedPoint.x / self.contentScaleFactor;
 
   for (NSNumber *labelValue in self.data.priceLabels) {
-    transformedPoint = CGPointApplyAffineTransform(CGPointMake(0, [labelValue floatValue]), transform);
+    transformedPoint = CGPointApplyAffineTransform(CGPointMake(0, [labelValue floatValue]), scaledTransform);
     [transformedPriceLabels addObject:[NSNumber numberWithFloat:transformedPoint.y/self.contentScaleFactor]];
     
     transformedLabelX = transformedPoint.x;
@@ -188,10 +188,31 @@
     [self drawString:label at:CGPointMake(transformedLabelX + 10, [transformedPriceLabels[i] floatValue]+2) inContext:context];
   }
   
+  transformedPoint =
+  CGPointApplyAffineTransform(CGPointMake(0, (self.data.priceRange.min - unadjustedDataHeight*KSD_TOP_BOTTOM_MARGIN_FRACTION)), scaledTransform);
+  CGFloat transformedTimeLabelY = transformedPoint.y/self.contentScaleFactor;
+  transformedPoint =
+  CGPointApplyAffineTransform(CGPointMake(0, (self.data.priceRange.max + unadjustedDataHeight*KSD_TOP_BOTTOM_MARGIN_FRACTION)), scaledTransform);
+  CGFloat transformedTimeLabelYTop = transformedPoint.y/self.contentScaleFactor;
+  
+  labelCount = self.data.monthLabels.count;
+
+  NSMutableArray *transformedTimeLabels = [[NSMutableArray alloc] initWithCapacity:labelCount];
   [self.data.monthLabels enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, NSString *label, BOOL *stop) {
+    transformedPoint = CGPointApplyAffineTransform(CGPointMake(count - [key floatValue] - 1, 0), scaledTransform);
+    CGFloat tx = transformedPoint.x/self.contentScaleFactor;
+    [transformedTimeLabels addObject:[NSNumber numberWithFloat:tx]];
     
+    [self drawString:label at:CGPointMake(tx, KSD_CHART_FRAME_MARGIN/2-2) inContext:context];
   }];
   
+  for (int i=0; i < labelCount; ++i) {
+    CGFloat labelValue = [transformedTimeLabels[i] floatValue];
+    CGContextMoveToPoint(context, labelValue, transformedTimeLabelY);
+    CGContextAddLineToPoint(context, labelValue, transformedTimeLabelYTop);
+  }
+  
+  CGContextStrokePath(context);
 }
 
 - (void)drawString:(NSString *)label at:(CGPoint)position inContext:(CGContextRef)context {

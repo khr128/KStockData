@@ -66,7 +66,7 @@ NS_INLINE KSDRange KSDRangeMake(float min, float max) {
 - (void)generateMonthLabels {
   NSMutableDictionary *labels = [@{} mutableCopy];
   NSDateFormatter *dateFormatter = [NSDateFormatter new];
-  [dateFormatter setDateFormat:@"MMMM"];
+  [dateFormatter setDateFormat:@"MMM"];
   
   __block NSString *currentMonth = [dateFormatter stringFromDate:_dates[0]];
   
