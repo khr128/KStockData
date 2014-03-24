@@ -38,6 +38,7 @@ NS_INLINE KSDRange KSDRangeMake(float min, float max) {
     
     [self generatePriceLabels];
     [self generateMonthLabels];
+    [self generateDMA:10];
   }
   return self;
 }
@@ -78,5 +79,27 @@ NS_INLINE KSDRange KSDRangeMake(float min, float max) {
     }
   }];
   _monthLabels = [labels copy];
+}
+
+- (void)generateDMA:(NSInteger)window {
+  NSMutableArray *values = [@[] mutableCopy];
+  [_prices enumerateObjectsUsingBlock:^(NSNumber *price, NSUInteger index, BOOL *stop) {
+    if (index > _prices.count - 1 - window) {
+      *stop = YES;
+    } else {
+      if (index == 0) {
+        CGFloat sum = 0;
+        for (int i=index; i < index + window; ++i) {
+          sum += [_prices[i] floatValue];
+        }
+        [values addObject:[NSNumber numberWithFloat:sum/window]];
+      } else {
+        CGFloat prevValue = [values[index - 1] floatValue];
+        CGFloat value = prevValue + ([_prices[index+window-1] floatValue] - [_prices[index-1] floatValue])/window;
+        [values addObject:[NSNumber numberWithFloat:value]];
+      }
+    }
+  }];
+  _tenDMA = [values copy];
 }
 @end
