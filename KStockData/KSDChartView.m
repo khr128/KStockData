@@ -39,15 +39,20 @@
   CGContextStrokePath(context);
 }
 
-- (void)drawDataLineWithWidth:(CGFloat)lineWidth context:(CGContextRef)context count:(long)count
+- (void)drawDataLineWithWidth:(CGFloat)lineWidth
+                      context:(CGContextRef)context
+                         data:(NSArray *)data
+                        color:(UIColor *)color
 {
   CGContextSetLineWidth(context, lineWidth);
   
-  CGContextSetStrokeColorWithColor(context, [UIColor yellowColor].CGColor);
+  CGContextSetStrokeColorWithColor(context, color.CGColor);
   
-  CGContextMoveToPoint(context, count-1, [self.data.prices[0] floatValue]);
+  long count = data.count;
+  long priceCount = self.data.prices.count;
+  CGContextMoveToPoint(context, priceCount-1, [data[0] floatValue]);
   for (int i=1; i < count; ++i) {
-    CGContextAddLineToPoint(context, count-i-1, [self.data.prices[i] floatValue]);
+    CGContextAddLineToPoint(context, priceCount-i-1, [data[i] floatValue]);
   }
   CGContextStrokePath(context);
 }
@@ -135,7 +140,8 @@
   long count = self.data.prices.count;
   
 
-  [self drawDataLineWithWidth:0.25/lineScale context:context count:count];
+  [self drawDataLineWithWidth:0.25/lineScale context:context data:self.data.prices color:[UIColor yellowColor]];
+  [self drawDataLineWithWidth:0.25/lineScale context:context data:self.data.tenDMA color:[UIColor whiteColor]];
   [self drawHighLowBarsWithWidth:0.75/lineScale context:context count:count];
   [self drawOpenCloseCandlesinContext:context candleWidth:3.75/lineScale count:count];
   
