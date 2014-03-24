@@ -15,7 +15,7 @@ typedef struct KSDRange {
 
 @interface KSDChartData : NSObject
 - (id)initWithColumns:(NSDictionary *)columns;
-- (void)generateDMA:(NSInteger)window;
+- (NSArray *)generateDMA:(NSInteger)window;
 
 @property (readonly, nonatomic) KSDRange timeRange;
 @property (readonly, nonatomic) KSDRange priceRange;
@@ -27,6 +27,7 @@ typedef struct KSDRange {
 @property (strong, nonatomic, readonly) NSArray *prices;
 @property (strong, nonatomic, readonly) NSArray *priceLabels;
 @property (strong, nonatomic, readonly) NSArray *tenDMA;
+@property (strong, nonatomic, readonly) NSArray *fiftyDMA;
 @property (strong, nonatomic, readonly) NSArray *open;
 @property (strong, nonatomic, readonly) NSArray *close;
 
