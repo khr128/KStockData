@@ -19,8 +19,6 @@ typedef struct KSDRange {
 
 @property (readonly, nonatomic) KSDRange timeRange;
 @property (readonly, nonatomic) KSDRange priceRange;
-@property (readonly, nonatomic, assign) CGFloat maxHigh;
-@property (readonly, nonatomic, assign) CGFloat minLow;
 
 @property (strong, nonatomic, readonly) NSArray *dates;
 @property (strong, nonatomic, readonly) NSDictionary *monthLabels;
@@ -28,6 +26,7 @@ typedef struct KSDRange {
 @property (strong, nonatomic, readonly) NSArray *priceLabels;
 @property (strong, nonatomic, readonly) NSArray *tenDMA;
 @property (strong, nonatomic, readonly) NSArray *fiftyDMA;
+@property (strong, nonatomic, readonly) NSArray *twoHundredDMA;
 @property (strong, nonatomic, readonly) NSArray *open;
 @property (strong, nonatomic, readonly) NSArray *close;
 

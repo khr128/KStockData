@@ -44,6 +44,10 @@
                          data:(NSArray *)data
                         color:(UIColor *)color
 {
+  if (data.count < 2) {
+    return;
+  }
+  
   CGContextSetLineWidth(context, lineWidth);
   
   CGContextSetStrokeColorWithColor(context, color.CGColor);
@@ -143,6 +147,7 @@
   [self drawDataLineWithWidth:0.25/lineScale context:context data:self.data.prices color:[UIColor yellowColor]];
   [self drawDataLineWithWidth:0.25/lineScale context:context data:self.data.tenDMA color:[UIColor whiteColor]];
   [self drawDataLineWithWidth:0.25/lineScale context:context data:self.data.fiftyDMA color:[UIColor blueColor]];
+  [self drawDataLineWithWidth:0.25/lineScale context:context data:self.data.twoHundredDMA color:[UIColor redColor]];
   [self drawHighLowBarsWithWidth:0.75/lineScale context:context count:count];
   [self drawOpenCloseCandlesinContext:context candleWidth:3.75/lineScale count:count];
   

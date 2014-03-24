@@ -16,6 +16,7 @@ NS_INLINE KSDRange KSDRangeMake(float min, float max) {
   return r;
 }
 
+static NSUInteger maxDrawCount = 252;
 
 @implementation KSDChartData
 
@@ -30,16 +31,51 @@ NS_INLINE KSDRange KSDRangeMake(float min, float max) {
     _high = [NSArray arrayWithArray:columns[@"High"]];
     _low = [NSArray arrayWithArray:columns[@"Low"]];
     
-    _timeRange = KSDRangeMake(0, _dates.count);
-    _priceRange = KSDRangeMake([_prices floatMin], [_prices floatMax]);
+    _tenDMA = [self generateDMA:10];
+    _fiftyDMA = [self generateDMA:50];
+    _twoHundredDMA = [self generateDMA:200];
     
-    _maxHigh = [_high floatMax];
-    _minLow = [_low floatMin];
+    NSUInteger drawCount = MIN(maxDrawCount, _dates.count);
+    NSRange drawRange = NSMakeRange(0, drawCount);
+    
+    if (drawCount < _dates.count) {
+      _dates = [_dates subarrayWithRange:drawRange];
+      _prices = [_prices subarrayWithRange:drawRange];
+      _open = [_open subarrayWithRange:drawRange];
+      _close = [_close subarrayWithRange:drawRange];
+      _high = [_high subarrayWithRange:drawRange];
+      _low = [_low subarrayWithRange:drawRange];
+    }
+    
+    if (drawCount < _tenDMA.count) {
+      _tenDMA = [_tenDMA subarrayWithRange:drawRange];
+    }
+    if (drawCount < _fiftyDMA.count) {
+      _fiftyDMA = [_fiftyDMA subarrayWithRange:drawRange];
+    }
+    if (drawCount < _twoHundredDMA.count) {
+      _twoHundredDMA = [_twoHundredDMA subarrayWithRange:drawRange];
+    }
+    
+    _timeRange = KSDRangeMake(-1, drawCount);
+    
+    CGFloat minPrice = MIN([_prices floatMin], [_low floatMin]);
+    if (_twoHundredDMA.count > 1) {
+      minPrice = MIN(minPrice, [_twoHundredDMA floatMin]);
+    }
+    
+    CGFloat maxPrice = MAX([_prices floatMax], [_high floatMax]);
+    if (_fiftyDMA.count > 1) {
+      maxPrice = MAX(maxPrice, [_fiftyDMA floatMax]);
+    }
+    if (_tenDMA.count > 1) {
+      maxPrice = MAX(maxPrice, [_tenDMA floatMax]);
+    }
+    
+    _priceRange = KSDRangeMake(minPrice, maxPrice);
     
     [self generatePriceLabels];
     [self generateMonthLabels];
-    _tenDMA = [self generateDMA:10];
-    _fiftyDMA = [self generateDMA:50];
   }
   return self;
 }
@@ -93,7 +129,7 @@ NS_INLINE KSDRange KSDRangeMake(float min, float max) {
     } else {
       if (index == 0) {
         CGFloat sum = 0;
-        for (int i=index; i < index + window; ++i) {
+        for (NSUInteger i=index; i < index + window; ++i) {
           sum += [_prices[i] floatValue];
         }
         [values addObject:[NSNumber numberWithFloat:sum/window]];

@@ -122,7 +122,7 @@ static void (^chartRetrievalHandler)(NSURLResponse *response, NSData *data, NSEr
   
   self.navigationItem.rightBarButtonItem.enabled = NO;
   [KSDStockDataRetriever chartDataFor:symbol
-                             years:1.0
+                             years:2.0
                      completionHadler:chartRetrievalHandler];
  }
 
