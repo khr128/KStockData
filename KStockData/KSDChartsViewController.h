@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @class KSDChartData;
-@class KSDChartView;
+@class KSDPriceChartsView;
 
 @interface KSDChartsViewController : UIViewController
-@property (weak, nonatomic) IBOutlet KSDChartView *chartView;
+@property (weak, nonatomic) IBOutlet KSDPriceChartsView *chartView;
 @property (strong, nonatomic) KSDChartData *data;
 @end

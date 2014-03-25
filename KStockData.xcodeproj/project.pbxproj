@@ -32,7 +32,8 @@
 		AE3055D218DDDAA400392C23 /* NSArray+KhrMinMax.m in Sources */ = {isa = PBXBuildFile; fileRef = AE3055D118DDDAA400392C23 /* NSArray+KhrMinMax.m */; };
 		AE3055D418DDDB6B00392C23 /* NSArrayKhrMinMaxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE3055D318DDDB6B00392C23 /* NSArrayKhrMinMaxTests.m */; };
 		AE307A3818DBB582007A0F00 /* KSDChartsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE307A3718DBB582007A0F00 /* KSDChartsViewController.m */; };
-		AE307A4118DCBFD5007A0F00 /* KSDChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE307A4018DCBFD5007A0F00 /* KSDChartView.m */; };
+		AE307A4118DCBFD5007A0F00 /* KSDPriceChartsView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE307A4018DCBFD5007A0F00 /* KSDPriceChartsView.m */; };
+		AE9A4B5418E2255F00580338 /* KSDPlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9A4B5318E2255F00580338 /* KSDPlotView.m */; };
 		AEB6643718D352BC003D504A /* LEDBDREV.TTF in Resources */ = {isa = PBXBuildFile; fileRef = AEB6643618D3526E003D504A /* LEDBDREV.TTF */; };
 		AEB6643918D369EE003D504A /* scoreboard.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEB6643818D369E1003D504A /* scoreboard.ttf */; };
 		AEDE338318E068FB005F1046 /* KSDChartDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDE338218E068FB005F1046 /* KSDChartDataTests.m */; };
@@ -87,8 +88,10 @@
 		AE3055D518DE457200392C23 /* Externals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Externals.h; sourceTree = "<group>"; };
 		AE307A3618DBB582007A0F00 /* KSDChartsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDChartsViewController.h; sourceTree = "<group>"; };
 		AE307A3718DBB582007A0F00 /* KSDChartsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDChartsViewController.m; sourceTree = "<group>"; };
-		AE307A3F18DCBFD5007A0F00 /* KSDChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDChartView.h; sourceTree = "<group>"; };
-		AE307A4018DCBFD5007A0F00 /* KSDChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDChartView.m; sourceTree = "<group>"; };
+		AE307A3F18DCBFD5007A0F00 /* KSDPriceChartsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDPriceChartsView.h; sourceTree = "<group>"; };
+		AE307A4018DCBFD5007A0F00 /* KSDPriceChartsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDPriceChartsView.m; sourceTree = "<group>"; };
+		AE9A4B5218E2255F00580338 /* KSDPlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDPlotView.h; sourceTree = "<group>"; };
+		AE9A4B5318E2255F00580338 /* KSDPlotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDPlotView.m; sourceTree = "<group>"; };
 		AEB6643618D3526E003D504A /* LEDBDREV.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = LEDBDREV.TTF; sourceTree = "<group>"; };
 		AEB6643818D369E1003D504A /* scoreboard.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = scoreboard.ttf; sourceTree = "<group>"; };
 		AEDE338218E068FB005F1046 /* KSDChartDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDChartDataTests.m; sourceTree = "<group>"; };
@@ -227,10 +230,12 @@
 			children = (
 				AE307A3618DBB582007A0F00 /* KSDChartsViewController.h */,
 				AE307A3718DBB582007A0F00 /* KSDChartsViewController.m */,
-				AE307A3F18DCBFD5007A0F00 /* KSDChartView.h */,
-				AE307A4018DCBFD5007A0F00 /* KSDChartView.m */,
+				AE307A3F18DCBFD5007A0F00 /* KSDPriceChartsView.h */,
+				AE307A4018DCBFD5007A0F00 /* KSDPriceChartsView.m */,
 				AE3055CD18DDBF8600392C23 /* KSDChartData.h */,
 				AE3055CE18DDBF8600392C23 /* KSDChartData.m */,
+				AE9A4B5218E2255F00580338 /* KSDPlotView.h */,
+				AE9A4B5318E2255F00580338 /* KSDPlotView.m */,
 			);
 			name = Charts;
 			sourceTree = "<group>";
@@ -358,7 +363,8 @@
 			files = (
 				AE307A3818DBB582007A0F00 /* KSDChartsViewController.m in Sources */,
 				AE05C92518D10DC400C60920 /* KStockData.xcdatamodeld in Sources */,
-				AE307A4118DCBFD5007A0F00 /* KSDChartView.m in Sources */,
+				AE9A4B5418E2255F00580338 /* KSDPlotView.m in Sources */,
+				AE307A4118DCBFD5007A0F00 /* KSDPriceChartsView.m in Sources */,
 				AE3055CF18DDBF8600392C23 /* KSDChartData.m in Sources */,
 				AE05C92818D10DC400C60920 /* KSDMasterViewController.m in Sources */,
 				AEE4C02F18DA160D00695BF3 /* KSDStockDataRetriever.m in Sources */,

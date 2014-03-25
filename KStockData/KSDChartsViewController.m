@@ -7,7 +7,7 @@
 //
 
 #import "KSDChartsViewController.h"
-#import "KSDChartView.h"
+#import "KSDPriceChartsView.h"
 #import "Externals.h"
 #import "KSDDetailViewController.h"
 
