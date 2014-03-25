@@ -16,9 +16,51 @@ NS_INLINE KSDRange KSDRangeMake(float min, float max) {
   return r;
 }
 
-static NSUInteger maxDrawCount = 252;
+static const NSUInteger maxDrawCount = 252;
+static const NSUInteger labelDivisions = 5;
 
 @implementation KSDChartData
+
+- (void)adjustDrawCounts {
+  NSUInteger drawCount = MIN(maxDrawCount, _dates.count);
+  NSRange drawRange = NSMakeRange(0, drawCount);
+  
+  if (drawCount < _dates.count) {
+    _dates = [_dates subarrayWithRange:drawRange];
+    _prices = [_prices subarrayWithRange:drawRange];
+    _open = [_open subarrayWithRange:drawRange];
+    _close = [_close subarrayWithRange:drawRange];
+    _high = [_high subarrayWithRange:drawRange];
+    _low = [_low subarrayWithRange:drawRange];
+  }
+  
+  if (drawCount < _tenDMA.count) {
+    _tenDMA = [_tenDMA subarrayWithRange:drawRange];
+  }
+  if (drawCount < _fiftyDMA.count) {
+    _fiftyDMA = [_fiftyDMA subarrayWithRange:drawRange];
+  }
+  if (drawCount < _twoHundredDMA.count) {
+    _twoHundredDMA = [_twoHundredDMA subarrayWithRange:drawRange];
+  }
+  
+  _timeRange = KSDRangeMake(-1, drawCount);
+  
+  CGFloat minPrice = MIN([_prices floatMin], [_low floatMin]);
+  if (_twoHundredDMA.count > 1) {
+    minPrice = MIN(minPrice, [_twoHundredDMA floatMin]);
+  }
+  
+  CGFloat maxPrice = MAX([_prices floatMax], [_high floatMax]);
+  if (_fiftyDMA.count > 1) {
+    maxPrice = MAX(maxPrice, [_fiftyDMA floatMax]);
+  }
+  if (_tenDMA.count > 1) {
+    maxPrice = MAX(maxPrice, [_tenDMA floatMax]);
+  }
+  
+  _priceRange = KSDRangeMake(minPrice, maxPrice);
+}
 
 - (id)initWithColumns:(NSDictionary *)columns {
   if (self = [super init]) {
@@ -34,45 +76,9 @@ static NSUInteger maxDrawCount = 252;
     _tenDMA = [self generateDMA:10];
     _fiftyDMA = [self generateDMA:50];
     _twoHundredDMA = [self generateDMA:200];
-    
-    NSUInteger drawCount = MIN(maxDrawCount, _dates.count);
-    NSRange drawRange = NSMakeRange(0, drawCount);
-    
-    if (drawCount < _dates.count) {
-      _dates = [_dates subarrayWithRange:drawRange];
-      _prices = [_prices subarrayWithRange:drawRange];
-      _open = [_open subarrayWithRange:drawRange];
-      _close = [_close subarrayWithRange:drawRange];
-      _high = [_high subarrayWithRange:drawRange];
-      _low = [_low subarrayWithRange:drawRange];
-    }
-    
-    if (drawCount < _tenDMA.count) {
-      _tenDMA = [_tenDMA subarrayWithRange:drawRange];
-    }
-    if (drawCount < _fiftyDMA.count) {
-      _fiftyDMA = [_fiftyDMA subarrayWithRange:drawRange];
-    }
-    if (drawCount < _twoHundredDMA.count) {
-      _twoHundredDMA = [_twoHundredDMA subarrayWithRange:drawRange];
-    }
-    
-    _timeRange = KSDRangeMake(-1, drawCount);
-    
-    CGFloat minPrice = MIN([_prices floatMin], [_low floatMin]);
-    if (_twoHundredDMA.count > 1) {
-      minPrice = MIN(minPrice, [_twoHundredDMA floatMin]);
-    }
-    
-    CGFloat maxPrice = MAX([_prices floatMax], [_high floatMax]);
-    if (_fiftyDMA.count > 1) {
-      maxPrice = MAX(maxPrice, [_fiftyDMA floatMax]);
-    }
-    if (_tenDMA.count > 1) {
-      maxPrice = MAX(maxPrice, [_tenDMA floatMax]);
-    }
-    
-    _priceRange = KSDRangeMake(minPrice, maxPrice);
+    _rsi = [self generateRSI:14];
+ 
+    [self adjustDrawCounts];
     
     [self generatePriceLabels];
     [self generateMonthLabels];
@@ -91,7 +97,6 @@ static NSUInteger maxDrawCount = 252;
   
   CGFloat diff = maxLabel - minLabel;
   
-  const int labelDivisions = 5;
   const CGFloat div = diff/labelDivisions;
   
   NSMutableArray *labels = [@[] mutableCopy];
@@ -141,5 +146,45 @@ static NSUInteger maxDrawCount = 252;
     }
   }];
   return [values copy];
+}
+
+- (CGFloat)rsi:(CGFloat)averageLoss averageGain:(CGFloat)averageGain {
+  CGFloat value = 100*averageGain/(averageGain + averageLoss);
+  return value;
+}
+
+- (CGFloat)exponentialEverageWithWindow:(NSUInteger)window previous:(CGFloat)previos current:(CGFloat)current {
+  return ((window - 1)*previos + current)/window;
+}
+
+- (NSArray *)generateRSI:(NSUInteger)periods {
+  NSMutableArray *rsi = [@[] mutableCopy];
+  NSUInteger start = MIN(_dates.count - 1, maxDrawCount + periods - 1);
+  CGFloat averageLoss = 0.0f;
+  CGFloat averageGain = 0.0f;
+  for (int i = 1; i < periods; ++i) {
+    CGFloat diff = [_prices[start - i] floatValue] - [_prices[start - i + 1] floatValue];
+    if (diff < 0.0f) {
+      averageLoss -= diff;
+    } else {
+      averageGain += diff;
+    }
+  }
+  averageLoss /= periods;
+  averageGain /= periods;
+  
+  [rsi addObject:[NSNumber numberWithFloat:[self rsi:averageLoss averageGain:averageGain]]];
+  
+  for (int i = start - periods - 1; i > -1; --i) {
+    CGFloat diff = [_prices[i] floatValue] - [_prices[i + 1] floatValue];
+    if (diff < 0.0f) {
+      averageLoss = [self exponentialEverageWithWindow:periods previous:averageLoss current:-diff];
+    } else {
+      averageGain = [self exponentialEverageWithWindow:periods previous:averageGain current:diff];
+    }
+    [rsi addObject:[NSNumber numberWithFloat:[self rsi:averageLoss averageGain:averageGain]]];
+  }
+  
+  return [[[rsi copy] reverseObjectEnumerator] allObjects];
 }
 @end

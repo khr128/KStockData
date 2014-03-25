@@ -18,6 +18,15 @@
   KSDChartData *_testData;
 }
 
+- (NSArray *)generateDates:(const NSUInteger)count
+{
+  NSMutableArray *dates = [@[] mutableCopy];
+  for (int i=0; i<count; ++i) {
+    [dates addObject:[[NSDate alloc] initWithTimeIntervalSinceNow:-i]];
+  }
+  return [dates copy];
+}
+
 - (void)setUp
 {
     [super setUp];
@@ -25,10 +34,7 @@
   //Date,Open,High,Low,Close,Volume,Adj Close
   
   const NSUInteger count = 15;
-  NSMutableArray *dates = [@[] mutableCopy];
-  for (int i=0; i<count; ++i) {
-    [dates addObject:[[NSDate alloc] initWithTimeIntervalSinceNow:-i]];
-  }
+  NSArray *dates = [self generateDates:count];
   
   NSMutableArray *values = [@[] mutableCopy];
   for (int i=0; i<count; ++i) {
@@ -59,6 +65,48 @@
   XCTAssertEqual(_testData.tenDMA.count, 5, @"Unexpected 10DMA count");
   NSArray *expected10DMA = @[@4.5, @5.5, @6.5, @7.5, @8.5];
   XCTAssertEqualObjects(_testData.tenDMA, expected10DMA, @"Unexpected 10DMA values");
+}
+
+- (void)testRSI {
+  NSArray *values =
+  @[
+    @44.34f, @44.09f, @44.15f, @43.61f, @44.33f, @44.83f, @45.10f, @45.42f, @45.84f, @46.08f, @45.89f, @46.03f, @45.61f, @46.28f,
+    @46.28f, @46.00f, @46.03f, @46.41f, @46.22f, @45.64f, @46.21f
+    ];
+  values = [[values reverseObjectEnumerator] allObjects];
+  
+  NSArray *dates = [self generateDates:values.count];
+ 
+  _columns = @{
+               @"Date": dates,
+               @"Open": values,
+               @"High": values,
+               @"Low":  values,
+               @"Close": values,
+               @"Volume": values,
+               @"Adj Close": values
+               };
+  
+  _testData = [[KSDChartData alloc] initWithColumns:_columns];
+  
+  NSUInteger expectedRsiCount = values.count - 14;
+  XCTAssertEqual(_testData.rsi.count, expectedRsiCount, @"Unexpected RSI count");
+  
+  NSArray *expectedRSI = @[
+                           @70.46411,
+                           @67.88618,
+                           @66.46452,
+                           @67.5415,
+                           @66.48784,
+                           @60.8108,
+                           @63.09839
+                           ];
+  expectedRSI = [[expectedRSI reverseObjectEnumerator] allObjects];
+  
+  [_testData.rsi enumerateObjectsUsingBlock:^(NSNumber *rsi, NSUInteger i, BOOL *stop) {
+    XCTAssertEqualWithAccuracy([rsi floatValue], [expectedRSI[i] floatValue], 1.0e-5, @"Unexpected RSI value");
+  }];
+  
 }
 
 @end
