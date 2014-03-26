@@ -7,11 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-typedef struct KSDRange {
-  float min;
-  float max;
-} KSDRange;
+#import "KSDRange.h"
 
 @interface KSDChartData : NSObject
 - (id)initWithColumns:(NSDictionary *)columns;

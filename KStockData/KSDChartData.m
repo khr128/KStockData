@@ -9,13 +9,6 @@
 #import "KSDChartData.h"
 #import "NSArray+KhrMinMax.h"
 
-NS_INLINE KSDRange KSDRangeMake(float min, float max) {
-  KSDRange r;
-  r.min = min;
-  r.max = max;
-  return r;
-}
-
 static const NSUInteger maxDrawCount = 252;
 static const NSUInteger labelDivisions = 5;
 
@@ -155,8 +148,8 @@ static const NSUInteger labelDivisions = 5;
   return value;
 }
 
-- (CGFloat)exponentialEverageWithWindow:(NSUInteger)window previous:(CGFloat)previous current:(CGFloat)current {
-  return ((window - 1)*previous + current)/window;
+- (CGFloat)exponentialEverageWithWindow:(NSUInteger)window previous:(CGFloat)previos current:(CGFloat)current {
+  return ((window - 1)*previos + current)/window;
 }
 
 - (NSArray *)generateRSI:(NSUInteger)periods {
