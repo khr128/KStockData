@@ -8,6 +8,7 @@
 
 #import "KSDPlotView.h"
 #import "KSDChartData.h"
+#import "KSDRegion.h"
 @import CoreText;
 
 const CGFloat kKSDChartFrameMargin = 20.0;
@@ -241,6 +242,27 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
                   at:CGPointMake(transformedLabelX + 10, [transformedPriceLabels[i] floatValue]+2)
        withAlignment:NSTextAlignmentLeft
            inContext:context];
+  }
+}
+
+- (void)highlightRegions:(NSArray *)regions withColor:(UIColor *)color context:(CGContextRef)context
+{
+  //draw overbought region
+  CGContextSetFillColorWithColor(context, color.CGColor);
+  
+  long priceCount = self.data.prices.count;
+  
+  for (KSDRegion *region in regions) {
+    NSUInteger min = (uint)(region.range.min + 0.5);
+    NSUInteger max = (uint)(region.range.max + 0.5);
+    CGContextMoveToPoint(context, priceCount-region.left-1, region.base);
+    for (NSUInteger i=min; i <= max; ++i) {
+      CGContextAddLineToPoint(context, priceCount-i-1, [self.data.rsi[i] floatValue]);
+    }
+    CGContextAddLineToPoint(context, priceCount - region.right - 1, region.base);
+    CGContextClosePath(context);
+    
+    CGContextDrawPath(context, kCGPathFill);
   }
 }
 

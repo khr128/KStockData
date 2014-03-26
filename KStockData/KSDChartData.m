@@ -12,6 +12,8 @@
 
 static const NSUInteger maxDrawCount = 252;
 static const NSUInteger labelDivisions = 5;
+static const CGFloat rsiOversoldLevel = 30;
+static const CGFloat rsiOverboughtLevel = 70;
 
 @implementation KSDChartData
 
@@ -163,24 +165,24 @@ static const NSUInteger labelDivisions = 5;
   __block NSMutableArray *overbought = [@[] mutableCopy];
   [rsiData enumerateObjectsUsingBlock:^(NSNumber *rsi, NSUInteger i, BOOL *stop) {
     CGFloat value = [rsi floatValue];
-    if (value < 30 && (inOversoldRegion == NO && inOverboughtRegion == NO)) {
+    if (value < rsiOversoldLevel && (inOversoldRegion == NO && inOverboughtRegion == NO)) {
       inOversoldRegion = YES;
       min = i;
-      left = [self intersectionWithLevel:30 forIndex:i inArray:rsiData];
-    } else if (value > 30 && (inOversoldRegion == YES && inOverboughtRegion == NO)) {
+      left = [self intersectionWithLevel:rsiOversoldLevel forIndex:i inArray:rsiData];
+    } else if (value > rsiOversoldLevel && (inOversoldRegion == YES && inOverboughtRegion == NO)) {
       max = i - 1;
-      right = [self intersectionWithLevel:30 forIndex:i inArray:rsiData];
-      region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right];
+      right = [self intersectionWithLevel:rsiOversoldLevel forIndex:i inArray:rsiData];
+      region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right base:rsiOversoldLevel];
       [oversold addObject:region];
       inOversoldRegion = NO;
-    } else if (value > 70  && (inOversoldRegion == NO && inOverboughtRegion == NO)) {
+    } else if (value > rsiOverboughtLevel  && (inOversoldRegion == NO && inOverboughtRegion == NO)) {
       min = i;
-      left = [self intersectionWithLevel:70 forIndex:i inArray:rsiData];
+      left = [self intersectionWithLevel:rsiOverboughtLevel forIndex:i inArray:rsiData];
       inOverboughtRegion = YES;
-    } else if (value < 70 && (inOversoldRegion == NO && inOverboughtRegion == YES)) {
+    } else if (value < rsiOverboughtLevel && (inOversoldRegion == NO && inOverboughtRegion == YES)) {
       max = i - 1;
-      right = [self intersectionWithLevel:70 forIndex:i inArray:rsiData];
-      region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right];
+      right = [self intersectionWithLevel:rsiOverboughtLevel forIndex:i inArray:rsiData];
+      region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right base:rsiOverboughtLevel];
       [overbought addObject:region];
       inOverboughtRegion = NO;
     }
@@ -189,13 +191,13 @@ static const NSUInteger labelDivisions = 5;
   if (inOverboughtRegion == YES) {
     max = rsiData.count - 1;
     right = max;
-    region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right];
+    region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right base:rsiOverboughtLevel];
     [overbought addObject:region];
     inOverboughtRegion = NO;
   } else if (inOversoldRegion == YES) {
     max = rsiData.count - 1;
     right = max;
-    region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right];
+    region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right base:rsiOversoldLevel];
     [oversold addObject:region];
     inOversoldRegion = NO;
   }

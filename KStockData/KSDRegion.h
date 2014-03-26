@@ -10,9 +10,10 @@
 #import "KSDRange.h"
 
 @interface KSDRegion : NSObject
-@property (nonatomic, assign) CGFloat left;
-@property (nonatomic, assign) KSDRange range;
-@property (nonatomic, assign) CGFloat right;
+@property (nonatomic, assign, readonly) CGFloat left;
+@property (nonatomic, assign, readonly) KSDRange range;
+@property (nonatomic, assign, readonly) CGFloat right;
+@property (nonatomic, assign, readonly) CGFloat base;
 
-- (instancetype)initWithLeft:(CGFloat)left range:(KSDRange)range right:(CGFloat)right;
+- (instancetype)initWithLeft:(CGFloat)left range:(KSDRange)range right:(CGFloat)right base:(CGFloat)base;
 @end
