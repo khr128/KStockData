@@ -33,5 +33,7 @@
 @property (strong, nonatomic, readonly) NSArray *rsi;
 @property (strong, nonatomic, readonly) NSArray *rsiLabels;
 @property (readonly, nonatomic) KSDRange rsiRange;
+@property (readonly, nonatomic) NSArray *rsiOversoldRegions;
+@property (readonly, nonatomic) NSArray *rsiOverboughtRegions;
 
 @end

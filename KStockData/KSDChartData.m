@@ -8,6 +8,7 @@
 
 #import "KSDChartData.h"
 #import "NSArray+KhrMinMax.h"
+#import "KSDRegion.h"
 
 static const NSUInteger maxDrawCount = 252;
 static const NSUInteger labelDivisions = 5;
@@ -180,7 +181,51 @@ static const NSUInteger labelDivisions = 5;
     [rsi addObject:[NSNumber numberWithFloat:[self rsi:averageLoss averageGain:averageGain]]];
   }
   
-  return [[[rsi copy] reverseObjectEnumerator] allObjects];
+  NSArray *reverseRsi = [[[rsi copy] reverseObjectEnumerator] allObjects];
+  
+  __block BOOL inRegion = NO;
+  __block KSDRegion *region;
+  __block CGFloat min, max;
+  __block CGFloat left, right;
+  __block NSMutableArray *oversold = [@[] mutableCopy];
+  __block NSMutableArray *overbought = [@[] mutableCopy];
+  [reverseRsi enumerateObjectsUsingBlock:^(NSNumber *rsi, NSUInteger i, BOOL *stop) {
+    CGFloat value = [rsi floatValue];
+    if (value < 30 && inRegion == NO) {
+      inRegion = YES;
+      min = i;
+      left = [self intersectionWithLevel:30 forIndex:i inArray:reverseRsi];
+    } else if (value > 30 && inRegion == YES) {
+      max = i - 1;
+      right = [self intersectionWithLevel:30 forIndex:i inArray:reverseRsi];
+      region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right];
+      [oversold addObject:region];
+      inRegion = NO;
+    } else if (value > 70  && inRegion == NO) {
+      max = i;
+      left = [self intersectionWithLevel:30 forIndex:i inArray:reverseRsi];
+      inRegion = YES;
+    } else if (value < 70 && inRegion == YES) {
+      max = i - 1;
+      right = [self intersectionWithLevel:30 forIndex:i inArray:reverseRsi];
+      region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right];
+      [overbought addObject:region];
+      inRegion = NO;
+    }
+  }];
+  
+  _rsiOverboughtRegions = [overbought copy];
+  _rsiOversoldRegions = [oversold copy];
+  
+  
+  return reverseRsi;
+}
+
+- (CGFloat)intersectionWithLevel:(CGFloat)level forIndex:(NSUInteger)i inArray:(NSArray *)data {
+  CGFloat f0 = [data[i] floatValue];
+  CGFloat fm = [data[i-1] floatValue];
+  
+  return i+1 +(level - fm)/(f0 - fm);
 }
 
 - (void) generateRsiLabels {
