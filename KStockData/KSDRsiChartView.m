@@ -16,8 +16,14 @@
   CGContextRef context = [self getTranslatedContext:rect];
   [self computeChartDimensions];
   [self drawChartFrameInContext:context chartHeight:self.chartHeight chartWidth:self.chartWidth];
-  [self scaleAndTranslateCTM:context withYRange:self.data.rsiRange];
   
+  [self drawString:[NSString stringWithFormat:@"RSI(14)  %0.2f", [self.data.rsi[0] floatValue]]
+                at:CGPointMake(self.chartWidth/2, self.chartHeight + 3)
+     withAlignment:NSTextAlignmentCenter
+         inContext:context];
+  
+  
+  [self scaleAndTranslateCTM:context withYRange:self.data.rsiRange];
   
   [self highlightRegions:self.data.rsiOverboughtRegions withColor:[UIColor blueColor] context:context];
   [self highlightRegions:self.data.rsiOversoldRegions withColor:[UIColor yellowColor] context:context];
