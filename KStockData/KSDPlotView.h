@@ -19,7 +19,7 @@ extern const CGFloat kKSDTopBottomMarginFraction;
 
 @property (strong, nonatomic) KSDChartData *data;
 
-- (void)drawString: (NSString*)label at: (CGPoint)position inContext: (CGContextRef)context;
+- (void)drawString:(NSString *)label at:(CGPoint)position withAlignment:(NSTextAlignment)alignment inContext:(CGContextRef)context;
 
 - (void)drawChartFrameInContext: (CGContextRef)context chartHeight: (CGFloat)chartHeight chartWidth: (CGFloat)chartWidth;
 

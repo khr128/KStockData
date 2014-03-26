@@ -38,7 +38,7 @@
     NSUInteger min = (uint)(region.range.min + 0.5);
     NSUInteger max = (uint)(region.range.max + 0.5);
     CGContextMoveToPoint(context, priceCount-region.left-1, 70);
-    for (int i=min; i <= max; ++i) {
+    for (NSUInteger i=min; i <= max; ++i) {
       CGContextAddLineToPoint(context, priceCount-i-1, [self.data.rsi[i] floatValue]);
     }
     CGContextAddLineToPoint(context, priceCount - region.right - 1, 70);
@@ -54,7 +54,7 @@
     NSUInteger min = (uint)(region.range.min + 0.5);
     NSUInteger max = (uint)(region.range.max + 0.5);
     CGContextMoveToPoint(context, priceCount-region.left-1, 30);
-    for (int i=min; i <= max; ++i) {
+    for (NSUInteger i=min; i <= max; ++i) {
       CGContextAddLineToPoint(context, priceCount-i-1, [self.data.rsi[i] floatValue]);
     }
     CGContextAddLineToPoint(context, priceCount - region.right - 1, 30);

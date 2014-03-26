@@ -67,6 +67,11 @@
   [self computeChartDimensions];
   [self drawChartFrameInContext:context chartHeight:self.chartHeight chartWidth:self.chartWidth];
   
+  [self drawString:@"Price History"
+                at:CGPointMake(self.chartWidth/2, self.chartHeight + 3)
+     withAlignment:NSTextAlignmentCenter
+         inContext:context];
+  
   [self scaleAndTranslateCTM:context withYRange:self.data.priceRange];
   
   long count = self.data.prices.count;

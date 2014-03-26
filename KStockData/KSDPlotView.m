@@ -44,7 +44,7 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
                   }];
 }
 
-- (void)drawString:(NSString *)label at:(CGPoint)position inContext:(CGContextRef)context {
+- (void)drawString:(NSString *)label at:(CGPoint)position withAlignment:(NSTextAlignment)alignment inContext:(CGContextRef)context {
   // Prepare font
   CTFontRef font = CTFontCreateWithName(CFSTR("TimesNewRomanPSMT"), 18, NULL);
   
@@ -65,7 +65,13 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
   CGContextSetTextMatrix(context, CGAffineTransformIdentity);
 //  CGContextSetTextMatrix(context, CGAffineTransformMakeScale(1.0, -1.0));
   
-  CGContextSetTextPosition(context, position.x, position.y);
+  CGFloat offset = 0.0f;
+  if (alignment == NSTextAlignmentCenter) {
+    CGRect labelRect = CTLineGetBoundsWithOptions(line, 0);
+    offset = labelRect.size.width/2;
+  }
+  
+  CGContextSetTextPosition(context, position.x - offset, position.y);
   CTLineDraw(line, context);
   
   // Clean up
@@ -169,7 +175,7 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
     CGFloat tx = transformedPoint.x/self.contentScaleFactor;
     [transformedTimeLabels addObject:[NSNumber numberWithFloat:tx]];
     
-    [self drawString:label at:CGPointMake(tx, kKSDChartFrameMargin/2-5) inContext:context];
+    [self drawString:label at:CGPointMake(tx, kKSDChartFrameMargin/2-5) withAlignment:NSTextAlignmentLeft inContext:context];
   }];
   
   [self setGridlineStyle:context];
@@ -231,7 +237,10 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
   for (int i=0; i<labelCount; ++i) {
     NSNumber *value = values[i];
     NSString *label = [value stringValue];
-    [self drawString:label at:CGPointMake(transformedLabelX + 10, [transformedPriceLabels[i] floatValue]+2) inContext:context];
+    [self drawString:label
+                  at:CGPointMake(transformedLabelX + 10, [transformedPriceLabels[i] floatValue]+2)
+       withAlignment:NSTextAlignmentLeft
+           inContext:context];
   }
 }
 
