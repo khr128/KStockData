@@ -501,19 +501,29 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rl6-hl-ck2" customClass="KSDRsiChartView">
+                                <rect key="frame" x="0.0" y="408" width="703" height="360"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="cwR-np-Swv" firstAttribute="leading" secondItem="yHa-Ug-pY2" secondAttribute="leading" id="6lw-Kl-Yi9"/>
+                            <constraint firstItem="rl6-hl-ck2" firstAttribute="leading" secondItem="cwR-np-Swv" secondAttribute="leading" id="80b-2k-1Xu"/>
                             <constraint firstItem="YVd-bm-jHs" firstAttribute="top" secondItem="cwR-np-Swv" secondAttribute="bottom" constant="360" id="HAE-ab-3VS"/>
+                            <constraint firstItem="rl6-hl-ck2" firstAttribute="top" secondItem="cwR-np-Swv" secondAttribute="bottom" id="Rhf-SM-83i"/>
+                            <constraint firstItem="rl6-hl-ck2" firstAttribute="trailing" secondItem="cwR-np-Swv" secondAttribute="trailing" id="ciQ-DC-nRx"/>
                             <constraint firstItem="cwR-np-Swv" firstAttribute="top" secondItem="W5V-aq-cuK" secondAttribute="bottom" id="dx0-NB-R8f"/>
+                            <constraint firstAttribute="bottom" secondItem="rl6-hl-ck2" secondAttribute="bottom" id="jcv-DE-nbt"/>
                             <constraint firstAttribute="trailing" secondItem="cwR-np-Swv" secondAttribute="trailing" id="sfp-zj-Cmc"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <navigationItem key="navigationItem" id="Ie0-8f-d63"/>
                     <connections>
-                        <outlet property="chartView" destination="cwR-np-Swv" id="R9r-0R-tPB"/>
+                        <outlet property="priceChartsView" destination="cwR-np-Swv" id="3zf-36-G3o"/>
+                        <outlet property="rsiChartView" destination="rl6-hl-ck2" id="Yd7-g8-LgB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YBz-7N-Rco" userLabel="First Responder" sceneMemberID="firstResponder"/>

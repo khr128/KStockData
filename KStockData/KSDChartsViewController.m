@@ -8,6 +8,7 @@
 
 #import "KSDChartsViewController.h"
 #import "KSDPriceChartsView.h"
+#import "KSDRsiChartView.h"
 #import "Externals.h"
 #import "KSDDetailViewController.h"
 
@@ -29,7 +30,8 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  self.chartView.data = self.data;
+  self.priceChartsView.data = self.data;
+  self.rsiChartView.data = self.data;
   
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
   [nc addObserverForName:KSD_STOCK_SYMBOL_SELECTED
@@ -37,7 +39,8 @@
                    queue:nil
               usingBlock:^(NSNotification *note){
                 KSDDetailViewController *detailsViewController = note.object;
-                self.chartView.data = detailsViewController.chartData;
+                self.priceChartsView.data = detailsViewController.chartData;
+                self.rsiChartView.data = detailsViewController.chartData;
               }];
 }
 

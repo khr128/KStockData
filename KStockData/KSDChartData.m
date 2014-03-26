@@ -77,11 +77,13 @@ static const NSUInteger labelDivisions = 5;
     _fiftyDMA = [self generateDMA:50];
     _twoHundredDMA = [self generateDMA:200];
     _rsi = [self generateRSI:14];
+    _rsiRange = KSDRangeMake(0, 100);
  
     [self adjustDrawCounts];
     
     [self generatePriceLabels];
     [self generateMonthLabels];
+    [self generateRsiLabels];
   }
   return self;
 }
@@ -153,8 +155,8 @@ static const NSUInteger labelDivisions = 5;
   return value;
 }
 
-- (CGFloat)exponentialEverageWithWindow:(NSUInteger)window previous:(CGFloat)previos current:(CGFloat)current {
-  return ((window - 1)*previos + current)/window;
+- (CGFloat)exponentialEverageWithWindow:(NSUInteger)window previous:(CGFloat)previous current:(CGFloat)current {
+  return ((window - 1)*previous + current)/window;
 }
 
 - (NSArray *)generateRSI:(NSUInteger)periods {
@@ -186,5 +188,9 @@ static const NSUInteger labelDivisions = 5;
   }
   
   return [[[rsi copy] reverseObjectEnumerator] allObjects];
+}
+
+- (void) generateRsiLabels {
+  _rsiLabels = @[@0, @10, @30, @50, @70, @90];
 }
 @end

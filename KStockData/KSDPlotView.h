@@ -41,6 +41,10 @@ extern const CGFloat kKSDTopBottomMarginFraction;
 
 - (void)unscaleCTM: (CGContextRef)context rect: (CGRect)rect;
 
-- (void)drawMonthlyLabelsAndGridLines: (CGAffineTransform)scaledTransform context: (CGContextRef)context count: (long)count yRange: (KSDRange)yRange;
+- (void)drawMonthlyLabelsAndGridLines: (CGAffineTransform)scaledTransform context: (CGContextRef)context yRange: (KSDRange)yRange;
+
+- (void)setGridlineStyle: (CGContextRef)context;
+
+- (void)drawValueLabelsAndGridLines: (NSArray*)values transform: (CGAffineTransform)transform context: (CGContextRef)context;
 
 @end

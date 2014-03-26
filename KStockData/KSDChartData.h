@@ -35,5 +35,7 @@ typedef struct KSDRange {
 
 //Oscillators
 @property (strong, nonatomic, readonly) NSArray *rsi;
+@property (strong, nonatomic, readonly) NSArray *rsiLabels;
+@property (readonly, nonatomic) KSDRange rsiRange;
 
 @end

@@ -121,7 +121,7 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
 - (void)scaleAndTranslateCTM:(CGContextRef)context withYRange:(KSDRange)yRange
 {
   CGFloat dataWidth = self.data.timeRange.max - self.data.timeRange.min;
-  _unadjustedDataHeight = yRange.max - self.data.priceRange.min;
+  _unadjustedDataHeight = yRange.max - yRange.min;
   CGFloat dataHeight = _unadjustedDataHeight*(1 + 2*kKSDTopBottomMarginFraction);
   
   _lineScale = (self.chartWidth + self.chartHeight)/(dataWidth + dataHeight);
@@ -144,10 +144,10 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
 
 - (void)drawMonthlyLabelsAndGridLines:(CGAffineTransform)scaledTransform
                               context:(CGContextRef)context
-                                count:(long)count
                                yRange:(KSDRange)yRange
 {
-  //Draw monthly labels
+  long count = self.data.prices.count;
+
   __block CGPoint transformedPoint =
   CGPointApplyAffineTransform(CGPointMake(0, (yRange.min - self.unadjustedDataHeight*kKSDTopBottomMarginFraction)), scaledTransform);
   CGFloat transformedTimeLabelY = transformedPoint.y/self.contentScaleFactor;
@@ -166,6 +166,8 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
     [self drawString:label at:CGPointMake(tx, kKSDChartFrameMargin/2-5) inContext:context];
   }];
   
+  [self setGridlineStyle:context];
+
   for (int i=0; i < labelCount; ++i) {
     CGFloat labelValue = [transformedTimeLabels[i] floatValue];
     CGContextMoveToPoint(context, labelValue, transformedTimeLabelY);
@@ -173,6 +175,58 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
   }
   
   CGContextStrokePath(context);
+}
+
+- (void)setGridlineStyle:(CGContextRef)context
+{
+  CGContextSetStrokeColorWithColor(context, [UIColor darkGrayColor].CGColor);
+  CGContextSetLineWidth(context, 0.5);
+  CGFloat dashArray[] = {3, 5};
+  CGContextSetLineDash(context, 0, dashArray, 2);
+}
+
+- (void)drawValueLabelsAndGridLines:(NSArray *)values transform:(CGAffineTransform)transform context:(CGContextRef)context
+{
+  //Transform coord to make drawing independent of scale.
+  NSMutableArray *transformedPriceLabels = [[NSMutableArray alloc] initWithCapacity:values.count];
+  CGFloat transformedLabelX = 0;
+  CGFloat transformedLabelXRight = 0;
+  
+  long count = self.data.prices.count;
+
+  CGPoint transformedPoint = CGPointApplyAffineTransform(CGPointMake(count, [values[0] floatValue]), transform);
+  transformedLabelXRight = transformedPoint.x / self.contentScaleFactor;
+  
+  for (NSNumber *labelValue in values) {
+    transformedPoint = CGPointApplyAffineTransform(CGPointMake(0, [labelValue floatValue]), transform);
+    [transformedPriceLabels addObject:[NSNumber numberWithFloat:transformedPoint.y/self.contentScaleFactor]];
+    
+    transformedLabelX = transformedPoint.x;
+  }
+  
+  transformedLabelX /= self.contentScaleFactor;
+  
+  
+  //Draw horizontal grid lines
+  long labelCount = values.count;
+  
+  [self setGridlineStyle:context];
+  
+  for (int i=0; i < labelCount; ++i) {
+    CGFloat labelValue = [transformedPriceLabels[i] floatValue];
+    CGContextMoveToPoint(context, transformedLabelX, labelValue);
+    CGContextAddLineToPoint(context, transformedLabelXRight, labelValue);
+  }
+  
+  CGContextStrokePath(context);
+  
+  //Draw price-axis labels
+  
+  for (int i=0; i<labelCount; ++i) {
+    NSNumber *value = values[i];
+    NSString *label = [value stringValue];
+    [self drawString:label at:CGPointMake(transformedLabelX + 10, [transformedPriceLabels[i] floatValue]+2) inContext:context];
+  }
 }
 
 @end
