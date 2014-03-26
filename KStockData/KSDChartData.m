@@ -149,8 +149,8 @@ static const NSUInteger labelDivisions = 5;
   return value;
 }
 
-- (CGFloat)exponentialEverageWithWindow:(NSUInteger)window previous:(CGFloat)previos current:(CGFloat)current {
-  return ((window - 1)*previos + current)/window;
+- (CGFloat)exponentialEverageWithWindow:(NSUInteger)window previous:(CGFloat)previous current:(CGFloat)current {
+  return ((window - 1)*previous + current)/window;
 }
 
 - (void)findRsiOversoldOverboughtRegions:(NSArray *)rsiData {
@@ -223,12 +223,14 @@ static const NSUInteger labelDivisions = 5;
   
   [rsi addObject:[NSNumber numberWithFloat:[self rsi:averageLoss averageGain:averageGain]]];
   
-  for (int i = start - periods - 1; i > -1; --i) {
+  for (long i = start - periods - 1; i > -1; --i) {
     CGFloat diff = [_prices[i] floatValue] - [_prices[i + 1] floatValue];
     if (diff < 0.0f) {
       averageLoss = [self exponentialEverageWithWindow:periods previous:averageLoss current:-diff];
+      averageGain = [self exponentialEverageWithWindow:periods previous:averageGain current:0];
     } else {
       averageGain = [self exponentialEverageWithWindow:periods previous:averageGain current:diff];
+      averageLoss = [self exponentialEverageWithWindow:periods previous:averageLoss current:0];
     }
     [rsi addObject:[NSNumber numberWithFloat:[self rsi:averageLoss averageGain:averageGain]]];
   }
