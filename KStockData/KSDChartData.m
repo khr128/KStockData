@@ -153,6 +153,58 @@ static const NSUInteger labelDivisions = 5;
   return ((window - 1)*previos + current)/window;
 }
 
+- (void)findRsiOversoldOverboughtRegions:(NSArray *)rsiData {
+  __block BOOL inOversoldRegion = NO;
+  __block BOOL inOverboughtRegion = NO;
+  __block KSDRegion *region;
+  __block CGFloat min, max;
+  __block CGFloat left, right;
+  __block NSMutableArray *oversold = [@[] mutableCopy];
+  __block NSMutableArray *overbought = [@[] mutableCopy];
+  [rsiData enumerateObjectsUsingBlock:^(NSNumber *rsi, NSUInteger i, BOOL *stop) {
+    CGFloat value = [rsi floatValue];
+    if (value < 30 && (inOversoldRegion == NO && inOverboughtRegion == NO)) {
+      inOversoldRegion = YES;
+      min = i;
+      left = [self intersectionWithLevel:30 forIndex:i inArray:rsiData];
+    } else if (value > 30 && (inOversoldRegion == YES && inOverboughtRegion == NO)) {
+      max = i - 1;
+      right = [self intersectionWithLevel:30 forIndex:i inArray:rsiData];
+      region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right];
+      [oversold addObject:region];
+      inOversoldRegion = NO;
+    } else if (value > 70  && (inOversoldRegion == NO && inOverboughtRegion == NO)) {
+      min = i;
+      left = [self intersectionWithLevel:70 forIndex:i inArray:rsiData];
+      inOverboughtRegion = YES;
+    } else if (value < 70 && (inOversoldRegion == NO && inOverboughtRegion == YES)) {
+      max = i - 1;
+      right = [self intersectionWithLevel:70 forIndex:i inArray:rsiData];
+      region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right];
+      [overbought addObject:region];
+      inOverboughtRegion = NO;
+    }
+  }];
+  
+  if (inOverboughtRegion == YES) {
+    max = rsiData.count - 1;
+    right = max;
+    region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right];
+    [overbought addObject:region];
+    inOverboughtRegion = NO;
+  } else if (inOversoldRegion == YES) {
+    max = rsiData.count - 1;
+    right = max;
+    region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right];
+    [oversold addObject:region];
+    inOversoldRegion = NO;
+  }
+  
+ 
+  _rsiOverboughtRegions = [overbought copy];
+  _rsiOversoldRegions = [oversold copy];
+}
+
 - (NSArray *)generateRSI:(NSUInteger)periods {
   NSMutableArray *rsi = [@[] mutableCopy];
   NSUInteger start = MIN(_dates.count - 1, maxDrawCount + periods - 1);
@@ -183,49 +235,20 @@ static const NSUInteger labelDivisions = 5;
   
   NSArray *reverseRsi = [[[rsi copy] reverseObjectEnumerator] allObjects];
   
-  __block BOOL inRegion = NO;
-  __block KSDRegion *region;
-  __block CGFloat min, max;
-  __block CGFloat left, right;
-  __block NSMutableArray *oversold = [@[] mutableCopy];
-  __block NSMutableArray *overbought = [@[] mutableCopy];
-  [reverseRsi enumerateObjectsUsingBlock:^(NSNumber *rsi, NSUInteger i, BOOL *stop) {
-    CGFloat value = [rsi floatValue];
-    if (value < 30 && inRegion == NO) {
-      inRegion = YES;
-      min = i;
-      left = [self intersectionWithLevel:30 forIndex:i inArray:reverseRsi];
-    } else if (value > 30 && inRegion == YES) {
-      max = i - 1;
-      right = [self intersectionWithLevel:30 forIndex:i inArray:reverseRsi];
-      region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right];
-      [oversold addObject:region];
-      inRegion = NO;
-    } else if (value > 70  && inRegion == NO) {
-      max = i;
-      left = [self intersectionWithLevel:30 forIndex:i inArray:reverseRsi];
-      inRegion = YES;
-    } else if (value < 70 && inRegion == YES) {
-      max = i - 1;
-      right = [self intersectionWithLevel:30 forIndex:i inArray:reverseRsi];
-      region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right];
-      [overbought addObject:region];
-      inRegion = NO;
-    }
-  }];
-  
-  _rsiOverboughtRegions = [overbought copy];
-  _rsiOversoldRegions = [oversold copy];
+  [self findRsiOversoldOverboughtRegions:reverseRsi];
   
   
   return reverseRsi;
 }
 
 - (CGFloat)intersectionWithLevel:(CGFloat)level forIndex:(NSUInteger)i inArray:(NSArray *)data {
+  if (i == 0) {
+    return 0;
+  }
   CGFloat f0 = [data[i] floatValue];
   CGFloat fm = [data[i-1] floatValue];
   
-  return i+1 +(level - fm)/(f0 - fm);
+  return i - 1 + (level - fm)/(f0 - fm);
 }
 
 - (void) generateRsiLabels {

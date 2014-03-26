@@ -35,7 +35,13 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
 
 - (void)setData:(KSDChartData *)data {
   _data = data;
-  [self setNeedsDisplay];
+  [UIView transitionWithView:self duration:0.3
+                     options:UIViewAnimationOptionCurveEaseInOut
+                  animations:^{ self.alpha = 0; }
+                  completion:^(BOOL finished){
+                    self.alpha = 1;
+                    [self setNeedsDisplay];
+                  }];
 }
 
 - (void)drawString:(NSString *)label at:(CGPoint)position inContext:(CGContextRef)context {
