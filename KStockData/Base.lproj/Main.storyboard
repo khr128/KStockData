@@ -501,21 +501,12 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rl6-hl-ck2" customClass="KSDRsiChartView">
-                                <rect key="frame" x="0.0" y="408" width="703" height="360"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="cwR-np-Swv" firstAttribute="leading" secondItem="yHa-Ug-pY2" secondAttribute="leading" id="6lw-Kl-Yi9"/>
-                            <constraint firstItem="rl6-hl-ck2" firstAttribute="leading" secondItem="cwR-np-Swv" secondAttribute="leading" id="80b-2k-1Xu"/>
                             <constraint firstItem="YVd-bm-jHs" firstAttribute="top" secondItem="cwR-np-Swv" secondAttribute="bottom" constant="360" id="HAE-ab-3VS"/>
-                            <constraint firstItem="rl6-hl-ck2" firstAttribute="top" secondItem="cwR-np-Swv" secondAttribute="bottom" id="Rhf-SM-83i"/>
-                            <constraint firstItem="rl6-hl-ck2" firstAttribute="trailing" secondItem="cwR-np-Swv" secondAttribute="trailing" id="ciQ-DC-nRx"/>
                             <constraint firstItem="cwR-np-Swv" firstAttribute="top" secondItem="W5V-aq-cuK" secondAttribute="bottom" id="dx0-NB-R8f"/>
-                            <constraint firstAttribute="bottom" secondItem="rl6-hl-ck2" secondAttribute="bottom" id="jcv-DE-nbt"/>
                             <constraint firstAttribute="trailing" secondItem="cwR-np-Swv" secondAttribute="trailing" id="sfp-zj-Cmc"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -523,7 +514,6 @@
                     <navigationItem key="navigationItem" id="Ie0-8f-d63"/>
                     <connections>
                         <outlet property="priceChartsView" destination="cwR-np-Swv" id="3zf-36-G3o"/>
-                        <outlet property="rsiChartView" destination="rl6-hl-ck2" id="Yd7-g8-LgB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YBz-7N-Rco" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -605,6 +595,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="859" y="-631"/>
+        </scene>
+        <!--Indicator Chart View Controller-->
+        <scene sceneID="ZDW-Zl-BvK">
+            <objects>
+                <viewController storyboardIdentifier="IndicatorChartVC" id="Lod-Z0-UC6" customClass="KSDIndicatorChartViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="D8l-1e-K8A"/>
+                        <viewControllerLayoutGuide type="bottom" id="New-ti-3a4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="K0c-st-jL7" customClass="KSDRsiChartView">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0wT-QK-jgD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1203" y="-809"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="r7l-gg-dq7">
