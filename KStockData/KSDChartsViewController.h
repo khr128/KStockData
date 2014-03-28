@@ -11,6 +11,6 @@
 @class KSDChartData;
 @class KSDPriceChartsView, KSDRsiChartView;
 
-@interface KSDChartsViewController : UIViewController <UIDynamicAnimatorDelegate>
+@interface KSDChartsViewController : UIViewController
 @property (strong, nonatomic) KSDChartData *data;
 @end

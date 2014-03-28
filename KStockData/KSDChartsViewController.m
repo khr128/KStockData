@@ -25,7 +25,10 @@
   UIDynamicAnimator *_animator;
   UIGravityBehavior *_gravity;
   
-//  BOOL _needsLayoutAfterOrientationDidChange;
+  UISnapBehavior *_snap;
+  BOOL _viewDocked;
+  
+  KSDPriceChartsView *_priceView;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -50,37 +53,26 @@
                   ((KSDPlotView *)indicatorViewController.view).data = detailsViewController.chartData;
                 };
               }];
-  
-  [nc addObserverForName:UIDeviceOrientationDidChangeNotification
-                  object:nil
-                   queue:nil
-              usingBlock:^(NSNotification *note) {
-//                _needsLayoutAfterOrientationDidChange = YES;
-                for (KSDIndicatorChartViewController *indicatorViewController in _indicatorViewControllers) {
-                  [indicatorViewController defineViewGeometry];
-                }
-              }];
  
   _indicatorViewControllers = [@[] mutableCopy];
   
   UIView *superView = self.view;
   _animator = [[UIDynamicAnimator alloc] initWithReferenceView:superView];
-  _animator.delegate = self;
   _gravity = [UIGravityBehavior new];
   [_animator addBehavior:_gravity];
   _gravity.magnitude = 4.0;
   
-  KSDPriceChartsView *priceView = [[KSDPriceChartsView alloc] init];
-  priceView.data = self.data;
-  [priceView setTranslatesAutoresizingMaskIntoConstraints:NO];
+  _priceView = [[KSDPriceChartsView alloc] init];
+  _priceView.data = self.data;
+  [_priceView setTranslatesAutoresizingMaskIntoConstraints:NO];
   
-  [self addChildViewControllerWithView:priceView draggable:NO withOffset:0];
+  [self addChildViewControllerWithView:_priceView draggable:NO withOffset:0];
   
   CGFloat navBarOffset = self.navigationController.navigationBar.bounds.size.height
   + self.navigationController.navigationBar.frame.origin.y;
   
   NSLayoutConstraint *c1 = [NSLayoutConstraint
-                                      constraintWithItem:priceView
+                                      constraintWithItem:_priceView
                                       attribute:NSLayoutAttributeTop
                                       relatedBy:NSLayoutRelationEqual
                                       toItem:superView
@@ -88,7 +80,7 @@
                                       multiplier:1.0 constant:navBarOffset];
   
   NSLayoutConstraint *c2 = [NSLayoutConstraint
-                  constraintWithItem:priceView
+                  constraintWithItem:_priceView
                   attribute:NSLayoutAttributeCenterX
                   relatedBy:NSLayoutRelationEqual
                   toItem:superView
@@ -96,7 +88,7 @@
                   multiplier:1.0 constant:0.0];
   
   NSLayoutConstraint *c3 = [NSLayoutConstraint
-                  constraintWithItem:priceView
+                  constraintWithItem:_priceView
                   attribute:NSLayoutAttributeWidth
                   relatedBy:NSLayoutRelationEqual
                   toItem:superView
@@ -104,7 +96,7 @@
                   multiplier:1.0 constant:0.0];
   
   NSLayoutConstraint *c4 = [NSLayoutConstraint
-                  constraintWithItem:priceView
+                  constraintWithItem:_priceView
                   attribute:NSLayoutAttributeHeight
                   relatedBy:NSLayoutRelationEqual
                   toItem:superView
@@ -185,6 +177,9 @@
                            options:UIViewAnimationOptionCurveEaseInOut
                         animations:^{ draggedView.alpha = 1; }
                         completion:nil];
+        
+        [self tryDockView:draggedView];
+        
         [self addVelocityToView:draggedView fromGesture:gesture];
         [_animator updateItemUsingCurrentState:draggedView];
         _draggingView = NO;
@@ -210,27 +205,21 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)tryDockView:(UIView *)view {
+  CGPoint snapPoint = CGPointMake(self.view.center.x,
+                                  (self.view.frame.size.height
+                                   + _priceView.frame.origin.y + _priceView.frame.size.height)/2);
+  
+  BOOL viewHasReachedDockLocation = view.frame.origin.y < snapPoint.y;
+  if (viewHasReachedDockLocation) {
+    if (_viewDocked == NO) {
+      _snap = [[UISnapBehavior alloc] initWithItem:view snapToPoint:snapPoint];
+      [_animator addBehavior:_snap];
+      _viewDocked = YES;
+    } else {
+      [_animator removeBehavior:_snap];
+      _viewDocked = NO;
+    }
+  }
 }
-*/
-
-#pragma mark -
-#pragma mark Dynamic Animator callbacks
-
-- (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator {
-//  if (_needsLayoutAfterOrientationDidChange == YES) {
-//    for (KSDIndicatorChartViewController *indicatorViewController in _indicatorViewControllers) {
-//      [indicatorViewController defineViewGeometry];
-//    }
-//    _needsLayoutAfterOrientationDidChange = NO;
-//  }
-}
-
 @end

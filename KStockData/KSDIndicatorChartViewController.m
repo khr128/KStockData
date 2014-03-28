@@ -39,20 +39,22 @@
     }
     
     collision = [[UICollisionBehavior alloc] initWithItems:@[self.view]];
+    collision.collisionMode = UICollisionBehaviorModeBoundaries;
     
     //boundary for the indicator view to rest
-    NSLog(@"Superview height: %f", self.view.superview.frame.size.height);
-    NSLog(@"View height: %f", self.view.frame.size.height);
     CGFloat boundary = 1.4*self.view.superview.frame.size.height - _offset;
     CGPoint boundaryStart = CGPointMake(0.0, boundary);
     CGPoint boundaryEnd = CGPointMake(self.view.superview.frame.size.width, boundary);
     
     [collision addBoundaryWithIdentifier:@1 fromPoint:boundaryStart toPoint:boundaryEnd];
 
-    NSLog(@"Boundary: %f", boundary);
-
     [_animator updateItemUsingCurrentState:self.view];
     [_animator addBehavior:collision];
+    
+    UIDynamicItemBehavior* itemBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[self.view]];
+    itemBehavior.elasticity = 0.5;
+    itemBehavior.allowsRotation = NO;
+    [_animator addBehavior:itemBehavior];
   }
 }
 
@@ -63,6 +65,7 @@
   
   if (_dynamic == YES) {
     [_gravity addItem:self.view];
+    
     UIDynamicItemBehavior *itemBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[self.view]];
     [_animator addBehavior:itemBehavior];
   }
