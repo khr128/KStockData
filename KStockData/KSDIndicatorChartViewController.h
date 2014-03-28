@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface KSDIndicatorChartViewController : UIViewController
+@property (nonatomic, weak) UIDynamicAnimator *animator;
+@property (nonatomic, weak) UIGravityBehavior *gravity;
+@property (nonatomic, assign) BOOL dynamic;
+@property (nonatomic, assign) CGFloat offset;
 
+- (void)defineViewGeometry;
 @end
