@@ -12,6 +12,5 @@
 @class KSDPriceChartsView, KSDRsiChartView;
 
 @interface KSDChartsViewController : UIViewController
-@property (weak, nonatomic) IBOutlet KSDPriceChartsView *priceChartsView;
 @property (strong, nonatomic) KSDChartData *data;
 @end
