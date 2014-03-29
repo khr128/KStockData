@@ -110,6 +110,12 @@
   rsiView.data = self.data;
   [rsiView setTranslatesAutoresizingMaskIntoConstraints:NO];
   
+  [self addChildViewControllerWithView:rsiView draggable:YES withOffset:2*offset];
+  
+  rsiView = [[KSDRsiChartView alloc] init];
+  rsiView.data = self.data;
+  [rsiView setTranslatesAutoresizingMaskIntoConstraints:NO];
+  
   [self addChildViewControllerWithView:rsiView draggable:YES withOffset:offset];
 }
 
@@ -192,6 +198,18 @@
   }
 }
 
+- (void)setAlphaWithDockedView:(UIView *)view alpha:(CGFloat)alpha {
+  for (KSDIndicatorChartViewController *indicatorViewController in _indicatorViewControllers) {
+    
+    if (indicatorViewController.dynamic == YES && indicatorViewController.view != view) {
+      [UIView transitionWithView:indicatorViewController.view duration:0.5
+                         options:UIViewAnimationOptionCurveEaseInOut
+                      animations:^{ indicatorViewController.view.alpha = alpha; }
+                      completion:nil];
+    };
+  };
+}
+
 - (void)addVelocityToView:(UIView *)view fromGesture:(UIPanGestureRecognizer *)gesture {
   CGPoint velocity = [gesture velocityInView:self.view];
   velocity.x = 0;
@@ -205,21 +223,41 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)tryDockView:(UIView *)view {
-  CGPoint snapPoint = CGPointMake(self.view.center.x,
+- (CGPoint)dockingSnapPoint {
+  return CGPointMake(self.view.center.x,
                                   (self.view.frame.size.height
                                    + _priceView.frame.origin.y + _priceView.frame.size.height)/2);
+}
+
+- (void)tryDockView:(UIView *)view {
+  CGPoint snapPoint = [self dockingSnapPoint];
   
   BOOL viewHasReachedDockLocation = view.frame.origin.y < snapPoint.y;
   if (viewHasReachedDockLocation) {
     if (_viewDocked == NO) {
       _snap = [[UISnapBehavior alloc] initWithItem:view snapToPoint:snapPoint];
       [_animator addBehavior:_snap];
+      [self setAlphaWithDockedView:view alpha:0.0];
       _viewDocked = YES;
     } else {
       [_animator removeBehavior:_snap];
+      [self setAlphaWithDockedView:view alpha:1.0];
       _viewDocked = NO;
     }
+  }
+}
+
+#pragma mark -
+#pragma mark UICollisionBehaviorDelegate
+
+- (void)collisionBehavior:(UICollisionBehavior *)behavior
+      beganContactForItem:(id<UIDynamicItem>)item
+   withBoundaryIdentifier:(id<NSCopying>)identifier
+                  atPoint:(CGPoint)p
+{
+  if ([@"snapPointCollisionBoundary" isEqual:identifier]) {
+    UIView *view = (UIView *)item;
+    [self tryDockView:view];
   }
 }
 @end

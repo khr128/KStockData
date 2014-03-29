@@ -7,6 +7,7 @@
 //
 
 #import "KSDIndicatorChartViewController.h"
+#import "KSDChartsViewController.h"
 
 @interface KSDIndicatorChartViewController ()
 
@@ -31,14 +32,12 @@
 
 - (void)defineViewGeometry {
   if (_dynamic == YES) {
-    self.view.frame = CGRectMake(0, 0, self.view.superview.frame.size.width, 0.4*self.view.superview.frame.size.height);
+    KSDChartsViewController *parentController = ((KSDChartsViewController *)self.parentViewController);
+    CGPoint snapPoint = [parentController dockingSnapPoint];
 
-    UICollisionBehavior *collision = [self collisionBehavior];
-    if (collision) {
-      [_animator removeBehavior:collision];
-    }
-    
-    collision = [[UICollisionBehavior alloc] initWithItems:@[self.view]];
+    self.view.frame = CGRectMake(0, snapPoint.y+1, self.view.superview.frame.size.width, 0.4*self.view.superview.frame.size.height);
+
+    UICollisionBehavior *collision = [[UICollisionBehavior alloc] initWithItems:@[self.view]];
     collision.collisionMode = UICollisionBehaviorModeBoundaries;
     
     //boundary for the indicator view to rest
@@ -50,6 +49,11 @@
 
     [_animator updateItemUsingCurrentState:self.view];
     [_animator addBehavior:collision];
+    
+    boundaryStart = CGPointMake(0, snapPoint.y);
+    boundaryEnd = CGPointMake(self.view.frame.size.width, snapPoint.y);
+    [collision addBoundaryWithIdentifier:@"snapPointCollisionBoundary" fromPoint:boundaryStart toPoint:boundaryEnd];
+    collision.collisionDelegate = parentController;
     
     UIDynamicItemBehavior* itemBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[self.view]];
     itemBehavior.elasticity = 0.5;
@@ -70,16 +74,6 @@
     [_animator addBehavior:itemBehavior];
   }
 }
-
-- (UICollisionBehavior *)collisionBehavior {
-  for (UICollisionBehavior *behavior in _animator.behaviors) {
-    if (behavior.class == [UICollisionBehavior class] && behavior.items[0] == self.view) {
-      return behavior;
-    }
-  }
-  return nil;
-}
-
 
 - (void)didReceiveMemoryWarning
 {

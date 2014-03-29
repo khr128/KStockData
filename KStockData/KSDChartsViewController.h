@@ -11,6 +11,8 @@
 @class KSDChartData;
 @class KSDPriceChartsView, KSDRsiChartView;
 
-@interface KSDChartsViewController : UIViewController
+@interface KSDChartsViewController : UIViewController <UICollisionBehaviorDelegate>
 @property (strong, nonatomic) KSDChartData *data;
+
+- (CGPoint)dockingSnapPoint;
 @end
