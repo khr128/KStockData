@@ -124,6 +124,7 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
   // Drawing code
   CGContextRef context = UIGraphicsGetCurrentContext();
   CGContextSaveGState(context);
+  CGContextClearRect(context, rect);
   
   CGContextTranslateCTM(context, 0.0, rect.size.height);
   CGContextScaleCTM(context, 1.0, -1.0);

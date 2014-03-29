@@ -69,9 +69,9 @@ static const CGFloat rsiOverboughtLevel = 70;
     _high = [NSArray arrayWithArray:columns[@"High"]];
     _low = [NSArray arrayWithArray:columns[@"Low"]];
     
-    _tenDMA = [self generateDMA:10];
-    _fiftyDMA = [self generateDMA:50];
-    _twoHundredDMA = [self generateDMA:200];
+    _tenDMA = [self generateEMA:10];
+    _fiftyDMA = [self generateEMA:50];
+    _twoHundredDMA = [self generateSMA:200];
     _rsi = [self generateRSI:14];
     _rsiRange = KSDRangeMake(0, 100);
  
@@ -121,18 +121,18 @@ static const CGFloat rsiOverboughtLevel = 70;
   _monthLabels = [labels copy];
 }
 
-- (NSArray *)generateDMA:(NSInteger)window {
+- (NSArray *)generateSMA:(NSInteger)window {
   if (window >= _prices.count) {
     return @[];
   }
   NSMutableArray *values = [@[] mutableCopy];
   [_prices enumerateObjectsUsingBlock:^(NSNumber *price, NSUInteger index, BOOL *stop) {
-    if (index > _prices.count - 1 - window) {
+    if (index > _prices.count - window) {
       *stop = YES;
     } else {
       if (index == 0) {
         CGFloat sum = 0;
-        for (NSUInteger i=index; i < index + window; ++i) {
+        for (NSUInteger i=0; i < window; ++i) {
           sum += [_prices[i] floatValue];
         }
         [values addObject:[NSNumber numberWithFloat:sum/window]];
@@ -146,13 +146,44 @@ static const CGFloat rsiOverboughtLevel = 70;
   return [values copy];
 }
 
+- (NSArray *)generateEMA:(NSInteger)window {
+  if (window >= _prices.count) {
+    return @[];
+  }
+  NSMutableArray *values = [@[] mutableCopy];
+  NSArray *reversePrices = [[_prices reverseObjectEnumerator] allObjects];
+  [reversePrices enumerateObjectsUsingBlock:^(NSNumber *price, NSUInteger index, BOOL *stop) {
+    if (index > reversePrices.count - window) {
+      *stop = YES;
+    } else {
+      if (index == 0) {
+        CGFloat sum = 0;
+        for (NSUInteger i=0; i < window; ++i) {
+          sum += [reversePrices[i] floatValue];
+        }
+        [values addObject:[NSNumber numberWithFloat:sum/window]];
+      } else {
+        CGFloat prevValue = [values[index - 1] floatValue];
+        CGFloat value = 
+        value = [self exponentialAverageWithWindow:window previous:prevValue current:[reversePrices[index+window-1] floatValue]];
+        [values addObject:[NSNumber numberWithFloat:value]];
+      }
+    }
+  }];
+  return [[[values copy] reverseObjectEnumerator] allObjects];
+}
+
 - (CGFloat)rsi:(CGFloat)averageLoss averageGain:(CGFloat)averageGain {
   CGFloat value = 100*averageGain/(averageGain + averageLoss);
   return value;
 }
 
-- (CGFloat)exponentialEverageWithWindow:(NSUInteger)window previous:(CGFloat)previous current:(CGFloat)current {
+- (CGFloat)rsiAverageWithWindow:(NSUInteger)window previous:(CGFloat)previous current:(CGFloat)current {
   return ((window - 1)*previous + current)/window;
+}
+
+- (CGFloat)exponentialAverageWithWindow:(NSUInteger)window previous:(CGFloat)previous current:(CGFloat)current {
+  return ((window - 1)*previous + 2*current)/(window+1);
 }
 
 - (void)findRsiOversoldOverboughtRegions:(NSArray *)rsiData {
@@ -228,11 +259,11 @@ static const CGFloat rsiOverboughtLevel = 70;
   for (long i = start - periods - 1; i > -1; --i) {
     CGFloat diff = [_prices[i] floatValue] - [_prices[i + 1] floatValue];
     if (diff < 0.0f) {
-      averageLoss = [self exponentialEverageWithWindow:periods previous:averageLoss current:-diff];
-      averageGain = [self exponentialEverageWithWindow:periods previous:averageGain current:0];
+      averageLoss = [self rsiAverageWithWindow:periods previous:averageLoss current:-diff];
+      averageGain = [self rsiAverageWithWindow:periods previous:averageGain current:0];
     } else {
-      averageGain = [self exponentialEverageWithWindow:periods previous:averageGain current:diff];
-      averageLoss = [self exponentialEverageWithWindow:periods previous:averageLoss current:0];
+      averageGain = [self rsiAverageWithWindow:periods previous:averageGain current:diff];
+      averageLoss = [self rsiAverageWithWindow:periods previous:averageLoss current:0];
     }
     [rsi addObject:[NSNumber numberWithFloat:[self rsi:averageLoss averageGain:averageGain]]];
   }

@@ -200,7 +200,6 @@
 
 - (void)setAlphaWithDockedView:(UIView *)view alpha:(CGFloat)alpha {
   for (KSDIndicatorChartViewController *indicatorViewController in _indicatorViewControllers) {
-    
     if (indicatorViewController.dynamic == YES && indicatorViewController.view != view) {
       [UIView transitionWithView:indicatorViewController.view duration:0.5
                          options:UIViewAnimationOptionCurveEaseInOut

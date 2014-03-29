@@ -17,7 +17,7 @@ extern const CGFloat kKSDTopBottomMarginFraction;
 
 @interface KSDPlotView : UIView
 
-@property (strong, nonatomic) KSDChartData *data;
+@property (weak, nonatomic) KSDChartData *data;
 
 - (void)drawString:(NSString *)label at:(CGPoint)position withAlignment:(NSTextAlignment)alignment inContext:(CGContextRef)context;
 

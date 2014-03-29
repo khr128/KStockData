@@ -11,7 +11,7 @@
 
 @interface KSDChartData : NSObject
 - (id)initWithColumns:(NSDictionary *)columns;
-- (NSArray *)generateDMA:(NSInteger)window;
+- (NSArray *)generateSMA:(NSInteger)window;
 
 @property (readonly, nonatomic) KSDRange timeRange;
 @property (readonly, nonatomic) KSDRange priceRange;

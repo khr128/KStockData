@@ -62,8 +62,8 @@
 
 - (void)testInstantiation
 {
-  XCTAssertEqual(_testData.tenDMA.count, 5, @"Unexpected 10DMA count");
-  NSArray *expected10DMA = @[@4.5, @5.5, @6.5, @7.5, @8.5];
+  XCTAssertEqual(_testData.tenDMA.count, 6, @"Unexpected 10DMA count");
+  NSArray *expected10DMA = @[@4.5, @5.5, @6.5, @7.5, @8.5, @9.5];
   XCTAssertEqualObjects(_testData.tenDMA, expected10DMA, @"Unexpected 10DMA values");
 }
 
