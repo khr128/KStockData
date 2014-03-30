@@ -40,8 +40,17 @@ static const NSUInteger macdSignalPeriod = 9;
 
 - (void)calculateMacdRange {
   CGFloat minMacd = MIN([_macdSignalLine floatMin], [_macdLine floatMin]);
-  
   CGFloat maxMacd = MAX([_macdSignalLine floatMax], [_macdLine floatMax]);
+  
+  NSMutableArray *histogram = [[NSMutableArray alloc] initWithCapacity:_macdSignalLine.count];
+  [_macdSignalLine enumerateObjectsUsingBlock:^(NSNumber *signal, NSUInteger idx, BOOL *stop) {
+    CGFloat signalValue = [signal floatValue];
+    CGFloat lineValue = [_macdLine[idx] floatValue];
+    [histogram addObject:[NSNumber numberWithFloat:signalValue - lineValue]];
+  }];
+  
+  minMacd = MIN(minMacd, [histogram floatMin]);
+  maxMacd = MAX(maxMacd, [histogram floatMax]);
   
   _macdRange = KSDRangeMake(minMacd, maxMacd);
 }
@@ -344,18 +353,31 @@ static const NSUInteger macdSignalPeriod = 9;
 }
 
 - (void)generateMacdLabels {
-  CGFloat minLabel = ceil(_macdRange.min);
-  CGFloat maxLabel = floor(_macdRange.max);
+  CGFloat diff = ceilf(_macdRange.max) - floorf(_macdRange.min);
+  if (diff == 0.0f) {
+    diff = 1.0f;
+  }
   
-  CGFloat diff = maxLabel - minLabel;
-  
-  const NSUInteger macdLabelDivisions = 4;
+  const NSUInteger macdLabelDivisions = 8;
   const CGFloat div = diff/macdLabelDivisions;
   
   NSMutableArray *labels = [@[@0] mutableCopy];
   for (int i=1; i <= macdLabelDivisions; ++i) {
-    [labels addObject:[NSNumber numberWithFloat:i*div]];
-    [labels addObject:[NSNumber numberWithFloat:-i*div]];
+    CGFloat value = i*div;
+    if (value <= _macdRange.max) {
+      [labels addObject:[NSNumber numberWithFloat:value]];
+    } else {
+      if (i == 1) {
+        [labels addObject:[NSNumber numberWithFloat:_macdRange.max]];
+      }
+    }
+    if (-value >= _macdRange.min) {
+      [labels addObject:[NSNumber numberWithFloat:-value]];
+    } else {
+      if (i == 1) {
+        [labels addObject:[NSNumber numberWithFloat:_macdRange.min]];
+      }
+    }
   }
   _macdLabels = [labels copy];
 }

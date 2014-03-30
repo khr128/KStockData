@@ -11,22 +11,6 @@
 
 @implementation KSDPriceChartsView
 
-- (void)strokePathWithoutScaling: (CGContextRef)context
-                       lineWidth: (CGFloat)lineWidth
-                           color: (UIColor *)color
-                          yRange: (KSDRange)yRange
-{
-  CGContextRestoreGState(context);
-  
-  CGContextSetLineWidth(context, lineWidth);
-  CGContextSetStrokeColorWithColor(context, color.CGColor);
-  
-  CGContextStrokePath(context);
-  
-  CGContextSaveGState(context);
-  
-  [self scaleAndTranslateCTM:context withYRange:yRange];
-}
 
 - (void)drawHighLowBarsWithWidth: (CGFloat)lineWidth
                          context: (CGContextRef)context

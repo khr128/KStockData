@@ -11,6 +11,36 @@
 
 @implementation KSDMacdChartView
 
+- (void)drawHistogramInContext: (CGContextRef)context
+                                width: (CGFloat)candleWidth
+                               yRange: (KSDRange)yRange
+{
+  long count = self.data.macdLine.count;
+  long priceCount = self.data.prices.count;
+
+  for (int i=0; i < count; ++i) {
+    CGFloat signal = [self.data.macdSignalLine[i] floatValue];
+    CGFloat line = [self.data.macdLine[i] floatValue];
+    if (line < signal) {
+      CGContextMoveToPoint(context, priceCount-i-1, 0);
+      CGContextAddLineToPoint(context, priceCount-i-1, signal - line);
+    }
+  }
+  
+  [self strokePathWithoutScaling:context lineWidth:candleWidth color:[UIColor greenColor] yRange:yRange];
+  
+  for (int i=0; i < count; ++i) {
+    CGFloat signal = [self.data.macdSignalLine[i] floatValue];
+    CGFloat line = [self.data.macdLine[i] floatValue];
+    if (line > signal) {
+      CGContextMoveToPoint(context, priceCount-i-1, 0);
+      CGContextAddLineToPoint(context, priceCount-i-1, signal - line);
+    }
+  }
+  
+  [self strokePathWithoutScaling:context lineWidth:candleWidth color:[UIColor redColor] yRange:yRange];
+}
+
 - (void)drawRect:(CGRect)rect
 {
  CGContextRef context = [self getTranslatedContext:rect];
@@ -34,6 +64,8 @@
                          data: self.data.macdSignalLine
                         color: [UIColor redColor]
                        yRange: self.data.macdRange];
+  
+  [self drawHistogramInContext:context width:2 yRange:self.data.macdRange];
   
   //Remember scaled CTM
   CGAffineTransform scaledTransform = CGContextGetCTM(context);

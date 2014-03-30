@@ -36,13 +36,15 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
 
 - (void)setData:(KSDChartData *)data {
   _data = data;
-  [UIView transitionWithView:self duration:0.3
-                     options:UIViewAnimationOptionCurveEaseInOut
-                  animations:^{ self.alpha = 0; }
-                  completion:^(BOOL finished){
-                    self.alpha = 1;
-                    [self setNeedsDisplay];
-                  }];
+  if (self.alpha > 0) { //only do this if the view is visible now
+    [UIView transitionWithView:self duration:0.3
+                       options:UIViewAnimationOptionCurveEaseInOut
+                    animations:^{ self.alpha = 0; }
+                    completion:^(BOOL finished){
+                      self.alpha = 1;
+                      [self setNeedsDisplay];
+                    }];
+  }
 }
 
 - (void)drawString:(NSString *)label at:(CGPoint)position withAlignment:(NSTextAlignment)alignment inContext:(CGContextRef)context {
@@ -108,15 +110,7 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
     CGContextAddLineToPoint(context, priceCount-i-1, [data[i] floatValue]);
   }
   
-  CGContextRestoreGState(context);
-  
-  CGContextSetLineWidth(context, lineWidth);
-  CGContextSetStrokeColorWithColor(context, color.CGColor);
-  CGContextStrokePath(context);
-  
-  CGContextSaveGState(context);
-  
-  [self scaleAndTranslateCTM:context withYRange:yRange];
+  [self strokePathWithoutScaling:context lineWidth:lineWidth color:color yRange:yRange];
 }
 
 - (void)computeChartDimensions
@@ -274,6 +268,23 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
     
     CGContextDrawPath(context, kCGPathFill);
   }
+}
+
+- (void)strokePathWithoutScaling: (CGContextRef)context
+                       lineWidth: (CGFloat)lineWidth
+                           color: (UIColor *)color
+                          yRange: (KSDRange)yRange
+{
+  CGContextRestoreGState(context);
+  
+  CGContextSetLineWidth(context, lineWidth);
+  CGContextSetStrokeColorWithColor(context, color.CGColor);
+  
+  CGContextStrokePath(context);
+  
+  CGContextSaveGState(context);
+  
+  [self scaleAndTranslateCTM:context withYRange:yRange];
 }
 
 @end

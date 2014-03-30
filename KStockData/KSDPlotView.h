@@ -52,4 +52,6 @@ extern const CGFloat kKSDTopBottomMarginFraction;
 - (void)drawValueLabelsAndGridLines: (NSArray*)values transform: (CGAffineTransform)transform context: (CGContextRef)context;
 
 - (void)highlightRegions: (NSArray*)regions withColor: (UIColor*)color context: (CGContextRef)context;
+- (void)strokePathWithoutScaling: (CGContextRef)context lineWidth: (CGFloat)lineWidth color: (UIColor*)color yRange: (KSDRange)yRange;
+
 @end
