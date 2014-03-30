@@ -12,6 +12,7 @@
 #import "KSDStockDataRetriever.h"
 #import "NSString+NSString_KhrCSV.h"
 #import "KSDSymbolTableViewCell.h"
+#import "KSDChartData.h"
 
 @interface KSDMasterViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -19,6 +20,7 @@
 
 @implementation KSDMasterViewController {
   UIPopoverController *_popoverController;
+  NSMutableDictionary *_chartDataDictionary;
 }
 
 - (void)awakeFromNib
@@ -37,6 +39,8 @@
   UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
   self.navigationItem.rightBarButtonItem = addButton;
   self.detailViewController = (KSDDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+  
+  _chartDataDictionary = [@{} mutableCopy];
 }
 
 - (void)didReceiveMemoryWarning
@@ -113,10 +117,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-  self.detailViewController.detailItem = object;
+  
+  NSString *symbol = [[object valueForKey:@"symbol"] description];
+  KSDChartData *chartData = _chartDataDictionary[symbol];
+  if (chartData && [chartData isKindOfClass:[KSDChartData class]] == YES) {
+    self.detailViewController.chartData = chartData;
+  }
   
   UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
   [self configureCell:cell atIndexPath:indexPath];
+  
+  self.detailViewController.detailItem = object;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -135,45 +146,46 @@
 
 - (NSFetchedResultsController *)fetchedResultsController
 {
-    if (_fetchedResultsController != nil) {
-        return _fetchedResultsController;
-    }
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Stock" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-    
-    // Set the batch size to a suitable number.
-    [fetchRequest setFetchBatchSize:20];
-    
-    // Edit the sort key as appropriate.
-  NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"symbol" ascending:NO];
-  NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"watchType" ascending:NO];
-    NSArray *sortDescriptors = @[sortDescriptor1, sortDescriptor2];
-    
-    [fetchRequest setSortDescriptors:sortDescriptors];
-    
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc]
-                                                             initWithFetchRequest:fetchRequest
-                                                             managedObjectContext:self.managedObjectContext
-                                                             sectionNameKeyPath:@"watchType"
-                                                             cacheName:@"Master"];
-    aFetchedResultsController.delegate = self;
-    self.fetchedResultsController = aFetchedResultsController;
-    
+  if (_fetchedResultsController != nil) {
+    return _fetchedResultsController;
+  }
+  
+  NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+  // Edit the entity name as appropriate.
+  NSEntityDescription *entity = [NSEntityDescription entityForName:@"Stock" inManagedObjectContext:self.managedObjectContext];
+  [fetchRequest setEntity:entity];
+  
+  // Set the batch size to a suitable number.
+  [fetchRequest setFetchBatchSize:20];
+  
+  // Edit the sort key as appropriate.
+  NSSortDescriptor *rsiOverboughtSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"rsiOverbought" ascending:NO];
+  NSSortDescriptor *rsiOversoldSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"rsiOversold" ascending:YES];
+  NSSortDescriptor *watchTypeSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"watchType" ascending:NO];
+  NSArray *sortDescriptors = @[rsiOverboughtSortDescriptor, rsiOversoldSortDescriptor, watchTypeSortDescriptor];
+  
+  [fetchRequest setSortDescriptors:sortDescriptors];
+  
+  // Edit the section name key path and cache name if appropriate.
+  // nil for section name key path means "no sections".
+  NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc]
+                                                           initWithFetchRequest:fetchRequest
+                                                           managedObjectContext:self.managedObjectContext
+                                                           sectionNameKeyPath:@"watchType"
+                                                           cacheName:@"Master"];
+  aFetchedResultsController.delegate = self;
+  self.fetchedResultsController = aFetchedResultsController;
+  
 	NSError *error = nil;
 	if (![self.fetchedResultsController performFetch:&error]) {
-	     // Replace this implementation with code to handle the error appropriately.
-	     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
+    // Replace this implementation with code to handle the error appropriately.
+    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    abort();
 	}
-    
-    return _fetchedResultsController;
-}    
+  
+  return _fetchedResultsController;
+}
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
@@ -261,6 +273,52 @@
   cell.textLabel.text = symbol;
   
   [KSDStockDataRetriever stockDataFor:symbol commands:@"c" completionHadler:changeRetrievalHandler];
+  
+  NSManagedObject *stock = [self.fetchedResultsController objectAtIndexPath:indexPath];
+  
+  void (^chartRetrievalHandler)(NSURLResponse *response, NSData *data, NSError *error) =
+  ^(NSURLResponse *response, NSData *data, NSError *error) {
+    NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    
+    KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns]];
+    
+    _chartDataDictionary[symbol] = chartData;
+    self.detailViewController.chartData = chartData;
+    
+    NSDate *updatedAt = [NSDate date];
+    [stock setValue:updatedAt forKey:@"updatedAt"];
+    [stock setValue:csv forKey:@"chartDataCSV"];
+    
+    if (indexPath.section == 0) {
+      [stock setValue:chartData.rsi[0] forKey:@"rsiOverbought"];
+    } else {
+      [stock setValue:chartData.rsi[0] forKey:@"rsiOversold"];
+    }
+  };
+  
+  NSDate *updatedAt  = [stock valueForKeyPath:@"updatedAt"];
+  NSString *csv = [stock valueForKeyPath:@"chartDataCSV"];
+  
+  static const NSTimeInterval secondsPerDay = 3600*24;
+  static const NSString *loadingGuard = @"Loading...";
+  
+  id cache = _chartDataDictionary[symbol];
+  
+  if ([cache respondsToSelector:@selector(isEqualToValue:)] == NO ||
+      [cache isEqualToString:(NSString *)loadingGuard] == NO) {
+    if (!updatedAt || [updatedAt timeIntervalSinceNow] < -secondsPerDay) {
+      _chartDataDictionary[symbol] = loadingGuard;
+      [KSDStockDataRetriever chartDataFor: symbol
+                                    years: 2.0
+                         completionHadler: chartRetrievalHandler];
+    } else {
+      if (!cache) {
+        KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns]];
+        _chartDataDictionary[symbol] = chartData;
+        self.detailViewController.chartData = chartData;
+      }
+    }
+  }
 }
 
 @end

@@ -64,6 +64,16 @@ NSString *KSD_STOCK_SYMBOL_SELECTED = @"KSDStockSymbolSelected";
   }
 }
 
+- (void)setChartData:(KSDChartData *)chartData {
+  _chartData = chartData;
+  if (_chartData) {
+    dispatch_queue_t mainQueue = dispatch_get_main_queue();
+    dispatch_async(mainQueue, ^{
+      self.navigationItem.rightBarButtonItem.enabled = YES;
+    });
+  }
+}
+
 static void (^dataRetrievalHandler)(NSURLResponse *response, NSData *data, NSError *error);
 static void (^chartRetrievalHandler)(NSURLResponse *response, NSData *data, NSError *error);
 
@@ -104,27 +114,9 @@ static void (^chartRetrievalHandler)(NSURLResponse *response, NSData *data, NSEr
                              commands:[_yahooCommandTags componentsJoinedByString:@""]
                      completionHadler:dataRetrievalHandler];
   
-  static dispatch_once_t chartOnceToken;
-  dispatch_once(&chartOnceToken, ^{
-    chartRetrievalHandler =
-    ^(NSURLResponse *response, NSData *data, NSError *error) {
-      NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-      _chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns]];
-      
-      dispatch_queue_t mainQueue = dispatch_get_main_queue();
-      dispatch_async(mainQueue, ^{
-        self.navigationItem.rightBarButtonItem.enabled = YES;
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        [nc postNotificationName:KSD_STOCK_SYMBOL_SELECTED object:self];
-      });
-    };
-  });
-  
-  self.navigationItem.rightBarButtonItem.enabled = NO;
-  [KSDStockDataRetriever chartDataFor:symbol
-                             years:2.0
-                     completionHadler:chartRetrievalHandler];
- }
+  NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:KSD_STOCK_SYMBOL_SELECTED object:self];
+}
 
 - (void)configureView
 {
