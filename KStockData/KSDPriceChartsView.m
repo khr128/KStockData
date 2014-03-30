@@ -75,10 +75,27 @@
   [self scaleAndTranslateCTM:context withYRange:self.data.priceRange];
   
   
-  [self drawDataLineWithWidth:0.25/self.lineScale context:context data:self.data.prices color:[UIColor yellowColor]];
-  [self drawDataLineWithWidth:0.25/self.lineScale context:context data:self.data.tenDMA color:[UIColor whiteColor]];
-  [self drawDataLineWithWidth:0.25/self.lineScale context:context data:self.data.fiftyDMA color:[UIColor blueColor]];
-  [self drawDataLineWithWidth:0.25/self.lineScale context:context data:self.data.twoHundredDMA color:[UIColor redColor]];
+  [self drawDataLineWithWidth: 0.25/self.lineScale
+                      context: context
+                         data: self.data.prices
+                        color: [UIColor yellowColor]
+                       yRange: self.data.priceRange];
+  [self drawDataLineWithWidth: 0.25/self.lineScale
+                      context: context
+                         data: self.data.tenDMA
+                        color: [UIColor whiteColor]
+                       yRange:self.data.priceRange];
+  [self drawDataLineWithWidth: 0.25/self.lineScale
+                      context: context
+                         data: self.data.fiftyDMA
+                        color: [UIColor blueColor]
+                       yRange: self.data.priceRange];
+  [self drawDataLineWithWidth: 0.25/self.lineScale
+                      context: context
+                         data: self.data.twoHundredDMA
+                        color: [UIColor redColor]
+                       yRange: self.data.priceRange];
+  
   [self drawHighLowBarsWithWidth:0.75/self.lineScale context:context];
   [self drawOpenCloseCandlesInContext:context candleWidth:3.75/self.lineScale];
   

@@ -95,14 +95,11 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
                       context:(CGContextRef)context
                          data:(NSArray *)data
                         color:(UIColor *)color
+                       yRange:(KSDRange)yRange
 {
   if (data.count < 2) {
     return;
   }
-  
-  CGContextSetLineWidth(context, lineWidth);
-  
-  CGContextSetStrokeColorWithColor(context, color.CGColor);
   
   long count = data.count;
   long priceCount = self.data.prices.count;
@@ -110,7 +107,16 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
   for (int i=1; i < count; ++i) {
     CGContextAddLineToPoint(context, priceCount-i-1, [data[i] floatValue]);
   }
+  
+  CGContextRestoreGState(context);
+  
+  CGContextSetLineWidth(context, lineWidth);
+  CGContextSetStrokeColorWithColor(context, color.CGColor);
   CGContextStrokePath(context);
+  
+  CGContextSaveGState(context);
+  
+  [self scaleAndTranslateCTM:context withYRange:yRange];
 }
 
 - (void)computeChartDimensions
@@ -124,11 +130,13 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
   // Drawing code
   CGContextRef context = UIGraphicsGetCurrentContext();
   CGContextSaveGState(context);
+  
   CGContextClearRect(context, rect);
   
   CGContextTranslateCTM(context, 0.0, rect.size.height);
   CGContextScaleCTM(context, 1.0, -1.0);
   CGContextTranslateCTM(context, kKSDChartFrameMargin, kKSDChartFrameMargin);
+  CGContextSaveGState(context);
   return context;
 }
 
@@ -151,6 +159,7 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
 - (void)unscaleCTM:(CGContextRef)context rect:(CGRect)rect
 {
   //Set unscaled transformation matrix
+  CGContextRestoreGState(context);
   CGContextRestoreGState(context);
   CGContextTranslateCTM(context, 0.0, rect.size.height);
   CGContextScaleCTM(context, 1.0, -1.0);

@@ -15,7 +15,41 @@ static const NSUInteger labelDivisions = 5;
 static const CGFloat rsiOversoldLevel = 30;
 static const CGFloat rsiOverboughtLevel = 70;
 
+static const NSUInteger macdLongPeriod = 26;
+static const NSUInteger macdShortPeriod = 12;
+static const NSUInteger macdSignalPeriod = 9;
+
 @implementation KSDChartData
+
+- (void)calculatePriceRange {
+  CGFloat minPrice = MIN([_prices floatMin], [_low floatMin]);
+  if (_twoHundredDMA.count > 1) {
+    minPrice = MIN(minPrice, [_twoHundredDMA floatMin]);
+  }
+  
+  CGFloat maxPrice = MAX([_prices floatMax], [_high floatMax]);
+  if (_fiftyDMA.count > 1) {
+    maxPrice = MAX(maxPrice, [_fiftyDMA floatMax]);
+  }
+  if (_tenDMA.count > 1) {
+    maxPrice = MAX(maxPrice, [_tenDMA floatMax]);
+  }
+  
+  _priceRange = KSDRangeMake(minPrice, maxPrice);
+}
+
+- (void)calculateMacdRange {
+  CGFloat minMacd = MIN([_macdSignalLine floatMin], [_macdLine floatMin]);
+  
+  CGFloat maxMacd = MAX([_macdSignalLine floatMax], [_macdLine floatMax]);
+  
+  _macdRange = KSDRangeMake(minMacd, maxMacd);
+}
+
+- (void)calculateYRanges {
+  [self calculatePriceRange];
+  [self calculateMacdRange];
+}
 
 - (void)adjustDrawCounts {
   NSUInteger drawCount = MIN(maxDrawCount, _dates.count);
@@ -39,23 +73,14 @@ static const CGFloat rsiOverboughtLevel = 70;
   if (drawCount < _twoHundredDMA.count) {
     _twoHundredDMA = [_twoHundredDMA subarrayWithRange:drawRange];
   }
+  if (drawCount < _macdSignalLine.count) {
+    _macdSignalLine = [_macdSignalLine subarrayWithRange:drawRange];
+    _macdLine = [_macdLine subarrayWithRange:drawRange];
+  } else {
+    _macdLine = [_macdLine subarrayWithRange:NSMakeRange(0, _macdSignalLine.count)];
+  }
   
   _timeRange = KSDRangeMake(-1, drawCount);
-  
-  CGFloat minPrice = MIN([_prices floatMin], [_low floatMin]);
-  if (_twoHundredDMA.count > 1) {
-    minPrice = MIN(minPrice, [_twoHundredDMA floatMin]);
-  }
-  
-  CGFloat maxPrice = MAX([_prices floatMax], [_high floatMax]);
-  if (_fiftyDMA.count > 1) {
-    maxPrice = MAX(maxPrice, [_fiftyDMA floatMax]);
-  }
-  if (_tenDMA.count > 1) {
-    maxPrice = MAX(maxPrice, [_tenDMA floatMax]);
-  }
-  
-  _priceRange = KSDRangeMake(minPrice, maxPrice);
 }
 
 - (id)initWithColumns:(NSDictionary *)columns {
@@ -72,14 +97,20 @@ static const CGFloat rsiOverboughtLevel = 70;
     _tenDMA = [self generateEMA:10];
     _fiftyDMA = [self generateEMA:50];
     _twoHundredDMA = [self generateSMA:200];
+    
     _rsi = [self generateRSI:14];
     _rsiRange = KSDRangeMake(0, 100);
+    
+    _macdLine = [self generateMacdLine];
+    _macdSignalLine = [self exponentialMovingAverageOf:_macdLine withWindow:macdSignalPeriod];
  
     [self adjustDrawCounts];
+    [self calculateYRanges];
     
     [self generatePriceLabels];
     [self generateMonthLabels];
     [self generateRsiLabels];
+    [self generateMacdLabels];
   }
   return self;
 }
@@ -146,12 +177,12 @@ static const CGFloat rsiOverboughtLevel = 70;
   return [values copy];
 }
 
-- (NSArray *)generateEMA:(NSInteger)window {
-  if (window >= _prices.count) {
+- (NSArray *)exponentialMovingAverageOf:(NSArray *)data withWindow:(NSInteger)window {
+  if (window >= data.count) {
     return @[];
   }
   NSMutableArray *values = [@[] mutableCopy];
-  NSArray *reversePrices = [[_prices reverseObjectEnumerator] allObjects];
+  NSArray *reversePrices = [[data reverseObjectEnumerator] allObjects];
   [reversePrices enumerateObjectsUsingBlock:^(NSNumber *price, NSUInteger index, BOOL *stop) {
     if (index > reversePrices.count - window) {
       *stop = YES;
@@ -164,14 +195,22 @@ static const CGFloat rsiOverboughtLevel = 70;
         [values addObject:[NSNumber numberWithFloat:sum/window]];
       } else {
         CGFloat prevValue = [values[index - 1] floatValue];
-        CGFloat value = 
-        value = [self exponentialAverageWithWindow:window previous:prevValue current:[reversePrices[index+window-1] floatValue]];
+        CGFloat value =
+        [self exponentialAverageWithWindow:window previous:prevValue current:[reversePrices[index+window-1] floatValue]];
         [values addObject:[NSNumber numberWithFloat:value]];
       }
     }
   }];
   return [[[values copy] reverseObjectEnumerator] allObjects];
 }
+
+- (NSArray *)generateEMA:(NSInteger)window {
+  return [self exponentialMovingAverageOf:_prices withWindow:window];
+}
+
+
+#pragma mark -
+#pragma mark RSI
 
 - (CGFloat)rsi:(CGFloat)averageLoss averageGain:(CGFloat)averageGain {
   CGFloat value = 100*averageGain/(averageGain + averageLoss);
@@ -288,5 +327,36 @@ static const CGFloat rsiOverboughtLevel = 70;
 
 - (void) generateRsiLabels {
   _rsiLabels = @[@0, @10, @30, @50, @70, @90];
+}
+
+#pragma mark -
+#pragma mark MACD
+- (NSArray *)generateMacdLine {
+  NSArray *emaLongArray = [self generateEMA:macdLongPeriod];
+  NSArray *emaShortArray = [self generateEMA:macdShortPeriod];
+  
+  NSMutableArray *line = [[NSMutableArray alloc] initWithCapacity:emaLongArray.count];
+  [emaLongArray enumerateObjectsUsingBlock:^(NSNumber *emaLong, NSUInteger index, BOOL *stop) {
+    CGFloat lineValue = [emaLong floatValue] - [emaShortArray[index] floatValue];
+    [line addObject:[NSNumber numberWithFloat:lineValue]];
+  }];
+  return [line copy];
+}
+
+- (void)generateMacdLabels {
+  CGFloat minLabel = ceil(_macdRange.min);
+  CGFloat maxLabel = floor(_macdRange.max);
+  
+  CGFloat diff = maxLabel - minLabel;
+  
+  const NSUInteger macdLabelDivisions = 4;
+  const CGFloat div = diff/macdLabelDivisions;
+  
+  NSMutableArray *labels = [@[@0] mutableCopy];
+  for (int i=1; i <= macdLabelDivisions; ++i) {
+    [labels addObject:[NSNumber numberWithFloat:i*div]];
+    [labels addObject:[NSNumber numberWithFloat:-i*div]];
+  }
+  _macdLabels = [labels copy];
 }
 @end

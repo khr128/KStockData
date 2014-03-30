@@ -29,11 +29,17 @@
 @property (strong, nonatomic, readonly) NSArray *high;
 @property (strong, nonatomic, readonly) NSArray *low;
 
-//Oscillators
+//Oscillators and indicators
+//RSI
 @property (strong, nonatomic, readonly) NSArray *rsi;
 @property (strong, nonatomic, readonly) NSArray *rsiLabels;
 @property (readonly, nonatomic) KSDRange rsiRange;
 @property (readonly, nonatomic) NSArray *rsiOversoldRegions;
 @property (readonly, nonatomic) NSArray *rsiOverboughtRegions;
 
+//MACD
+@property (strong, nonatomic, readonly) NSArray *macdLine;
+@property (strong, nonatomic, readonly) NSArray *macdSignalLine;
+@property (assign, nonatomic, readonly) KSDRange macdRange;
+@property (strong, nonatomic, readonly) NSArray *macdLabels;
 @end

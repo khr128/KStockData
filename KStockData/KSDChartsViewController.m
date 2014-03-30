@@ -9,6 +9,7 @@
 #import "KSDChartsViewController.h"
 #import "KSDPriceChartsView.h"
 #import "KSDRsiChartView.h"
+#import "KSDMacdChartView.h"
 #import "Externals.h"
 #import "KSDDetailViewController.h"
 #import "KSDIndicatorChartViewController.h"
@@ -112,11 +113,11 @@
   
   [self addChildViewControllerWithView:rsiView draggable:YES withOffset:2*offset];
   
-  rsiView = [[KSDRsiChartView alloc] init];
-  rsiView.data = self.data;
-  [rsiView setTranslatesAutoresizingMaskIntoConstraints:NO];
+  KSDMacdChartView *macdView = [[KSDMacdChartView alloc] init];
+  macdView.data = self.data;
+  [macdView setTranslatesAutoresizingMaskIntoConstraints:NO];
   
-  [self addChildViewControllerWithView:rsiView draggable:YES withOffset:offset];
+  [self addChildViewControllerWithView:macdView draggable:YES withOffset:offset];
 }
 
 - (void)addChildViewControllerWithView:(UIView *)view draggable:(BOOL) draggable withOffset:(CGFloat)offset{

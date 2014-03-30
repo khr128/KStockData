@@ -23,7 +23,11 @@ extern const CGFloat kKSDTopBottomMarginFraction;
 
 - (void)drawChartFrameInContext: (CGContextRef)context chartHeight: (CGFloat)chartHeight chartWidth: (CGFloat)chartWidth;
 
-- (void)drawDataLineWithWidth: (CGFloat)lineWidth context: (CGContextRef)context data: (NSArray*)data color: (UIColor*)color;
+- (void)drawDataLineWithWidth: (CGFloat)lineWidth
+                      context: (CGContextRef)context
+                         data: (NSArray*)data
+                        color: (UIColor*)color
+                       yRange: (KSDRange)yRange;
 
 @property (nonatomic, assign, readonly) CGFloat chartWidth;
 

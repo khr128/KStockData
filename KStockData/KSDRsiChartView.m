@@ -28,7 +28,11 @@
   [self highlightRegions:self.data.rsiOverboughtRegions withColor:[UIColor blueColor] context:context];
   [self highlightRegions:self.data.rsiOversoldRegions withColor:[UIColor yellowColor] context:context];
   
-  [self drawDataLineWithWidth:0.5/self.lineScale context:context data:self.data.rsi color:[UIColor greenColor]];
+  [self drawDataLineWithWidth: 1.0f
+                      context: context
+                         data: self.data.rsi
+                        color: [UIColor greenColor]
+                       yRange: self.data.rsiRange];
   
   //Remember scaled CTM
   CGAffineTransform scaledTransform = CGContextGetCTM(context);
