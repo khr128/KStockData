@@ -49,6 +49,10 @@
   // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
   [newManagedObject setValue:[textField.text uppercaseString] forKey:@"symbol"];
   
+  [newManagedObject setValue: [self.overBoughtSold titleForSegmentAtIndex:self.overBoughtSold.selectedSegmentIndex]
+                      forKey: @"watchType"];
+  
+  
   // Save the context.
   NSError *error = nil;
   if (![context save:&error]) {

@@ -4,9 +4,10 @@
         <attribute name="symbol" optional="YES" attributeType="String">
             <userInfo/>
         </attribute>
+        <attribute name="watchType" optional="YES" attributeType="String" syncable="YES"/>
         <userInfo/>
     </entity>
     <elements>
-        <element name="Stock" positionX="261" positionY="189" width="128" height="60"/>
+        <element name="Stock" positionX="261" positionY="189" width="128" height="75"/>
     </elements>
 </model>

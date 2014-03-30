@@ -50,7 +50,7 @@
   KSDAddStockPopoverViewController *popoverViewController = [KSDAddStockPopoverViewController new];
   _popoverController =
   [[UIPopoverController alloc] initWithContentViewController:popoverViewController];
-  _popoverController.popoverContentSize = CGSizeMake(320, 64);
+  _popoverController.popoverContentSize = CGSizeMake(296, 96);
   popoverViewController.presentingPopoverController = _popoverController;
   popoverViewController.masterViewController = self;
   
@@ -119,6 +119,18 @@
   [self configureCell:cell atIndexPath:indexPath];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+  return 24;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+  UILabel *label = [UILabel new];
+  label.backgroundColor = [UIColor darkGrayColor];
+  label.textColor = [UIColor lightGrayColor];
+  label.text = section == 0 ? @" Watch For Overbought" : @" Watch For Oversold";
+  return label;
+}
+
 #pragma mark - Fetched results controller
 
 - (NSFetchedResultsController *)fetchedResultsController
@@ -136,14 +148,19 @@
     [fetchRequest setFetchBatchSize:20];
     
     // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"symbol" ascending:NO];
-    NSArray *sortDescriptors = @[sortDescriptor];
+  NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"symbol" ascending:NO];
+  NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"watchType" ascending:NO];
+    NSArray *sortDescriptors = @[sortDescriptor1, sortDescriptor2];
     
     [fetchRequest setSortDescriptors:sortDescriptors];
     
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc]
+                                                             initWithFetchRequest:fetchRequest
+                                                             managedObjectContext:self.managedObjectContext
+                                                             sectionNameKeyPath:@"watchType"
+                                                             cacheName:@"Master"];
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
     

@@ -12,6 +12,7 @@
 
 @interface KSDAddStockPopoverViewController : UIViewController <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *symbolTextField;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *overBoughtSold;
 @property (weak, nonatomic) UIPopoverController *presentingPopoverController;
 @property (weak, nonatomic) KSDMasterViewController *masterViewController;
 @end
