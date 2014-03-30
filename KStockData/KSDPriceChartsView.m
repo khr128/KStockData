@@ -11,54 +11,62 @@
 
 @implementation KSDPriceChartsView
 
-- (void)drawHighLowBarsWithWidth:(CGFloat)lineWidth context:(CGContextRef)context
+- (void)strokePathWithoutScaling: (CGContextRef)context
+                       lineWidth: (CGFloat)lineWidth
+                           color: (UIColor *)color
+                          yRange: (KSDRange)yRange
 {
-  CGContextSetLineWidth(context, lineWidth);
-  CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
+  CGContextRestoreGState(context);
   
+  CGContextSetLineWidth(context, lineWidth);
+  CGContextSetStrokeColorWithColor(context, color.CGColor);
+  
+  CGContextStrokePath(context);
+  
+  CGContextSaveGState(context);
+  
+  [self scaleAndTranslateCTM:context withYRange:yRange];
+}
+
+- (void)drawHighLowBarsWithWidth: (CGFloat)lineWidth
+                         context: (CGContextRef)context
+                          yRange: (KSDRange)yRange
+{
   long count = self.data.prices.count;
   for (int i=0; i < count; ++i) {
     CGContextMoveToPoint(context, count-i-1, [self.data.low[i] floatValue]);
     CGContextAddLineToPoint(context, count-i-1, [self.data.high[i] floatValue]);
   }
   
-  CGContextStrokePath(context);
+  [self strokePathWithoutScaling:context lineWidth:lineWidth color:[UIColor whiteColor] yRange:yRange];
 }
 
-- (void)drawOpenCloseCandlesInContext:(CGContextRef)context candleWidth:(CGFloat)candleWidth
+- (void)drawOpenCloseCandlesInContext: (CGContextRef)context
+                                width: (CGFloat)candleWidth
+                               yRange: (KSDRange)yRange
 {
-  CGContextSetFillColorWithColor(context, [UIColor redColor].CGColor);
-
   long count = self.data.prices.count;
   for (int i=0; i < count; ++i) {
     CGFloat open = [self.data.open[i] floatValue];
     CGFloat close = [self.data.close[i] floatValue];
     if (close < open) {
-      CGFloat candleHeight = fabsf(open - close);
-      CGContextAddRect(context, CGRectMake(count - i - 1 - candleWidth/2,
-                                           close,
-                                           candleWidth,
-                                           candleHeight));
+      CGContextMoveToPoint(context, count-i-1, close);
+      CGContextAddLineToPoint(context, count-i-1, open);
     }
   }
   
-  CGContextDrawPath(context, kCGPathFill);
-  
-  CGContextSetFillColorWithColor(context, [UIColor greenColor].CGColor);
+  [self strokePathWithoutScaling:context lineWidth:candleWidth color:[UIColor redColor] yRange:yRange];
   
   for (int i=0; i < count; ++i) {
     CGFloat open = [self.data.open[i] floatValue];
     CGFloat close = [self.data.close[i] floatValue];
     if (close > open) {
-      CGFloat candleHeight = fabsf(open - close);
-      CGContextAddRect(context, CGRectMake(count - i - 1 - candleWidth/2,
-                                           open,
-                                           candleWidth,
-                                           candleHeight));
+      CGContextMoveToPoint(context, count-i-1, open);
+      CGContextAddLineToPoint(context, count-i-1, close);
     }
   }
   
-  CGContextDrawPath(context, kCGPathFill);
+  [self strokePathWithoutScaling:context lineWidth:candleWidth color:[UIColor greenColor] yRange:yRange];
 }
 
 - (void)drawRect:(CGRect)rect
@@ -75,29 +83,29 @@
   [self scaleAndTranslateCTM:context withYRange:self.data.priceRange];
   
   
-  [self drawDataLineWithWidth: 0.25/self.lineScale
+  [self drawDataLineWithWidth: 1.0f
                       context: context
                          data: self.data.prices
                         color: [UIColor yellowColor]
                        yRange: self.data.priceRange];
-  [self drawDataLineWithWidth: 0.25/self.lineScale
+  [self drawDataLineWithWidth: 1.0f
                       context: context
                          data: self.data.tenDMA
                         color: [UIColor whiteColor]
                        yRange:self.data.priceRange];
-  [self drawDataLineWithWidth: 0.25/self.lineScale
+  [self drawDataLineWithWidth: 1.0f
                       context: context
                          data: self.data.fiftyDMA
                         color: [UIColor blueColor]
                        yRange: self.data.priceRange];
-  [self drawDataLineWithWidth: 0.25/self.lineScale
+  [self drawDataLineWithWidth: 1.0f
                       context: context
                          data: self.data.twoHundredDMA
                         color: [UIColor redColor]
                        yRange: self.data.priceRange];
   
-  [self drawHighLowBarsWithWidth:0.75/self.lineScale context:context];
-  [self drawOpenCloseCandlesInContext:context candleWidth:3.75/self.lineScale];
+  [self drawHighLowBarsWithWidth:1 context:context yRange:self.data.priceRange];
+  [self drawOpenCloseCandlesInContext:context width:3.0f yRange:self.data.priceRange];
   
   //Remember scaled CTM
   CGAffineTransform scaledTransform = CGContextGetCTM(context);
