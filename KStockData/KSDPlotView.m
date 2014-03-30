@@ -140,7 +140,6 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
   _unadjustedDataHeight = yRange.max - yRange.min;
   CGFloat dataHeight = _unadjustedDataHeight*(1 + 2*kKSDTopBottomMarginFraction);
   
-  _lineScale = (self.chartWidth + self.chartHeight)/(dataWidth + dataHeight);
   CGFloat xScale = self.chartWidth/dataWidth;
   CGFloat yScale = self.chartHeight/dataHeight;
   

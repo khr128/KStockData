@@ -88,8 +88,8 @@
                         color: [UIColor redColor]
                        yRange: self.data.priceRange];
   
-  [self drawHighLowBarsWithWidth:1 context:context yRange:self.data.priceRange];
-  [self drawOpenCloseCandlesInContext:context width:3.0f yRange:self.data.priceRange];
+  [self drawHighLowBarsWithWidth:0.5 context:context yRange:self.data.priceRange];
+  [self drawOpenCloseCandlesInContext:context width:2.5f yRange:self.data.priceRange];
   
   //Remember scaled CTM
   CGAffineTransform scaledTransform = CGContextGetCTM(context);

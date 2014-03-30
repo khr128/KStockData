@@ -39,8 +39,6 @@ extern const CGFloat kKSDTopBottomMarginFraction;
 
 @property (nonatomic, assign, readonly) CGFloat unadjustedDataHeight;
 
-@property (nonatomic, assign, readonly) CGFloat lineScale;
-
 - (void)scaleAndTranslateCTM: (CGContextRef)context  withYRange:(KSDRange)yRange;
 
 - (void)unscaleCTM: (CGContextRef)context rect: (CGRect)rect;
