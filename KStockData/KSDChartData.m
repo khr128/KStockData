@@ -92,8 +92,9 @@ static const NSUInteger macdSignalPeriod = 9;
   _timeRange = KSDRangeMake(-1, drawCount);
 }
 
-- (id)initWithColumns:(NSDictionary *)columns {
+- (id)initWithColumns:(NSDictionary *)columns andSymbol:(NSString *)symbol{
   if (self = [super init]) {
+    _symbol = symbol;
     _dates = [NSArray arrayWithArray:columns[@"Date"]];
     _prices = [NSArray arrayWithArray:columns[@"Close"]];
     

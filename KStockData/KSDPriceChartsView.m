@@ -59,7 +59,14 @@
   [self computeChartDimensions];
   [self drawChartFrameInContext:context chartHeight:self.chartHeight chartWidth:self.chartWidth];
   
-  [self drawString:@"Price History"
+  NSString *title = nil;
+  if (self.data) {
+    title = [NSString stringWithFormat:@"%@ Price History", self.data.symbol];
+  } else {
+    title = @"Charts are not ready yet for this symbol. Please wait...";
+  }
+  
+  [self drawString:title
                 at:CGPointMake(self.chartWidth/2, self.chartHeight + 3)
      withAlignment:NSTextAlignmentCenter
          inContext:context];

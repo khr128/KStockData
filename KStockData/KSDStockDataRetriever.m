@@ -16,16 +16,26 @@ static NSString *yahooCommandFormat = @"%ss=%@&f=%@";
 //"ichart.finance.yahoo.com/table.csv?s=AAPL&d=4&e=2&f=2011&g=d&a=0&b=1&c=2008&ignore.csv"
 static NSString *yahooChartFormat = @"%ss=%@&d=%d&e=%@&f=%@&g=d&a=%d&b=%@&c=%@&ignore.csv";
 
-@implementation KSDStockDataRetriever
-+ (void)sendRequest:(NSString *)url completionHadler:(void (^)(NSURLResponse *, NSData *, NSError *))completionHadler
+@implementation KSDStockDataRetriever {
+  NSOperationQueue *_requestQueue;
+}
+
+- (id)initWithMaxConcurrentOperationCount:(NSUInteger)maxConcurrentOperationCount {
+  if (self = [super init]) {
+    _requestQueue = [NSOperationQueue new];
+    _requestQueue.maxConcurrentOperationCount = maxConcurrentOperationCount;
+  }
+  return self;
+}
+
+- (void)sendRequest:(NSString *)url completionHadler:(void (^)(NSURLResponse *, NSData *, NSError *))completionHadler
 {
   NSURL *webServiceURL = [[NSURL alloc] initWithString:url];
   NSURLRequest *request = [ NSURLRequest requestWithURL:webServiceURL];
-  NSOperationQueue *requestQueue = [NSOperationQueue new];
-  [NSURLConnection sendAsynchronousRequest:request queue:requestQueue completionHandler: completionHadler];
+  [NSURLConnection sendAsynchronousRequest:request queue:_requestQueue completionHandler: completionHadler];
 }
 
-+ (void)stockDataFor:(NSString *)symbol
+- (void)stockDataFor:(NSString *)symbol
             commands:(NSString *)commands
     completionHadler:(void (^)(NSURLResponse *response, NSData *data, NSError *error))completionHadler
 {
@@ -33,7 +43,7 @@ static NSString *yahooChartFormat = @"%ss=%@&d=%d&e=%@&f=%@&g=d&a=%d&b=%@&c=%@&i
   [self sendRequest:url completionHadler:completionHadler];
 }
 
-+ (void)chartDataFor:(NSString *)symbol
+- (void)chartDataFor:(NSString *)symbol
                years:(float)years
     completionHadler:(void (^)(NSURLResponse *response, NSData *data, NSError *error))completionHadler
 {

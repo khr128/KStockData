@@ -10,8 +10,10 @@
 #import "KSDRange.h"
 
 @interface KSDChartData : NSObject
-- (id)initWithColumns:(NSDictionary *)columns;
+- (id)initWithColumns:(NSDictionary *)columns andSymbol:(NSString *)symbol;
 - (NSArray *)generateSMA:(NSInteger)window;
+
+@property (readonly, strong, nonatomic) NSString *symbol;
 
 @property (readonly, nonatomic) KSDRange timeRange;
 @property (readonly, nonatomic) KSDRange priceRange;

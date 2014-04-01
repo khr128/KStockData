@@ -21,6 +21,7 @@
 @implementation KSDMasterViewController {
   UIPopoverController *_popoverController;
   NSMutableDictionary *_chartDataDictionary;
+  KSDStockDataRetriever *_stockDataRetriever, *_chartDataRetriever;
 }
 
 - (void)awakeFromNib
@@ -41,6 +42,8 @@
   self.detailViewController = (KSDDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
   
   _chartDataDictionary = [@{} mutableCopy];
+  _stockDataRetriever = [[KSDStockDataRetriever alloc] initWithMaxConcurrentOperationCount:6];
+  _chartDataRetriever = [[KSDStockDataRetriever alloc] initWithMaxConcurrentOperationCount:2];
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,7 +83,7 @@
   [self configureCell:cell atIndexPath:indexPath];
   
   UIView *bgColorView = [[UIView alloc] init];
-  bgColorView.backgroundColor = [UIColor darkGrayColor];
+  bgColorView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0.3 alpha:1.0];
 //  bgColorView.layer.cornerRadius = 7;
   bgColorView.layer.masksToBounds = YES;
   [cell setSelectedBackgroundView:bgColorView];
@@ -120,9 +123,9 @@
   
   NSString *symbol = [[object valueForKey:@"symbol"] description];
   KSDChartData *chartData = _chartDataDictionary[symbol];
-  if (chartData && [chartData isKindOfClass:[KSDChartData class]] == YES) {
-    self.detailViewController.chartData = chartData;
-  }
+  
+  BOOL chartDataAvailable = chartData && [chartData isKindOfClass:[KSDChartData class]] == YES;
+  self.detailViewController.chartData = chartDataAvailable ? chartData : nil;
   
   UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
   [self configureCell:cell atIndexPath:indexPath];
@@ -263,6 +266,8 @@
       changeLabel.text = change;
       UIFont *font = [UIFont fontWithName:@"LED BOARD REVERSED" size:17];
       changeLabel.font = font;
+      
+      cell.textLabel.Text = symbol;
 
       UIColor *textColor =  ([change characterAtIndex:0] == '+' ? [UIColor greenColor] : [UIColor redColor]);
       changeLabel.textColor = textColor;
@@ -270,9 +275,9 @@
     });
   };
   
-  cell.textLabel.text = symbol;
+  cell.textLabel.text = [NSString stringWithFormat:@"%@ ...",symbol];
   
-  [KSDStockDataRetriever stockDataFor:symbol commands:@"c" completionHadler:changeRetrievalHandler];
+  [_stockDataRetriever stockDataFor:symbol commands:@"c" completionHadler:changeRetrievalHandler];
   
   NSManagedObject *stock = [self.fetchedResultsController objectAtIndexPath:indexPath];
   
@@ -280,7 +285,7 @@
   ^(NSURLResponse *response, NSData *data, NSError *error) {
     NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
-    KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns]];
+    KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns] andSymbol:symbol];
     
     _chartDataDictionary[symbol] = chartData;
     self.detailViewController.chartData = chartData;
@@ -304,20 +309,22 @@
   
   id cache = _chartDataDictionary[symbol];
   
-  if ([cache respondsToSelector:@selector(isEqualToValue:)] == NO ||
+  if ([cache respondsToSelector:@selector(isEqualToString:)] == NO ||
       [cache isEqualToString:(NSString *)loadingGuard] == NO) {
     if (!updatedAt || [updatedAt timeIntervalSinceNow] < -secondsPerDay) {
       _chartDataDictionary[symbol] = loadingGuard;
-      [KSDStockDataRetriever chartDataFor: symbol
+      [_chartDataRetriever chartDataFor: symbol
                                     years: 2.0
                          completionHadler: chartRetrievalHandler];
     } else {
       if (!cache) {
-        KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns]];
+        KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns] andSymbol:symbol];
         _chartDataDictionary[symbol] = chartData;
         self.detailViewController.chartData = chartData;
       }
     }
+  } else {
+    self.detailViewController.chartData = nil;
   }
 }
 

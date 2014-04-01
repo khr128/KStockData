@@ -12,10 +12,11 @@
 #import "KSDStockDataRetriever.h"
 #import "KSDChartData.h"
 #import "KSDChartsViewController.h"
+#import "KSDChartsAnimationController.h"
 
 NSString *KSD_STOCK_SYMBOL_SELECTED = @"KSDStockSymbolSelected";
 
-@interface KSDDetailViewController ()
+@interface KSDDetailViewController () <UIViewControllerTransitioningDelegate>
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
 @end
@@ -23,6 +24,15 @@ NSString *KSD_STOCK_SYMBOL_SELECTED = @"KSDStockSymbolSelected";
 @implementation KSDDetailViewController {
   NSArray *_yahooCommandTags;
   NSDictionary *_labelDictionary;
+  KSDChartsAnimationController *_chartsAnimationController;
+  KSDStockDataRetriever *_stockDataRetriever;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+  if (self = [super initWithCoder:aDecoder]) {
+    _chartsAnimationController = [KSDChartsAnimationController new];
+  }
+  return self;
 }
 
 - (void)awakeFromNib {
@@ -49,7 +59,9 @@ NSString *KSD_STOCK_SYMBOL_SELECTED = @"KSDStockSymbolSelected";
                        @"s7" :  @"shortRatioLabel",
                        @"r5" :  @"pegRatioLabel"
                        };
-}
+  
+  _stockDataRetriever = [[KSDStockDataRetriever alloc] initWithMaxConcurrentOperationCount:1];
+ }
 
 #pragma mark - Managing the detail item
 
@@ -66,12 +78,10 @@ NSString *KSD_STOCK_SYMBOL_SELECTED = @"KSDStockSymbolSelected";
 
 - (void)setChartData:(KSDChartData *)chartData {
   _chartData = chartData;
-  if (_chartData) {
     dispatch_queue_t mainQueue = dispatch_get_main_queue();
     dispatch_async(mainQueue, ^{
-      self.navigationItem.rightBarButtonItem.enabled = YES;
+        self.navigationItem.rightBarButtonItem.enabled = (_chartData != nil);
     });
-  }
 }
 
 static void (^dataRetrievalHandler)(NSURLResponse *response, NSData *data, NSError *error);
@@ -110,7 +120,7 @@ static void (^chartRetrievalHandler)(NSURLResponse *response, NSData *data, NSEr
     };
   });
   
-  [KSDStockDataRetriever stockDataFor:symbol
+  [_stockDataRetriever stockDataFor:symbol
                              commands:[_yahooCommandTags componentsJoinedByString:@""]
                      completionHadler:dataRetrievalHandler];
   
@@ -165,9 +175,21 @@ static void (^chartRetrievalHandler)(NSURLResponse *response, NSData *data, NSEr
  // Get the new view controller using [segue destinationViewController].
  // Pass the selected object to the new view controller.
   if ([segue.identifier isEqualToString:@"ChartSegue"]) {
-    KSDChartsViewController *chartsViewController = [segue destinationViewController];
+    KSDChartsViewController *chartsViewController = segue.destinationViewController;
     chartsViewController.data = _chartData;
+    chartsViewController.transitioningDelegate = self;
+    chartsViewController.modalPresentationStyle = UIModalPresentationCustom;
   }
+}
+
+#pragma -
+#pragma mark - Transitioning
+
+- (id<UIViewControllerAnimatedTransitioning>) animationControllerForPresentedController:(UIViewController *) presented
+                                                                   presentingController:(UIViewController *) presenting
+                                                                       sourceController:(UIViewController *) source
+{
+  return _chartsAnimationController;
 }
 
 @end

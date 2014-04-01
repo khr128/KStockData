@@ -9,12 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @interface KSDStockDataRetriever : NSObject
-+ (void)stockDataFor:(NSString *)symbol
+- (id)initWithMaxConcurrentOperationCount:(NSUInteger)maxConcurrentOperationCount;
+
+- (void)stockDataFor:(NSString *)symbol
             commands:(NSString *)commands
     completionHadler:(void (^)(NSURLResponse *response, NSData *data, NSError *error))completionHadler;
 
-+ (void)chartDataFor:(NSString *)symbol
+- (void)chartDataFor:(NSString *)symbol
                years:(float)years
     completionHadler:(void (^)(NSURLResponse *response, NSData *data, NSError *error))completionHadler;
-
 @end
