@@ -16,6 +16,7 @@
 
 @interface KSDMasterViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (void)refreshStockLists:(id)sender;
 @end
 
 @implementation KSDMasterViewController {
@@ -35,15 +36,19 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-  self.navigationItem.leftBarButtonItem = self.editButtonItem;
+  UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                                                                 target:self
+                                                                                 action:@selector(refreshStockLists:)];
+
+  self.navigationItem.leftBarButtonItem = refreshButton;
 
   UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
   self.navigationItem.rightBarButtonItem = addButton;
   self.detailViewController = (KSDDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
   
   _chartDataDictionary = [@{} mutableCopy];
-  _stockDataRetriever = [[KSDStockDataRetriever alloc] initWithMaxConcurrentOperationCount:6];
-  _chartDataRetriever = [[KSDStockDataRetriever alloc] initWithMaxConcurrentOperationCount:2];
+  _stockDataRetriever = [[KSDStockDataRetriever alloc] initWithMaxConcurrentOperationCount:3];
+  _chartDataRetriever = [[KSDStockDataRetriever alloc] initWithMaxConcurrentOperationCount:3];
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,6 +67,10 @@
   popoverViewController.masterViewController = self;
   
   [_popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+- (void)refreshStockLists:(id)sender {
+  [self.tableView reloadData];
 }
 
 #pragma mark - Table View

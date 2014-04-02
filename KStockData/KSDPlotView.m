@@ -179,7 +179,7 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
     CGFloat tx = transformedPoint.x/self.contentScaleFactor;
     [transformedTimeLabels addObject:[NSNumber numberWithFloat:tx]];
     
-    [self drawString:label at:CGPointMake(tx, kKSDChartFrameMargin/2-5) withAlignment:NSTextAlignmentLeft inContext:context];
+    [self drawString:label at:CGPointMake(tx, kKSDChartFrameMargin/2-5) withAlignment:NSTextAlignmentCenter inContext:context];
   }];
   
   [self setGridlineStyle:context];
