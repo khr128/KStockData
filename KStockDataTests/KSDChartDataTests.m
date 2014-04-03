@@ -93,13 +93,13 @@
   XCTAssertEqual(_testData.rsi.count, expectedRsiCount, @"Unexpected RSI count");
   
   NSArray *expectedRSI = @[
-                           @70.46411,
-                           @67.88618,
-                           @66.46452,
-                           @67.5415,
-                           @66.48784,
-                           @60.8108,
-                           @63.09839
+                           @70.464111,
+                           @66.249619,
+                           @66.480927,
+                           @69.346848,
+                           @66.294731,
+                           @57.915012,
+                           @62.880707
                            ];
   expectedRSI = [[expectedRSI reverseObjectEnumerator] allObjects];
   
