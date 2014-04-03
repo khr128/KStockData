@@ -51,7 +51,7 @@
                @"Adj Close": values
                };
   
-  _testData = [[KSDChartData alloc] initWithColumns:_columns];
+  _testData = [[KSDChartData alloc] initWithColumns:_columns andSymbol:@"A"];
 }
 
 - (void)tearDown
@@ -87,7 +87,7 @@
                @"Adj Close": values
                };
   
-  _testData = [[KSDChartData alloc] initWithColumns:_columns];
+  _testData = [[KSDChartData alloc] initWithColumns:_columns andSymbol:@"A"];
   
   NSUInteger expectedRsiCount = values.count - 14;
   XCTAssertEqual(_testData.rsi.count, expectedRsiCount, @"Unexpected RSI count");

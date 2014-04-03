@@ -10,6 +10,10 @@
 
 @implementation NSArray (KhrMinMax)
 - (float)floatMin {
+  if (self.count < 1) {
+    return 0;
+  }
+  
   __block float min = [[self objectAtIndex:0] floatValue];
   dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
   dispatch_apply(self.count, queue, ^(size_t index){
@@ -22,6 +26,10 @@
 }
 
 - (float)floatMax {
+  if (self.count < 1) {
+    return 0;
+  }
+  
   __block float max = [[self objectAtIndex:0] floatValue];
   dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
   dispatch_apply(self.count, queue, ^(size_t index){
