@@ -167,6 +167,7 @@
     {
       _draggingView = YES;
       _previousTouchPoint = touchPoint;
+      [draggedView setNeedsDisplay];
       [UIView transitionWithView:draggedView duration:0.5
                          options:UIViewAnimationOptionCurveEaseInOut
                       animations:^{ draggedView.alpha = 0.7; }
