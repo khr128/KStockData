@@ -45,7 +45,7 @@
     CGPoint boundaryStart = CGPointMake(0.0, boundary);
     CGPoint boundaryEnd = CGPointMake(self.view.superview.frame.size.width, boundary);
     
-    [collision addBoundaryWithIdentifier:@1 fromPoint:boundaryStart toPoint:boundaryEnd];
+    [collision addBoundaryWithIdentifier:@"bottomBoundary" fromPoint:boundaryStart toPoint:boundaryEnd];
 
     [_animator updateItemUsingCurrentState:self.view];
     [_animator addBehavior:collision];

@@ -262,6 +262,24 @@
   if ([@"snapPointCollisionBoundary" isEqual:identifier]) {
     UIView *view = (UIView *)item;
     [self tryDockView:view];
+  } else if ([@"bottomBoundary" isEqual:identifier]) {
+    UIView *view = (UIView *)item;
+    [self bounceViewsByView:view];
   }
 }
+
+- (void)bounceViewsByView:(UIView *)view {
+  for (KSDIndicatorChartViewController *indicatorViewController in _indicatorViewControllers) {
+    UIDynamicItemBehavior *behavior =  [self itemBehaviorForView:view];
+    CGPoint velocity = [behavior linearVelocityForItem:view];
+    velocity = CGPointMake(0, -velocity.y);
+
+    UIView *indicatorView = indicatorViewController.view;
+    if (indicatorViewController.dynamic == YES &&  indicatorView != view) {
+      behavior =  [self itemBehaviorForView:indicatorView];
+      [behavior addLinearVelocity:velocity forItem:indicatorView];
+    };
+  };
+}
+
 @end
