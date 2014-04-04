@@ -47,8 +47,8 @@
   self.detailViewController = (KSDDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
   
   _chartDataDictionary = [@{} mutableCopy];
-  _stockDataRetriever = [[KSDStockDataRetriever alloc] initWithMaxConcurrentOperationCount:3];
-  _chartDataRetriever = [[KSDStockDataRetriever alloc] initWithMaxConcurrentOperationCount:3];
+  _stockDataRetriever = [KSDStockDataRetriever new];
+  _chartDataRetriever = [KSDStockDataRetriever new];
 }
 
 - (void)didReceiveMemoryWarning
@@ -263,8 +263,8 @@
   NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
   NSString *symbol = [[object valueForKey:@"symbol"] description];
   
-  void (^changeRetrievalHandler)(NSURLResponse *response, NSData *data, NSError *error) =
-  ^(NSURLResponse *response, NSData *data, NSError *error) {
+  void (^changeRetrievalHandler)(NSData *data, NSURLResponse *response, NSError *error) =
+  ^(NSData *data, NSURLResponse *response, NSError *error) {
     dispatch_queue_t mainQueue = dispatch_get_main_queue();
     dispatch_async(mainQueue, ^{
       NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -290,8 +290,8 @@
   
   NSManagedObject *stock = [self.fetchedResultsController objectAtIndexPath:indexPath];
   
-  void (^chartRetrievalHandler)(NSURLResponse *response, NSData *data, NSError *error) =
-  ^(NSURLResponse *response, NSData *data, NSError *error) {
+  void (^chartRetrievalHandler)(NSData *data, NSURLResponse *response, NSError *error) =
+  ^(NSData *data, NSURLResponse *response, NSError *error) {
     NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
     KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns] andSymbol:symbol];

@@ -16,28 +16,18 @@ static NSString *yahooCommandFormat = @"%ss=%@&f=%@";
 //"ichart.finance.yahoo.com/table.csv?s=AAPL&d=4&e=2&f=2011&g=d&a=0&b=1&c=2008&ignore.csv"
 static NSString *yahooChartFormat = @"%ss=%@&d=%d&e=%@&f=%@&g=d&a=%d&b=%@&c=%@&ignore.csv";
 
-@implementation KSDStockDataRetriever {
-  NSOperationQueue *_requestQueue;
-}
+@implementation KSDStockDataRetriever
 
-- (id)initWithMaxConcurrentOperationCount:(NSUInteger)maxConcurrentOperationCount {
-  if (self = [super init]) {
-    _requestQueue = [NSOperationQueue new];
-    _requestQueue.maxConcurrentOperationCount = maxConcurrentOperationCount;
-  }
-  return self;
-}
-
-- (void)sendRequest:(NSString *)url completionHadler:(void (^)(NSURLResponse *, NSData *, NSError *))completionHadler
+- (void)sendRequest:(NSString *)url completionHadler:(void (^)( NSData *, NSURLResponse *,NSError *))completionHadler
 {
   NSURL *webServiceURL = [[NSURL alloc] initWithString:url];
-  NSURLRequest *request = [ NSURLRequest requestWithURL:webServiceURL];
-  [NSURLConnection sendAsynchronousRequest:request queue:_requestQueue completionHandler: completionHadler];
+  NSURLSession *session = [NSURLSession sharedSession];
+  [[session dataTaskWithURL: webServiceURL completionHandler: completionHadler] resume];
 }
 
 - (void)stockDataFor:(NSString *)symbol
             commands:(NSString *)commands
-    completionHadler:(void (^)(NSURLResponse *response, NSData *data, NSError *error))completionHadler
+    completionHadler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHadler
 {
   NSString *url = [[NSString alloc] initWithFormat:yahooCommandFormat, YAHOO_FINANCE_COMMAND_URL, symbol, commands];
   [self sendRequest:url completionHadler:completionHadler];
@@ -45,7 +35,7 @@ static NSString *yahooChartFormat = @"%ss=%@&d=%d&e=%@&f=%@&g=d&a=%d&b=%@&c=%@&i
 
 - (void)chartDataFor:(NSString *)symbol
                years:(float)years
-    completionHadler:(void (^)(NSURLResponse *response, NSData *data, NSError *error))completionHadler
+    completionHadler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHadler
 {
   NSDate *today = [NSDate date];
   NSDate *yearAgo = [[NSDate alloc] initWithTimeIntervalSinceNow:-SECONDS_IN_YEAR*years];

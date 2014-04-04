@@ -60,7 +60,7 @@ NSString *KSD_STOCK_SYMBOL_SELECTED = @"KSDStockSymbolSelected";
                        @"r5" :  @"pegRatioLabel"
                        };
   
-  _stockDataRetriever = [[KSDStockDataRetriever alloc] initWithMaxConcurrentOperationCount:1];
+  _stockDataRetriever = [KSDStockDataRetriever new];
  }
 
 #pragma mark - Managing the detail item
@@ -84,15 +84,15 @@ NSString *KSD_STOCK_SYMBOL_SELECTED = @"KSDStockSymbolSelected";
     });
 }
 
-static void (^dataRetrievalHandler)(NSURLResponse *response, NSData *data, NSError *error);
-static void (^chartRetrievalHandler)(NSURLResponse *response, NSData *data, NSError *error);
+static void (^dataRetrievalHandler)(NSData *data, NSURLResponse *response, NSError *error);
+static void (^chartRetrievalHandler)(NSData *data, NSURLResponse *response, NSError *error);
 
 - (void)stockDataFor:(NSString *)symbol
 {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     dataRetrievalHandler =
-    ^(NSURLResponse *response, NSData *data, NSError *error) {
+    ^(NSData *data, NSURLResponse *response, NSError *error) {
       NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
       NSArray *array = [csv khr_csv];
       
