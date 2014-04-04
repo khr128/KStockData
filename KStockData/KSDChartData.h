@@ -44,4 +44,10 @@
 @property (strong, nonatomic, readonly) NSArray *macdSignalLine;
 @property (assign, nonatomic, readonly) KSDRange macdRange;
 @property (strong, nonatomic, readonly) NSArray *macdLabels;
+
+//Fractal Dimension
+@property (strong, nonatomic, readonly) NSArray *fractalDimensions;
+@property (strong, nonatomic, readonly) NSArray *fractalDimensionLabels;
+@property (readonly, assign, nonatomic) KSDRange fractalDimensionRange;
+
 @end

@@ -9,6 +9,7 @@
 #import "KSDChartData.h"
 #import "NSArray+KhrMinMax.h"
 #import "KSDRegion.h"
+#import "KSDFractalDimensionMinMax.h"
 
 static const NSUInteger maxDrawCount = 252;
 static const NSUInteger labelDivisions = 5;
@@ -18,6 +19,8 @@ static const CGFloat rsiOverboughtLevel = 70;
 static const NSUInteger macdLongPeriod = 26;
 static const NSUInteger macdShortPeriod = 12;
 static const NSUInteger macdSignalPeriod = 9;
+
+static const NSUInteger fractalDimensionHalfPeriod = 19;
 
 @implementation KSDChartData
 
@@ -89,6 +92,10 @@ static const NSUInteger macdSignalPeriod = 9;
     _macdLine = [_macdLine subarrayWithRange:NSMakeRange(0, _macdSignalLine.count)];
   }
   
+  if (drawCount < _fractalDimensions.count) {
+    _fractalDimensions = [_fractalDimensions subarrayWithRange:drawRange];
+  }
+
   _timeRange = KSDRangeMake(-1, drawCount);
 }
 
@@ -113,7 +120,10 @@ static const NSUInteger macdSignalPeriod = 9;
     
     _macdLine = [self generateMacdLine];
     _macdSignalLine = [self exponentialMovingAverageOf:_macdLine withWindow:macdSignalPeriod];
- 
+    
+    _fractalDimensions = [self generateFractalDimensions:_tenDMA];
+    _fractalDimensionRange = KSDRangeMake(1, 2);
+    
     [self adjustDrawCounts];
     [self calculateYRanges];
     
@@ -121,6 +131,7 @@ static const NSUInteger macdSignalPeriod = 9;
     [self generateMonthLabels];
     [self generateRsiLabels];
     [self generateMacdLabels];
+    [self generateFractalDimensionLabels];
   }
   return self;
 }
@@ -382,4 +393,41 @@ static const NSUInteger macdSignalPeriod = 9;
   }
   _macdLabels = [labels copy];
 }
+
+#pragma mark -
+#pragma mark Fractal Dimensions
+
+- (void) generateFractalDimensionLabels {
+  _fractalDimensionLabels = @[@1.2, @1.4, @1.6, @1.8];
+}
+
+- (NSArray *)generateFractalDimensions:(NSArray *)data {
+  
+  if (data.count < 2*fractalDimensionHalfPeriod) {
+    return @[];
+  }
+  
+  NSMutableArray *fractalDimensions = [@[] mutableCopy];
+  KSDFractalDimensionMinMax *firstHalfMinMax = [[KSDFractalDimensionMinMax alloc] initWithArray:data
+                                                                                     startIndex:0
+                                                                                         period:fractalDimensionHalfPeriod];
+  KSDFractalDimensionMinMax *secondHalfMinMax = [[KSDFractalDimensionMinMax alloc] initWithArray:data
+                                                                                     startIndex:fractalDimensionHalfPeriod-1
+                                                                                         period:fractalDimensionHalfPeriod];
+  
+  NSUInteger count = data.count - 2*fractalDimensionHalfPeriod;
+  for (int i=0; i<count; ++i) {
+    [firstHalfMinMax calculate];
+    [secondHalfMinMax calculate];
+    float minMax = MIN(firstHalfMinMax.max, secondHalfMinMax.max);
+    float maxMin = MAX(firstHalfMinMax.min, secondHalfMinMax.min);
+    float maxMax = MAX(firstHalfMinMax.max, secondHalfMinMax.max);
+    float minMin = MIN(firstHalfMinMax.min, secondHalfMinMax.min);
+    float fractalDimension = 1 + log2f(1 + (minMax - maxMin)/(maxMax - minMin));
+    [fractalDimensions addObject:@(fractalDimension)];
+  }
+  return [self exponentialMovingAverageOf:fractalDimensions withWindow:10];
+//  return [fractalDimensions copy];
+}
+
 @end

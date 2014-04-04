@@ -22,7 +22,6 @@
      withAlignment:NSTextAlignmentCenter
          inContext:context];
   
-  
   [self scaleAndTranslateCTM:context withYRange:self.data.rsiRange];
   
   [self highlightRegions:self.data.rsiOverboughtRegions withColor:[UIColor blueColor] context:context];

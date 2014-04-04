@@ -9,6 +9,7 @@
 #import "KSDChartsViewController.h"
 #import "KSDPriceChartsView.h"
 #import "KSDRsiChartView.h"
+#import "KSDFractalDimensionChartView.h"
 #import "KSDMacdChartView.h"
 #import "Externals.h"
 #import "KSDDetailViewController.h"
@@ -107,16 +108,19 @@
   [superView addConstraints:@[c1, c2, c3, c4]];
   
   CGFloat offset = 50;
-  KSDRsiChartView *rsiView = [[KSDRsiChartView alloc] init];
+  KSDFractalDimensionChartView *fractalDimensionView = [KSDFractalDimensionChartView new];
+  fractalDimensionView.data = self.data;
+  [fractalDimensionView setTranslatesAutoresizingMaskIntoConstraints:NO];
+  [self addChildViewControllerWithView:fractalDimensionView draggable:YES withOffset:3*offset];
+  
+  KSDRsiChartView *rsiView = [KSDRsiChartView new];
   rsiView.data = self.data;
   [rsiView setTranslatesAutoresizingMaskIntoConstraints:NO];
-  
   [self addChildViewControllerWithView:rsiView draggable:YES withOffset:2*offset];
   
-  KSDMacdChartView *macdView = [[KSDMacdChartView alloc] init];
+  KSDMacdChartView *macdView = [KSDMacdChartView new];
   macdView.data = self.data;
   [macdView setTranslatesAutoresizingMaskIntoConstraints:NO];
-  
   [self addChildViewControllerWithView:macdView draggable:YES withOffset:offset];
 }
 
