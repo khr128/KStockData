@@ -36,4 +36,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *earningsPerShareLabel;
 @property (weak, nonatomic) IBOutlet UILabel *shortRatioLabel;
 @property (weak, nonatomic) IBOutlet UILabel *pegRatioLabel;
+@property (weak, nonatomic) IBOutlet UILabel *marketCapitalizationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *stockExchangeLabel;
+
 @end

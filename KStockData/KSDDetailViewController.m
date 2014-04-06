@@ -36,7 +36,7 @@ NSString *KSD_STOCK_SYMBOL_SELECTED = @"KSDStockSymbolSelected";
 }
 
 - (void)awakeFromNib {
-  _yahooCommandTags = @[@"n", @"k", @"q", @"j", @"r1", @"y", @"p", @"g", @"h", @"l1", @"o", @"b2", @"t1", @"r", @"v", @"t7", @"p6", @"p5", @"e", @"s7", @"r5"];
+  _yahooCommandTags = @[@"n", @"k", @"q", @"j", @"r1", @"y", @"p", @"g", @"h", @"l1", @"o", @"b2", @"t1", @"r", @"v", @"t7", @"p6", @"p5", @"e", @"s7", @"r5", @"j1", @"x"];
   _labelDictionary = @{@"n"  :  @"nameLabel",
                        @"k"  :  @"fiftyTwoWeekHighLabel",
                        @"q"  :  @"exDividendDateLabel",
@@ -57,7 +57,9 @@ NSString *KSD_STOCK_SYMBOL_SELECTED = @"KSDStockSymbolSelected";
                        @"p5" :  @"priceToSalesLabel",
                        @"e"  :  @"earningsPerShareLabel",
                        @"s7" :  @"shortRatioLabel",
-                       @"r5" :  @"pegRatioLabel"
+                       @"r5" :  @"pegRatioLabel",
+                       @"j1" :  @"marketCapitalizationLabel",
+                       @"x"  :  @"stockExchangeLabel"
                        };
   
   _stockDataRetriever = [KSDStockDataRetriever new];
