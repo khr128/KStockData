@@ -84,7 +84,9 @@ static NSCharacterSet *lineEndSet = nil;
           
           obj = [dateFormatter dateFromString:values[col]];
         }
-        [columns[keys[col]] addObject:obj];
+        if (obj) {
+          [columns[keys[col]] addObject:obj];
+        }
       });
     }
   });
@@ -120,7 +122,9 @@ static NSCharacterSet *closingBracketSet = nil;
         case '<':
           scanner.scanLocation++;
           [scanner scanUpToCharactersFromSet:closingBracketSet intoString:nil];
-          scanner.scanLocation++;
+          if ([scanner isAtEnd] == NO) {
+            scanner.scanLocation++;
+          }
           break;
         case '&':
           [scanner scanUpToCharactersFromSet:semicolonSet intoString:&scanString];

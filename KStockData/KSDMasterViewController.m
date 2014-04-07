@@ -304,9 +304,17 @@
     [stock setValue:csv forKey:@"chartDataCSV"];
     
     if (indexPath.section == 0) {
-      [stock setValue:chartData.rsi[0] forKey:@"rsiOverbought"];
+      if (chartData.rsi.count > 0) {
+        [stock setValue:chartData.rsi[0] forKey:@"rsiOverbought"];
+      } else {
+        [stock setValue:@100 forKey:@"rsiOverbought"];
+      }
     } else {
-      [stock setValue:chartData.rsi[0] forKey:@"rsiOversold"];
+      if (chartData.rsi.count > 0) {
+        [stock setValue:chartData.rsi[0] forKey:@"rsiOversold"];
+      } else {
+        [stock setValue:@0 forKey:@"rsiOversold"];
+      }
     }
   };
   

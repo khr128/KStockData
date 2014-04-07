@@ -157,6 +157,11 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
 }
 
 - (void)generateMonthLabels {
+  if (_dates.count < 1) {
+    _monthLabels = @{};
+    return;
+  }
+  
   NSMutableDictionary *labels = [@{} mutableCopy];
   NSDateFormatter *dateFormatter = [NSDateFormatter new];
   [dateFormatter setDateFormat:@"MMM"];
@@ -299,6 +304,10 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
 }
 
 - (NSArray *)generateRSI:(NSUInteger)periods {
+  if (_prices.count < 1) {
+    return @[];
+  }
+  
   NSMutableArray *rsi = [@[] mutableCopy];
   NSUInteger start = MIN(_dates.count - 1, maxDrawCount + periods - 1);
   CGFloat averageLoss = 0.0f;
