@@ -46,7 +46,7 @@ NSString *KSD_STOCK_SYMBOL_SELECTED = @"KSDStockSymbolSelected";
                        @"p"  :  @"previousCloseLabel",
                        @"g"  :  @"daysLowLabel",
                        @"h"  :  @"daysHighLabel",
-                       @"l1" :  @"lastTradeWithTimeLabel",
+                       @"l1" :  @"lastTrade",
                        @"o"  :  @"openLabel",
                        @"b2" :  @"askLabel",
                        @"t1" :  @"lastTradeTimeLabel",

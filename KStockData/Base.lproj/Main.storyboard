@@ -163,7 +163,7 @@
                                 <color key="textColor" red="0.037534109650000001" green="1" blue="0.078933689890000006" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jan 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8BC-cl-8uR">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8BC-cl-8uR">
                                 <rect key="frame" x="548" y="259" width="135" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -509,8 +509,8 @@
                         <outlet property="exDividendDateLabel" destination="qhy-4u-yzE" id="Tkn-gA-0kv"/>
                         <outlet property="fiftyTwoWeekHighLabel" destination="Ge3-X2-6p3" id="pVD-na-POt"/>
                         <outlet property="fiftyTwoWeekLowLabel" destination="mqg-nq-8Gj" id="nTa-H0-lwD"/>
+                        <outlet property="lastTrade" destination="8BC-cl-8uR" id="Nbx-v1-Htb"/>
                         <outlet property="lastTradeTimeLabel" destination="jyG-1e-PxM" id="gTd-ca-uHD"/>
-                        <outlet property="lastTradeWithTimeLabel" destination="8BC-cl-8uR" id="LPm-w1-cAz"/>
                         <outlet property="marketCapitalizationLabel" destination="rgZ-NC-ebU" id="D6i-ko-iQQ"/>
                         <outlet property="nameLabel" destination="UjV-QV-lab" id="jIl-6m-MKh"/>
                         <outlet property="openLabel" destination="z3h-5A-SIj" id="Npv-yZ-Ndf"/>
@@ -572,7 +572,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="tintColor" patternImage="F8C9CC7B-A97E-45FE-9281-BF5057AE1F9F" colorSpace="pattern"/>
+                        <color key="tintColor" patternImage="9DF9F720-C126-4157-A618-3BD743431B4B" colorSpace="pattern"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -661,7 +661,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="F8C9CC7B-A97E-45FE-9281-BF5057AE1F9F" width="256" height="256">
+        <image name="9DF9F720-C126-4157-A618-3BD743431B4B" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

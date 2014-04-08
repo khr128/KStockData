@@ -297,6 +297,11 @@
     KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns] andSymbol:symbol];
     
     _chartDataDictionary[symbol] = chartData;
+    
+    if (chartData.dates[0] ) {
+      <#statements#>
+    }
+    
     self.detailViewController.chartData = chartData;
     
     NSDate *updatedAt = [NSDate date];
