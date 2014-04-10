@@ -162,14 +162,11 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
     return;
   }
   
-  NSMutableDictionary *labels = [@{} mutableCopy];
-  NSDateFormatter *dateFormatter = [NSDateFormatter new];
-  [dateFormatter setDateFormat:@"MMM"];
+  NSMutableDictionary *labels = [@{} mutableCopy];  
+  __block NSString *currentMonth = [_dates[0] substringWithRange:NSMakeRange(5, 2)];
   
-  __block NSString *currentMonth = [dateFormatter stringFromDate:_dates[0]];
-  
-  [_dates enumerateObjectsUsingBlock:^(NSDate *date, NSUInteger index, BOOL *stop) {
-    NSString *month = [dateFormatter stringFromDate:date];
+  [_dates enumerateObjectsUsingBlock:^(NSString *date, NSUInteger index, BOOL *stop) {
+    NSString *month = [date substringWithRange:NSMakeRange(5, 2)];
     if ([month isEqualToString:currentMonth] == NO) {
       labels[[NSNumber numberWithInt:index]] = currentMonth;
       currentMonth = month;

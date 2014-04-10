@@ -14,6 +14,11 @@
 #import "KSDSymbolTableViewCell.h"
 #import "KSDChartData.h"
 
+typedef NS_ENUM(NSInteger, KSDOversoldOverbought) {
+  KSDOversold = 1,
+  KSDOverBought = 0
+};
+
 @interface KSDMasterViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (void)refreshStockLists:(id)sender;
@@ -259,9 +264,71 @@
 }
  */
 
+
+static const NSTimeInterval secondsPerDay = 3600*24;
+static const NSString *loadingGuard = @"Loading...";
+
+- (void)retrieveChartData:(NSManagedObject *)stock section:(NSInteger)section symbol:(NSString *)symbol {
+  void (^chartRetrievalHandler)(NSData *data, NSURLResponse *response, NSError *error) =
+  ^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    
+    KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns] andSymbol:symbol];
+    
+    _chartDataDictionary[symbol] = chartData;
+    self.detailViewController.chartData = chartData;
+    
+    NSDate *updatedAt = [NSDate date];
+    [stock setValue:updatedAt forKey:@"updatedAt"];
+    [stock setValue:csv forKey:@"chartDataCSV"];
+    
+    if (section == KSDOverBought) {
+      if (chartData.rsi.count > 0) {
+        [stock setValue:chartData.rsi[0] forKey:@"rsiOverbought"];
+      } else {
+        [stock setValue:@100 forKey:@"rsiOverbought"];
+      }
+    } else {
+      if (chartData.rsi.count > 0) {
+        [stock setValue:chartData.rsi[0] forKey:@"rsiOversold"];
+      } else {
+        [stock setValue:@0 forKey:@"rsiOversold"];
+      }
+    }
+  };
+  
+  id cache = _chartDataDictionary[symbol];
+  
+  if ([cache respondsToSelector:@selector(isEqualToString:)] == NO ||
+      [cache isEqualToString:(NSString *)loadingGuard] == NO) {
+    
+    NSDate *updatedAt  = [stock valueForKeyPath:@"updatedAt"];
+    if (!updatedAt || [updatedAt timeIntervalSinceNow] < -secondsPerDay) {
+      _chartDataDictionary[symbol] = loadingGuard;
+      [_chartDataRetriever chartDataFor: symbol
+                                  years: 2.0
+                       completionHadler: chartRetrievalHandler];
+    } else {
+      if (!cache) {
+        dispatch_queue_t queue = dispatch_queue_create("com.khr.KStock.ChartDataQueue", NULL);
+        dispatch_async(queue, ^{
+          NSString *csv = [stock valueForKeyPath:@"chartDataCSV"];
+          KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns] andSymbol:symbol];
+          _chartDataDictionary[symbol] = chartData;
+          self.detailViewController.chartData = chartData;
+        });
+      }
+    }
+  } else {
+    self.detailViewController.chartData = nil;
+  }
+}
+
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
   NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+  
   NSString *symbol = [[object valueForKey:@"symbol"] description];
+  cell.textLabel.text = [NSString stringWithFormat:@"%@ ...",symbol];
   
   void (^changeRetrievalHandler)(NSData *data, NSURLResponse *response, NSError *error) =
   ^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -284,70 +351,10 @@
     });
   };
   
-  cell.textLabel.text = [NSString stringWithFormat:@"%@ ...",symbol];
-  
   [_stockDataRetriever stockDataFor:symbol commands:@"c" completionHadler:changeRetrievalHandler];
   
   NSManagedObject *stock = [self.fetchedResultsController objectAtIndexPath:indexPath];
-  
-  void (^chartRetrievalHandler)(NSData *data, NSURLResponse *response, NSError *error) =
-  ^(NSData *data, NSURLResponse *response, NSError *error) {
-    NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    
-    KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns] andSymbol:symbol];
-    
-    _chartDataDictionary[symbol] = chartData;
-    
-    if (chartData.dates[0] ) {
-      <#statements#>
-    }
-    
-    self.detailViewController.chartData = chartData;
-    
-    NSDate *updatedAt = [NSDate date];
-    [stock setValue:updatedAt forKey:@"updatedAt"];
-    [stock setValue:csv forKey:@"chartDataCSV"];
-    
-    if (indexPath.section == 0) {
-      if (chartData.rsi.count > 0) {
-        [stock setValue:chartData.rsi[0] forKey:@"rsiOverbought"];
-      } else {
-        [stock setValue:@100 forKey:@"rsiOverbought"];
-      }
-    } else {
-      if (chartData.rsi.count > 0) {
-        [stock setValue:chartData.rsi[0] forKey:@"rsiOversold"];
-      } else {
-        [stock setValue:@0 forKey:@"rsiOversold"];
-      }
-    }
-  };
-  
-  NSDate *updatedAt  = [stock valueForKeyPath:@"updatedAt"];
-  NSString *csv = [stock valueForKeyPath:@"chartDataCSV"];
-  
-  static const NSTimeInterval secondsPerDay = 3600*24;
-  static const NSString *loadingGuard = @"Loading...";
-  
-  id cache = _chartDataDictionary[symbol];
-  
-  if ([cache respondsToSelector:@selector(isEqualToString:)] == NO ||
-      [cache isEqualToString:(NSString *)loadingGuard] == NO) {
-    if (!updatedAt || [updatedAt timeIntervalSinceNow] < -secondsPerDay) {
-      _chartDataDictionary[symbol] = loadingGuard;
-      [_chartDataRetriever chartDataFor: symbol
-                                    years: 2.0
-                         completionHadler: chartRetrievalHandler];
-    } else {
-      if (!cache) {
-        KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns] andSymbol:symbol];
-        _chartDataDictionary[symbol] = chartData;
-        self.detailViewController.chartData = chartData;
-      }
-    }
-  } else {
-    self.detailViewController.chartData = nil;
-  }
+  [self retrieveChartData:stock section:indexPath.section symbol:symbol];
 }
 
 @end

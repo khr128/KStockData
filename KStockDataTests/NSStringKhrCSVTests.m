@@ -90,14 +90,12 @@
       XCTAssertEqualObjects(values, expectedValues, @"Incorrect values for column key '%@'", key);
     }
     if ([key isEqualToString:@"d"]) {
-      NSDateFormatter *dateFormatter = [NSDateFormatter new];
-      [dateFormatter setDateFormat:@"yyyy-MM-dd"];
- 
+      
       NSArray *expectedValues = @[
-                                 [dateFormatter dateFromString:@"2014-01-02"],
-                                 [dateFormatter dateFromString:@"2013-12-24"],
-                                 [dateFormatter dateFromString:@"2013-03-08"]
-                                 ];
+                                  @"2014-01-02",
+                                  @"2013-12-24",
+                                  @"2013-03-08"
+                                  ];
       XCTAssertEqualObjects(values, expectedValues, @"Incorrect values for column key '%@'", key);
     }
    }

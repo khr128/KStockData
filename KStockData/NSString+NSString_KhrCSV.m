@@ -79,10 +79,7 @@ static NSCharacterSet *lineEndSet = nil;
         if (NSEqualRanges([values[col] rangeOfString:@"-"], NSMakeRange(NSNotFound, 0))) {
           obj = [NSNumber numberWithFloat:[values[col] floatValue]];
         } else {
-          NSDateFormatter *dateFormatter = [NSDateFormatter new];
-          [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-          
-          obj = [dateFormatter dateFromString:values[col]];
+          obj = values[col];
         }
         if (obj) {
           [columns[keys[col]] addObject:obj];

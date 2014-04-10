@@ -17,7 +17,7 @@
   [self computeChartDimensions];
   [self drawChartFrameInContext:context chartHeight:self.chartHeight chartWidth:self.chartWidth];
   
-  [self drawString:@"Fractal Dimension (30)"
+  [self drawString:[NSString stringWithFormat:@"Fractal Dimension (30)  %0.2f", [self.data.fractalDimensions[0] floatValue]]
                 at:CGPointMake(self.chartWidth/2, self.chartHeight + 3)
      withAlignment:NSTextAlignmentCenter
          inContext:context];
