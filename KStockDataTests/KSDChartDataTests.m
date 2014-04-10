@@ -22,7 +22,7 @@
 {
   NSMutableArray *dates = [@[] mutableCopy];
   for (int i=0; i<count; ++i) {
-    [dates addObject:[[NSDate alloc] initWithTimeIntervalSinceNow:-i]];
+    [dates addObject:[[NSString alloc] initWithFormat:@"2014-01-%d", 31-i]];
   }
   return [dates copy];
 }
