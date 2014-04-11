@@ -37,6 +37,7 @@
 		AE36C1A518EC411600E2ED27 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = AE36C1A418EC411600E2ED27 /* Default-Landscape@2x~ipad.png */; };
 		AE37E60C18ED95A100C1B028 /* KSDFractalDimensionMinMaxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE37E60B18ED95A100C1B028 /* KSDFractalDimensionMinMaxTests.m */; };
 		AE37E60F18ED97F200C1B028 /* KSDFractalDimensionMinMax.m in Sources */ = {isa = PBXBuildFile; fileRef = AE37E60E18ED97F200C1B028 /* KSDFractalDimensionMinMax.m */; };
+		AE3D0A0518F821C3008B1B3B /* KSDStockDataRetrieverTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE3D0A0418F821C3008B1B3B /* KSDStockDataRetrieverTests.m */; };
 		AE7A815A18E78B2B00AB9674 /* KSDMacdChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7A815918E78B2B00AB9674 /* KSDMacdChartView.m */; };
 		AE9A4B5418E2255F00580338 /* KSDPlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9A4B5318E2255F00580338 /* KSDPlotView.m */; };
 		AE9A4B5718E24D8E00580338 /* KSDRsiChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9A4B5618E24D8E00580338 /* KSDRsiChartView.m */; };
@@ -106,6 +107,7 @@
 		AE37E60B18ED95A100C1B028 /* KSDFractalDimensionMinMaxTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDFractalDimensionMinMaxTests.m; sourceTree = "<group>"; };
 		AE37E60D18ED97F200C1B028 /* KSDFractalDimensionMinMax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDFractalDimensionMinMax.h; sourceTree = "<group>"; };
 		AE37E60E18ED97F200C1B028 /* KSDFractalDimensionMinMax.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDFractalDimensionMinMax.m; sourceTree = "<group>"; };
+		AE3D0A0418F821C3008B1B3B /* KSDStockDataRetrieverTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDStockDataRetrieverTests.m; sourceTree = "<group>"; };
 		AE7A815818E78B2B00AB9674 /* KSDMacdChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDMacdChartView.h; sourceTree = "<group>"; };
 		AE7A815918E78B2B00AB9674 /* KSDMacdChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDMacdChartView.m; sourceTree = "<group>"; };
 		AE9A4B5218E2255F00580338 /* KSDPlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDPlotView.h; sourceTree = "<group>"; };
@@ -227,11 +229,12 @@
 		AE05C93A18D10DC400C60920 /* KStockDataTests */ = {
 			isa = PBXGroup;
 			children = (
+				AE05C93B18D10DC400C60920 /* Supporting Files */,
 				AE05C94018D10DC400C60920 /* NSStringKhrCSVTests.m */,
 				AE3055D318DDDB6B00392C23 /* NSArrayKhrMinMaxTests.m */,
-				AE05C93B18D10DC400C60920 /* Supporting Files */,
 				AEDE338218E068FB005F1046 /* KSDChartDataTests.m */,
 				AE37E60B18ED95A100C1B028 /* KSDFractalDimensionMinMaxTests.m */,
+				AE3D0A0418F821C3008B1B3B /* KSDStockDataRetrieverTests.m */,
 			);
 			path = KStockDataTests;
 			sourceTree = "<group>";
@@ -440,6 +443,7 @@
 				AEDE338318E068FB005F1046 /* KSDChartDataTests.m in Sources */,
 				AE37E60C18ED95A100C1B028 /* KSDFractalDimensionMinMaxTests.m in Sources */,
 				AE3055D418DDDB6B00392C23 /* NSArrayKhrMinMaxTests.m in Sources */,
+				AE3D0A0518F821C3008B1B3B /* KSDStockDataRetrieverTests.m in Sources */,
 				AE05C94118D10DC400C60920 /* NSStringKhrCSVTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

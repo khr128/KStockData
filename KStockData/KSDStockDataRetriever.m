@@ -40,11 +40,11 @@ static NSString *yahooChartFormat = @"%ss=%@&d=%d&e=%@&f=%@&g=d&a=%d&b=%@&c=%@&i
   NSDate *today = [NSDate date];
   NSDate *yearAgo = [[NSDate alloc] initWithTimeIntervalSinceNow:-SECONDS_IN_YEAR*years];
   
-  NSDateFormatter *dayFormatter = [[NSDateFormatter alloc] init];
+  NSDateFormatter *dayFormatter = [NSDateFormatter new];
   [dayFormatter setDateFormat:@"dd"];
-  NSDateFormatter *monthFormatter = [[NSDateFormatter alloc] init];
+  NSDateFormatter *monthFormatter = [NSDateFormatter new];
   [monthFormatter setDateFormat:@"MM"];
-  NSDateFormatter *yearFormatter = [[NSDateFormatter alloc] init];
+  NSDateFormatter *yearFormatter = [NSDateFormatter new];
   [yearFormatter setDateFormat:@"yyyy"];
   
   NSString *url = [[NSString alloc] initWithFormat:yahooChartFormat, YAHOO_CHART_URL, symbol,
@@ -56,6 +56,18 @@ static NSString *yahooChartFormat = @"%ss=%@&d=%d&e=%@&f=%@&g=d&a=%d&b=%@&c=%@&i
                    [yearFormatter stringFromDate:yearAgo]
                    ];
   [self sendRequest:url completionHadler:completionHadler];
+}
+
++ (BOOL)isStockMarketOpen {
+  NSDate *now = [NSDate date];
+  
+  NSCalendar *cal = [NSCalendar currentCalendar];
+  [cal setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
+  NSDateComponents *dateComp = [cal components: NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:now];
+  
+  return (dateComp.hour > 9 && dateComp.hour < 16) ||
+  (dateComp.hour == 9 && dateComp.minute > 45) ||
+  (dateComp.hour == 16 && dateComp.minute < 15);
 }
 
 @end

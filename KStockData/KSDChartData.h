@@ -13,6 +13,7 @@
 - (id)initWithColumns:(NSDictionary *)columns andSymbol:(NSString *)symbol;
 - (NSArray *)generateSMA:(NSInteger)window;
 - (void)addCurrentData:(NSArray *)data forDate:(NSString *)dateString;
+- (void)updateCurrentData:(NSArray *)data;
 - (void)calculateDerivedData;
 
 @property (readonly, strong, nonatomic) NSString *symbol;

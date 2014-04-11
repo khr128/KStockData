@@ -443,10 +443,18 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
 
 - (void)addCurrentData:(NSArray *)data forDate:(NSString *)dateString {
   [_dates insertObject:dateString atIndex:0];
-  [_prices insertObject:data[0] atIndex:0];
+  [_prices insertObject:data[3] atIndex:0];
   [_open insertObject:data[0] atIndex:0];
   [_high insertObject:data[1] atIndex:0];
   [_low insertObject:data[2] atIndex:0];
   [_close insertObject:data[3] atIndex:0];
+}
+
+- (void)updateCurrentData:(NSArray *)data {
+  _prices[0] = data[3];
+  _open[0] = data[0];
+  _high[0] = data[1];
+  _low[0] = data[2];
+  _close[0] = data[3];
 }
 @end

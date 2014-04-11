@@ -16,4 +16,6 @@
 - (void)chartDataFor:(NSString *)symbol
                years:(float)years
     completionHadler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHadler;
+
++ (BOOL)isStockMarketOpen;
 @end

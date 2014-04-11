@@ -268,6 +268,19 @@ typedef NS_ENUM(NSInteger, KSDOversoldOverbought) {
 static const NSTimeInterval secondsPerDay = 3600*24;
 static const NSString *loadingGuard = @"Loading...";
 
+- (void)updateChartCSV:(NSMutableString *)chartCsv withCurrentData:(NSString *)currentDataString  add:(BOOL)add {
+  NSRange firstCR = [chartCsv rangeOfString:@"\n"];
+  NSInteger afterFirstCRIndex = firstCR.location+firstCR.length;
+  if (add == NO) {
+    NSRange secondCR = [chartCsv rangeOfString:@"\n"
+                                       options:NSLiteralSearch
+                                         range:NSMakeRange(afterFirstCRIndex, chartCsv.length - afterFirstCRIndex)];
+    [chartCsv deleteCharactersInRange:NSMakeRange(afterFirstCRIndex, secondCR.location - afterFirstCRIndex)];
+    
+  }
+  [chartCsv insertString:currentDataString atIndex:afterFirstCRIndex];
+}
+
 - (void)retrieveChartData:(NSManagedObject *)stock section:(NSInteger)section symbol:(NSString *)symbol {
   void (^chartRetrievalHandler)(NSData *data, NSURLResponse *response, NSError *error) =
   ^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -306,7 +319,7 @@ static const NSString *loadingGuard = @"Loading...";
   
   NSString *nowString = [dateFormatter stringFromDate:now];
  
-  void (^currentDataRetrievalHandler)(NSData *data, NSURLResponse *response, NSError *error) =
+  void (^currentDataAddRetrievalHandler)(NSData *data, NSURLResponse *response, NSError *error) =
   ^(NSData *data, NSURLResponse *response, NSError *error) {
     NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSArray *array = [csv khr_csv];
@@ -314,16 +327,35 @@ static const NSString *loadingGuard = @"Loading...";
     [chartData addCurrentData:array forDate:nowString];
     [chartData calculateDerivedData];
     
-    NSMutableString *chartCsv = [[stock valueForKeyPath:@"chartDataCSV"] mutableCopy];
     NSString *currentDataString = [NSString stringWithFormat:@"%@,%@,%@,%@,%@,%@,%@\n",
                                    nowString, array[0], array[1], array[2], array[3], array[4], array[3]];
-    NSRange insertAfterRange = [chartCsv rangeOfString:@"\n"];
-    [chartCsv insertString:currentDataString atIndex:insertAfterRange.location+insertAfterRange.length];
+    
+    NSMutableString *chartCsv = [[stock valueForKeyPath:@"chartDataCSV"] mutableCopy];
+    [self updateChartCSV:chartCsv withCurrentData:currentDataString add:YES];
     [stock setValue:chartCsv forKey:@"chartDataCSV"];
     [stock.managedObjectContext save:NULL];
-
-    self.detailViewController.chartData = chartData;   
-};
+    
+    self.detailViewController.chartData = chartData;
+  };
+  
+  void (^currentDataInsertRetrievalHandler)(NSData *data, NSURLResponse *response, NSError *error) =
+  ^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSArray *array = [csv khr_csv];
+    KSDChartData *chartData = _chartDataDictionary[symbol];
+    [chartData updateCurrentData:array];
+    [chartData calculateDerivedData];
+    
+    NSString *currentDataString = [NSString stringWithFormat:@"%@,%@,%@,%@,%@,%@,%@\n",
+                                   nowString, array[0], array[1], array[2], array[3], array[4], array[3]];
+    
+    NSMutableString *chartCsv = [[stock valueForKeyPath:@"chartDataCSV"] mutableCopy];
+    [self updateChartCSV:chartCsv withCurrentData:currentDataString add:NO];
+    [stock setValue:chartCsv forKey:@"chartDataCSV"];
+    [stock.managedObjectContext save:NULL];
+    
+    self.detailViewController.chartData = chartData;
+  };
   
   
   id cache = _chartDataDictionary[symbol];
@@ -345,11 +377,19 @@ static const NSString *loadingGuard = @"Loading...";
           KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns] andSymbol:symbol];
           _chartDataDictionary[symbol] = chartData;
           
+          BOOL isStockMarketOpen = [KSDStockDataRetriever isStockMarketOpen];
+          
           if ([nowString isEqualToString:chartData.dates[0]] == NO) {
-            [_stockDataRetriever stockDataFor:symbol commands:@"ohgl1v" completionHadler:currentDataRetrievalHandler];
+            if (isStockMarketOpen == YES) {
+              [_stockDataRetriever stockDataFor:symbol commands:@"ohgl1v" completionHadler:currentDataAddRetrievalHandler];
+            }
           } else {
-            [chartData calculateDerivedData];
-            self.detailViewController.chartData = chartData;
+            if (isStockMarketOpen == YES) {
+              [_stockDataRetriever stockDataFor:symbol commands:@"ohgl1v" completionHadler:currentDataInsertRetrievalHandler];
+            } else {
+              [chartData calculateDerivedData];
+              self.detailViewController.chartData = chartData;
+            }
           }
         });
       }
