@@ -68,12 +68,12 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
   NSRange drawRange = NSMakeRange(0, drawCount);
   
   if (drawCount < _dates.count) {
-    _dates = [_dates subarrayWithRange:drawRange];
-    _prices = [_prices subarrayWithRange:drawRange];
-    _open = [_open subarrayWithRange:drawRange];
-    _close = [_close subarrayWithRange:drawRange];
-    _high = [_high subarrayWithRange:drawRange];
-    _low = [_low subarrayWithRange:drawRange];
+    _dates = [[_dates subarrayWithRange:drawRange] mutableCopy];
+    _prices = [[_prices subarrayWithRange:drawRange] mutableCopy];
+    _open = [[_open subarrayWithRange:drawRange] mutableCopy];
+    _close = [[_close subarrayWithRange:drawRange] mutableCopy];
+    _high = [[_high subarrayWithRange:drawRange] mutableCopy];
+    _low = [[_low subarrayWithRange:drawRange] mutableCopy];
   }
   
   if (drawCount < _tenDMA.count) {
@@ -99,40 +99,42 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
   _timeRange = KSDRangeMake(-1, drawCount);
 }
 
+- (void)calculateDerivedData {
+  _tenDMA = [self generateEMA:10];
+  _fiftyDMA = [self generateEMA:50];
+  _twoHundredDMA = [self generateSMA:200];
+  
+  _rsi = [self generateRSI:14];
+  _rsiRange = KSDRangeMake(0, 100);
+  
+  _macdLine = [self generateMacdLine];
+  _macdSignalLine = [self exponentialMovingAverageOf:_macdLine withWindow:macdSignalPeriod];
+  
+  _fractalDimensions = [self generateFractalDimensions:_tenDMA];
+  _fractalDimensionRange = KSDRangeMake(1, 2);
+  
+  [self adjustDrawCounts];
+  [self calculateYRanges];
+  
+  [self generatePriceLabels];
+  [self generateMonthLabels];
+  [self generateRsiLabels];
+  [self generateMacdLabels];
+  [self generateFractalDimensionLabels];
+}
+
 - (id)initWithColumns:(NSDictionary *)columns andSymbol:(NSString *)symbol{
   if (self = [super init]) {
     _symbol = symbol;
-    _dates = [NSArray arrayWithArray:columns[@"Date"]];
-    _prices = [NSArray arrayWithArray:columns[@"Close"]];
+    _dates = [NSMutableArray arrayWithArray:columns[@"Date"]];
+    _prices = [NSMutableArray arrayWithArray:columns[@"Close"]];
     
-    _open = [NSArray arrayWithArray:columns[@"Open"]];
-    _close = [NSArray arrayWithArray:columns[@"Close"]];
+    _open = [NSMutableArray arrayWithArray:columns[@"Open"]];
+    _close = [NSMutableArray arrayWithArray:columns[@"Close"]];
     
-    _high = [NSArray arrayWithArray:columns[@"High"]];
-    _low = [NSArray arrayWithArray:columns[@"Low"]];
-    
-    _tenDMA = [self generateEMA:10];
-    _fiftyDMA = [self generateEMA:50];
-    _twoHundredDMA = [self generateSMA:200];
-    
-    _rsi = [self generateRSI:14];
-    _rsiRange = KSDRangeMake(0, 100);
-    
-    _macdLine = [self generateMacdLine];
-    _macdSignalLine = [self exponentialMovingAverageOf:_macdLine withWindow:macdSignalPeriod];
-    
-    _fractalDimensions = [self generateFractalDimensions:_tenDMA];
-    _fractalDimensionRange = KSDRangeMake(1, 2);
-    
-    [self adjustDrawCounts];
-    [self calculateYRanges];
-    
-    [self generatePriceLabels];
-    [self generateMonthLabels];
-    [self generateRsiLabels];
-    [self generateMacdLabels];
-    [self generateFractalDimensionLabels];
-  }
+    _high = [NSMutableArray arrayWithArray:columns[@"High"]];
+    _low = [NSMutableArray arrayWithArray:columns[@"Low"]];
+   }
   return self;
 }
 
@@ -436,4 +438,15 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
 //  return [fractalDimensions copy];
 }
 
+#pragma mark -
+#pragma Add Current Data
+
+- (void)addCurrentData:(NSArray *)data forDate:(NSString *)dateString {
+  [_dates insertObject:dateString atIndex:0];
+  [_prices insertObject:data[0] atIndex:0];
+  [_open insertObject:data[0] atIndex:0];
+  [_high insertObject:data[1] atIndex:0];
+  [_low insertObject:data[2] atIndex:0];
+  [_close insertObject:data[3] atIndex:0];
+}
 @end

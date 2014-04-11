@@ -51,7 +51,7 @@
     } else if (index == 3) {
       expectedString = @"5";
     } else if (index > 3) {
-      expectedString = [NSString stringWithFormat:@"%d", index + 2];
+      expectedString = [NSString stringWithFormat:@"%u", index + 2];
     }
     XCTAssertEqualObjects(valueString, expectedString, @"Incorrect value");
   }];

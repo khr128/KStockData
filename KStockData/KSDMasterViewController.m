@@ -274,6 +274,7 @@ static const NSString *loadingGuard = @"Loading...";
     NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
     KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns] andSymbol:symbol];
+    [chartData calculateDerivedData];
     
     _chartDataDictionary[symbol] = chartData;
     self.detailViewController.chartData = chartData;
@@ -295,7 +296,35 @@ static const NSString *loadingGuard = @"Loading...";
         [stock setValue:@0 forKey:@"rsiOversold"];
       }
     }
+    [stock.managedObjectContext save:NULL];
   };
+  
+  
+  NSDate *now = [NSDate date];
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+  [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+  
+  NSString *nowString = [dateFormatter stringFromDate:now];
+ 
+  void (^currentDataRetrievalHandler)(NSData *data, NSURLResponse *response, NSError *error) =
+  ^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSArray *array = [csv khr_csv];
+    KSDChartData *chartData = _chartDataDictionary[symbol];
+    [chartData addCurrentData:array forDate:nowString];
+    [chartData calculateDerivedData];
+    
+    NSMutableString *chartCsv = [[stock valueForKeyPath:@"chartDataCSV"] mutableCopy];
+    NSString *currentDataString = [NSString stringWithFormat:@"%@,%@,%@,%@,%@,%@,%@\n",
+                                   nowString, array[0], array[1], array[2], array[3], array[4], array[3]];
+    NSRange insertAfterRange = [chartCsv rangeOfString:@"\n"];
+    [chartCsv insertString:currentDataString atIndex:insertAfterRange.location+insertAfterRange.length];
+    [stock setValue:chartCsv forKey:@"chartDataCSV"];
+    [stock.managedObjectContext save:NULL];
+
+    self.detailViewController.chartData = chartData;   
+};
+  
   
   id cache = _chartDataDictionary[symbol];
   
@@ -315,7 +344,13 @@ static const NSString *loadingGuard = @"Loading...";
           NSString *csv = [stock valueForKeyPath:@"chartDataCSV"];
           KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns] andSymbol:symbol];
           _chartDataDictionary[symbol] = chartData;
-          self.detailViewController.chartData = chartData;
+          
+          if ([nowString isEqualToString:chartData.dates[0]] == NO) {
+            [_stockDataRetriever stockDataFor:symbol commands:@"ohgl1v" completionHadler:currentDataRetrievalHandler];
+          } else {
+            [chartData calculateDerivedData];
+            self.detailViewController.chartData = chartData;
+          }
         });
       }
     }
