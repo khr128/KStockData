@@ -63,11 +63,12 @@ static NSString *yahooChartFormat = @"%ss=%@&d=%d&e=%@&f=%@&g=d&a=%d&b=%@&c=%@&i
   
   NSCalendar *cal = [NSCalendar currentCalendar];
   [cal setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
-  NSDateComponents *dateComp = [cal components: NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:now];
+  NSDateComponents *dateComp = [cal components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSWeekdayCalendarUnit
+                                      fromDate:now];
   
-  return (dateComp.hour > 9 && dateComp.hour < 16) ||
+  return (dateComp.weekday > 1 && dateComp.weekday < 7) && ((dateComp.hour > 9 && dateComp.hour < 16) ||
   (dateComp.hour == 9 && dateComp.minute > 45) ||
-  (dateComp.hour == 16 && dateComp.minute < 15);
+  (dateComp.hour == 16 && dateComp.minute < 15));
 }
 
 @end
