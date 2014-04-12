@@ -60,8 +60,9 @@
   [self drawChartFrameInContext:context chartHeight:self.chartHeight chartWidth:self.chartWidth];
   
   NSString *title = nil;
+  CGFloat currentPrice = [self.data.prices[0] floatValue];
   if (self.data) {
-    title = [NSString stringWithFormat:@"%@ Price History", self.data.symbol];
+    title = [NSString stringWithFormat:@"%@ Price History -- %0.2f", self.data.symbol, currentPrice];
   } else {
     title = @"Charts are not ready yet for this symbol. Please wait...";
   }
@@ -94,6 +95,11 @@
                          data: self.data.twoHundredDMA
                         color: [UIColor redColor]
                        yRange: self.data.priceRange];
+  
+  //Draw current price line
+  CGContextMoveToPoint(context, self.data.dates.count-1, currentPrice);
+  CGContextAddLineToPoint(context, -1, currentPrice);
+  [self strokePathWithoutScaling:context lineWidth:0.5f color:[UIColor greenColor] yRange:self.data.priceRange];
   
   [self drawHighLowBarsWithWidth:0.5 context:context yRange:self.data.priceRange];
   [self drawOpenCloseCandlesInContext:context width:2.5f yRange:self.data.priceRange];

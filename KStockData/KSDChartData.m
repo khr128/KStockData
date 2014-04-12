@@ -176,6 +176,9 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
   _priceLabels = [labels copy];
 }
 
+
+static NSDictionary *monthAbbrev = nil;
+
 - (void)generateMonthLabels {
   if (_dates.count < 1) {
     _monthLabels = @{};
@@ -185,10 +188,16 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
   NSMutableDictionary *labels = [@{} mutableCopy];  
   __block NSString *currentMonth = [_dates[0] substringWithRange:NSMakeRange(5, 2)];
   
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    monthAbbrev = @{@"01":@"Jan", @"02":@"Feb", @"03":@"Mar", @"04":@"Apr", @"05":@"May", @"06":@"Jun",
+                    @"07":@"Jul", @"08":@"Aug", @"09":@"Sep", @"10":@"Oct", @"11":@"Nov", @"12":@"Dec"};
+  });
+  
   [_dates enumerateObjectsUsingBlock:^(NSString *date, NSUInteger index, BOOL *stop) {
     NSString *month = [date substringWithRange:NSMakeRange(5, 2)];
     if ([month isEqualToString:currentMonth] == NO) {
-      labels[[NSNumber numberWithInt:index]] = currentMonth;
+      labels[[NSNumber numberWithInt:index]] = monthAbbrev[currentMonth];
       currentMonth = month;
     }
   }];
