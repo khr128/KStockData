@@ -52,7 +52,6 @@
                };
   
   _testData = [[KSDChartData alloc] initWithColumns:_columns andSymbol:@"A"];
-  [_testData calculateDerivedData];
 }
 
 - (void)tearDown
@@ -89,7 +88,6 @@
                };
   
   _testData = [[KSDChartData alloc] initWithColumns:_columns andSymbol:@"A"];
-  [_testData calculateDerivedData];
   
   NSUInteger expectedRsiCount = values.count - 14;
   XCTAssertEqual(_testData.rsi.count, expectedRsiCount, @"Unexpected RSI count");

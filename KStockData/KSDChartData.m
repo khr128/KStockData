@@ -22,7 +22,16 @@ static const NSUInteger macdSignalPeriod = 9;
 
 static const NSUInteger fractalDimensionHalfPeriod = 19;
 
-@implementation KSDChartData
+@implementation KSDChartData {
+  NSMutableArray *_allDates;
+  NSMutableArray *_allPrices;
+  
+  NSMutableArray *_allOpen;
+  NSMutableArray *_allClose;
+  
+  NSMutableArray *_allHigh;
+  NSMutableArray *_allLow;
+}
 
 - (void)calculatePriceRange {
   CGFloat minPrice = MIN([_prices floatMin], [_low floatMin]);
@@ -61,19 +70,27 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
 - (void)calculateYRanges {
   [self calculatePriceRange];
   [self calculateMacdRange];
+  _fractalDimensionRange = KSDRangeMake(1, 2);
 }
 
 - (void)adjustDrawCounts {
-  NSUInteger drawCount = MIN(maxDrawCount, _dates.count);
+  NSUInteger drawCount = MIN(maxDrawCount, _allDates.count);
   NSRange drawRange = NSMakeRange(0, drawCount);
   
-  if (drawCount < _dates.count) {
-    _dates = [[_dates subarrayWithRange:drawRange] mutableCopy];
-    _prices = [[_prices subarrayWithRange:drawRange] mutableCopy];
-    _open = [[_open subarrayWithRange:drawRange] mutableCopy];
-    _close = [[_close subarrayWithRange:drawRange] mutableCopy];
-    _high = [[_high subarrayWithRange:drawRange] mutableCopy];
-    _low = [[_low subarrayWithRange:drawRange] mutableCopy];
+  if (drawCount < _allDates.count) {
+    _dates = [_allDates subarrayWithRange:drawRange];
+    _prices = [_allPrices subarrayWithRange:drawRange];
+    _open = [_allOpen subarrayWithRange:drawRange];
+    _close = [_allClose subarrayWithRange:drawRange];
+    _high = [_allHigh subarrayWithRange:drawRange];
+    _low = [_allLow subarrayWithRange:drawRange];
+  } else {
+    _dates = [_allDates copy];
+    _prices = [_allPrices copy];
+    _open = [_allOpen copy];
+    _close = [_allClose copy];
+    _high = [_allHigh copy];
+    _low = [_allLow copy];
   }
   
   if (drawCount < _tenDMA.count) {
@@ -111,7 +128,6 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
   _macdSignalLine = [self exponentialMovingAverageOf:_macdLine withWindow:macdSignalPeriod];
   
   _fractalDimensions = [self generateFractalDimensions:_tenDMA];
-  _fractalDimensionRange = KSDRangeMake(1, 2);
   
   [self adjustDrawCounts];
   [self calculateYRanges];
@@ -126,14 +142,16 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
 - (id)initWithColumns:(NSDictionary *)columns andSymbol:(NSString *)symbol{
   if (self = [super init]) {
     _symbol = symbol;
-    _dates = [NSMutableArray arrayWithArray:columns[@"Date"]];
-    _prices = [NSMutableArray arrayWithArray:columns[@"Close"]];
+    _allDates = [NSMutableArray arrayWithArray:columns[@"Date"]];
+    _allPrices = [NSMutableArray arrayWithArray:columns[@"Close"]];
     
-    _open = [NSMutableArray arrayWithArray:columns[@"Open"]];
-    _close = [NSMutableArray arrayWithArray:columns[@"Close"]];
+    _allOpen = [NSMutableArray arrayWithArray:columns[@"Open"]];
+    _allClose = [NSMutableArray arrayWithArray:columns[@"Close"]];
     
-    _high = [NSMutableArray arrayWithArray:columns[@"High"]];
-    _low = [NSMutableArray arrayWithArray:columns[@"Low"]];
+    _allHigh = [NSMutableArray arrayWithArray:columns[@"High"]];
+    _allLow = [NSMutableArray arrayWithArray:columns[@"Low"]];
+    
+    [self calculateDerivedData];
    }
   return self;
 }
@@ -178,23 +196,24 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
 }
 
 - (NSArray *)generateSMA:(NSInteger)window {
-  if (window >= _prices.count) {
+  if (window >= _allPrices.count) {
     return @[];
   }
-  NSMutableArray *values = [@[] mutableCopy];
-  [_prices enumerateObjectsUsingBlock:^(NSNumber *price, NSUInteger index, BOOL *stop) {
-    if (index > _prices.count - window) {
+  NSInteger maxIndex = _allPrices.count - window;
+  NSMutableArray *values = [NSMutableArray arrayWithCapacity:maxIndex+1];
+  [_allPrices enumerateObjectsUsingBlock:^(NSNumber *price, NSUInteger index, BOOL *stop) {
+    if (index > maxIndex) {
       *stop = YES;
     } else {
       if (index == 0) {
         CGFloat sum = 0;
         for (NSUInteger i=0; i < window; ++i) {
-          sum += [_prices[i] floatValue];
+          sum += [_allPrices[i] floatValue];
         }
         [values addObject:[NSNumber numberWithFloat:sum/window]];
       } else {
         CGFloat prevValue = [values[index - 1] floatValue];
-        CGFloat value = prevValue + ([_prices[index+window-1] floatValue] - [_prices[index-1] floatValue])/window;
+        CGFloat value = prevValue + ([_allPrices[index+window-1] floatValue] - [_allPrices[index-1] floatValue])/window;
         [values addObject:[NSNumber numberWithFloat:value]];
       }
     }
@@ -206,10 +225,11 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
   if (window >= data.count) {
     return @[];
   }
-  NSMutableArray *values = [@[] mutableCopy];
+  NSInteger maxIndex = data.count - window;
+  NSMutableArray *values = [NSMutableArray arrayWithCapacity:maxIndex+1];
   NSArray *reversePrices = [[data reverseObjectEnumerator] allObjects];
   [reversePrices enumerateObjectsUsingBlock:^(NSNumber *price, NSUInteger index, BOOL *stop) {
-    if (index > reversePrices.count - window) {
+    if (index > maxIndex) {
       *stop = YES;
     } else {
       if (index == 0) {
@@ -230,7 +250,7 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
 }
 
 - (NSArray *)generateEMA:(NSInteger)window {
-  return [self exponentialMovingAverageOf:_prices withWindow:window];
+  return [self exponentialMovingAverageOf:_allPrices withWindow:window];
 }
 
 
@@ -303,16 +323,16 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
 }
 
 - (NSArray *)generateRSI:(NSUInteger)periods {
-  if (_prices.count < 1) {
+  if (_allPrices.count < 1) {
     return @[];
   }
   
   NSMutableArray *rsi = [@[] mutableCopy];
-  NSUInteger start = MIN(_dates.count - 1, maxDrawCount + periods - 1);
+  NSUInteger start = MIN(_allDates.count - 1, maxDrawCount + periods - 1);
   CGFloat averageLoss = 0.0f;
   CGFloat averageGain = 0.0f;
   for (int i = 1; i < periods; ++i) {
-    CGFloat diff = [_prices[start - i] floatValue] - [_prices[start - i + 1] floatValue];
+    CGFloat diff = [_allPrices[start - i] floatValue] - [_allPrices[start - i + 1] floatValue];
     if (diff < 0.0f) {
       averageLoss -= diff;
     } else {
@@ -325,7 +345,7 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
   [rsi addObject:[NSNumber numberWithFloat:[self rsi:averageLoss averageGain:averageGain]]];
   
   for (long i = start - periods - 1; i > -1; --i) {
-    CGFloat diff = [_prices[i] floatValue] - [_prices[i + 1] floatValue];
+    CGFloat diff = [_allPrices[i] floatValue] - [_allPrices[i + 1] floatValue];
     if (diff < 0.0f) {
       averageLoss = [self rsiAverageWithWindow:periods previous:averageLoss current:-diff];
       averageGain = [self rsiAverageWithWindow:periods previous:averageGain current:0];
@@ -435,26 +455,27 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
     [fractalDimensions addObject:@(fractalDimension)];
   }
   return [self exponentialMovingAverageOf:fractalDimensions withWindow:10];
-//  return [fractalDimensions copy];
 }
 
 #pragma mark -
 #pragma Add Current Data
 
 - (void)addCurrentData:(NSArray *)data forDate:(NSString *)dateString {
-  [_dates insertObject:dateString atIndex:0];
-  [_prices insertObject:data[3] atIndex:0];
-  [_open insertObject:data[0] atIndex:0];
-  [_high insertObject:data[1] atIndex:0];
-  [_low insertObject:data[2] atIndex:0];
-  [_close insertObject:data[3] atIndex:0];
+  [_allDates insertObject:dateString atIndex:0];
+  [_allPrices insertObject:data[3] atIndex:0];
+  [_allOpen insertObject:data[0] atIndex:0];
+  [_allHigh insertObject:data[1] atIndex:0];
+  [_allLow insertObject:data[2] atIndex:0];
+  [_allClose insertObject:data[3] atIndex:0];
+  [self calculateDerivedData];
 }
 
 - (void)updateCurrentData:(NSArray *)data {
-  _prices[0] = data[3];
-  _open[0] = data[0];
-  _high[0] = data[1];
-  _low[0] = data[2];
-  _close[0] = data[3];
+  _allPrices[0] = data[3];
+  _allOpen[0] = data[0];
+  _allHigh[0] = data[1];
+  _allLow[0] = data[2];
+  _allClose[0] = data[3];
+  [self calculateDerivedData];
 }
 @end

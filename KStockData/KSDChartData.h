@@ -14,25 +14,24 @@
 - (NSArray *)generateSMA:(NSInteger)window;
 - (void)addCurrentData:(NSArray *)data forDate:(NSString *)dateString;
 - (void)updateCurrentData:(NSArray *)data;
-- (void)calculateDerivedData;
 
 @property (readonly, strong, nonatomic) NSString *symbol;
 
 @property (readonly, nonatomic) KSDRange timeRange;
 @property (readonly, nonatomic) KSDRange priceRange;
 
-@property (strong, nonatomic, readonly) NSMutableArray *dates;
+@property (strong, nonatomic, readonly) NSArray *dates;
 @property (strong, nonatomic, readonly) NSDictionary *monthLabels;
-@property (strong, nonatomic, readonly) NSMutableArray *prices;
+@property (strong, nonatomic, readonly) NSArray *prices;
 @property (strong, nonatomic, readonly) NSArray *priceLabels;
 @property (strong, nonatomic, readonly) NSArray *tenDMA;
 @property (strong, nonatomic, readonly) NSArray *fiftyDMA;
 @property (strong, nonatomic, readonly) NSArray *twoHundredDMA;
-@property (strong, nonatomic, readonly) NSMutableArray *open;
-@property (strong, nonatomic, readonly) NSMutableArray *close;
+@property (strong, nonatomic, readonly) NSArray *open;
+@property (strong, nonatomic, readonly) NSArray *close;
 
-@property (strong, nonatomic, readonly) NSMutableArray *high;
-@property (strong, nonatomic, readonly) NSMutableArray *low;
+@property (strong, nonatomic, readonly) NSArray *high;
+@property (strong, nonatomic, readonly) NSArray *low;
 
 //Oscillators and indicators
 //RSI
