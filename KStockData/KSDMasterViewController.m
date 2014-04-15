@@ -289,7 +289,11 @@ static const NSString *loadingGuard = @"Loading...";
   return nowString;
 }
 
-- (void)updateCurrentStockData:(KSDChartData *)chartData stock:(NSManagedObject *)stock symbol:(NSString *)symbol {
+- (void)updateCurrentStockData:(KSDChartData *)chartData
+                         stock:(NSManagedObject *)stock
+                        symbol:(NSString *)symbol
+                       section:(NSInteger)section
+{
   NSDate *updatedAt  = [stock valueForKeyPath:@"updatedAt"];
   if ([updatedAt timeIntervalSinceNow] > -10) {
     return;
@@ -314,6 +318,7 @@ static const NSString *loadingGuard = @"Loading...";
                          NSDate *updatedAt = [NSDate date];
                          [stock setValue:updatedAt forKey:@"updatedAt"];
                          [stock setValue:chartCsv forKey:@"chartDataCSV"];
+                         [self updateRsiOverboughtOverSold:stock chartData:chartData section:section];
 
 //                         [stock.managedObjectContext save:NULL];
                          
@@ -339,12 +344,29 @@ static const NSString *loadingGuard = @"Loading...";
                          NSDate *updatedAt = [NSDate date];
                          [stock setValue:updatedAt forKey:@"updatedAt"];
                          [stock setValue:chartCsv forKey:@"chartDataCSV"];
+                         [self updateRsiOverboughtOverSold:stock chartData:chartData section:section];
 //                         [stock.managedObjectContext save:NULL];
                          
                          self.detailViewController.chartData = chartData;
                        }];
     } else {
       self.detailViewController.chartData = chartData;
+    }
+  }
+}
+
+- (void)updateRsiOverboughtOverSold:(NSManagedObject *)stock chartData:(KSDChartData *)chartData section:(NSInteger)section {
+  if (section == KSDOverBought) {
+    if (chartData.rsi.count > 0) {
+      [stock setValue:chartData.rsi[0] forKey:@"rsiOverbought"];
+    } else {
+      [stock setValue:@100 forKey:@"rsiOverbought"];
+    }
+  } else {
+    if (chartData.rsi.count > 0) {
+      [stock setValue:chartData.rsi[0] forKey:@"rsiOversold"];
+    } else {
+      [stock setValue:@0 forKey:@"rsiOversold"];
     }
   }
 }
@@ -362,19 +384,7 @@ static const NSString *loadingGuard = @"Loading...";
     [stock setValue:updatedAt forKey:@"updatedAt"];
     [stock setValue:csv forKey:@"chartDataCSV"];
     
-    if (section == KSDOverBought) {
-      if (chartData.rsi.count > 0) {
-        [stock setValue:chartData.rsi[0] forKey:@"rsiOverbought"];
-      } else {
-        [stock setValue:@100 forKey:@"rsiOverbought"];
-      }
-    } else {
-      if (chartData.rsi.count > 0) {
-        [stock setValue:chartData.rsi[0] forKey:@"rsiOversold"];
-      } else {
-        [stock setValue:@0 forKey:@"rsiOversold"];
-      }
-    }
+    [self updateRsiOverboughtOverSold:stock chartData:chartData section:section];
 //    [stock.managedObjectContext save:NULL];
   };
   
@@ -396,10 +406,10 @@ static const NSString *loadingGuard = @"Loading...";
           NSString *csv = [stock valueForKeyPath:@"chartDataCSV"];
           KSDChartData *chartData = [[KSDChartData alloc] initWithColumns:[csv khr_csv_columns] andSymbol:symbol];
           _chartDataDictionary[symbol] = chartData;
-          [self updateCurrentStockData:chartData stock:stock symbol:symbol];
+          [self updateCurrentStockData:chartData stock:stock symbol:symbol section:section];
         });
       } else {
-        [self updateCurrentStockData:cache stock:stock symbol:symbol];
+        [self updateCurrentStockData:cache stock:stock symbol:symbol section:section];
       }
     }
   } else {

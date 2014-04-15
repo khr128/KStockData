@@ -34,7 +34,7 @@
   [cal setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
   NSDateComponents *dateComp = [cal components: NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:now];
   
-  BOOL marketIsOpen = (dateComp.hour > 9 && dateComp.hour < 16) ||
+  BOOL marketIsOpen = dateComp.hour > 9  ||
   (dateComp.hour == 9 && dateComp.minute > 45) ||
   (dateComp.hour == 16 && dateComp.minute < 15);
 

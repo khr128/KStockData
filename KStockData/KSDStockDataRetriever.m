@@ -66,9 +66,9 @@ static NSString *yahooChartFormat = @"%ss=%@&d=%d&e=%@&f=%@&g=d&a=%d&b=%@&c=%@&i
   NSDateComponents *dateComp = [cal components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSWeekdayCalendarUnit
                                       fromDate:now];
   
-  return (dateComp.weekday > 1 && dateComp.weekday < 7) && ((dateComp.hour > 9 && dateComp.hour < 16) ||
-  (dateComp.hour == 9 && dateComp.minute > 45) ||
-  (dateComp.hour == 16 && dateComp.minute < 15));
+  //Report as open after it opens on this day (even after in closes on this day)
+  return (dateComp.weekday > 1 && dateComp.weekday < 7) &&
+  (dateComp.hour > 9  || (dateComp.hour == 9 && dateComp.minute > 45));
 }
 
 @end
