@@ -43,6 +43,7 @@
 		AE9A4B5718E24D8E00580338 /* KSDRsiChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9A4B5618E24D8E00580338 /* KSDRsiChartView.m */; };
 		AE9A4B5A18E26CDA00580338 /* KSDRange.c in Sources */ = {isa = PBXBuildFile; fileRef = AE9A4B5918E26CDA00580338 /* KSDRange.c */; };
 		AE9A4B5D18E273A800580338 /* KSDRegion.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9A4B5C18E273A800580338 /* KSDRegion.m */; };
+		AE9DFD3018FDA859003558AB /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9DFD2F18FDA859003558AB /* Reachability.m */; };
 		AEAB83F418E9E37B002FA6AB /* KSDChartsAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAB83F318E9E37B002FA6AB /* KSDChartsAnimationController.m */; };
 		AEB6643718D352BC003D504A /* LEDBDREV.TTF in Resources */ = {isa = PBXBuildFile; fileRef = AEB6643618D3526E003D504A /* LEDBDREV.TTF */; };
 		AEB6643918D369EE003D504A /* scoreboard.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEB6643818D369E1003D504A /* scoreboard.ttf */; };
@@ -118,6 +119,8 @@
 		AE9A4B5918E26CDA00580338 /* KSDRange.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = KSDRange.c; sourceTree = "<group>"; };
 		AE9A4B5B18E273A800580338 /* KSDRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDRegion.h; sourceTree = "<group>"; };
 		AE9A4B5C18E273A800580338 /* KSDRegion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDRegion.m; sourceTree = "<group>"; };
+		AE9DFD2E18FDA859003558AB /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		AE9DFD2F18FDA859003558AB /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		AEAB83F218E9E37B002FA6AB /* KSDChartsAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDChartsAnimationController.h; sourceTree = "<group>"; };
 		AEAB83F318E9E37B002FA6AB /* KSDChartsAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDChartsAnimationController.m; sourceTree = "<group>"; };
 		AEB6643618D3526E003D504A /* LEDBDREV.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = LEDBDREV.TTF; sourceTree = "<group>"; };
@@ -191,6 +194,7 @@
 		AE05C91418D10DC400C60920 /* KStockData */ = {
 			isa = PBXGroup;
 			children = (
+				AE9DFD2D18FDA832003558AB /* Reachability */,
 				AE3055CC18DDBEDA00392C23 /* Categories */,
 				AE3055CB18DDBEBC00392C23 /* Charts */,
 				AEE4C02C18DA15BA00695BF3 /* WebService */,
@@ -298,6 +302,15 @@
 				AE3055D118DDDAA400392C23 /* NSArray+KhrMinMax.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		AE9DFD2D18FDA832003558AB /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				AE9DFD2E18FDA859003558AB /* Reachability.h */,
+				AE9DFD2F18FDA859003558AB /* Reachability.m */,
+			);
+			name = Reachability;
 			sourceTree = "<group>";
 		};
 		AEE4C02C18DA15BA00695BF3 /* WebService */ = {
@@ -428,6 +441,7 @@
 				AE05C92B18D10DC400C60920 /* KSDDetailViewController.m in Sources */,
 				AE9A4B5718E24D8E00580338 /* KSDRsiChartView.m in Sources */,
 				AE7A815A18E78B2B00AB9674 /* KSDMacdChartView.m in Sources */,
+				AE9DFD3018FDA859003558AB /* Reachability.m in Sources */,
 				AE287D7C18D2659500F16174 /* NSString+NSString_KhrCSV.m in Sources */,
 				AE05C91F18D10DC400C60920 /* KSDAppDelegate.m in Sources */,
 				AE9A4B5D18E273A800580338 /* KSDRegion.m in Sources */,
