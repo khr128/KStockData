@@ -13,9 +13,7 @@
 #import "NSString+NSString_KhrCSV.h"
 #import "KSDSymbolTableViewCell.h"
 #import "KSDChartData.h"
-
-static NSString *KhrNextbusUserInfoReachableKey = @"KhrNextbusUserInfoReachableKey";
-static NSString *KhrNextbusReachable = @"reachable";
+#import "Reachability.h"
 
 typedef NS_ENUM(NSInteger, KSDOversoldOverbought) {
   KSDOversold = 1,
@@ -31,27 +29,39 @@ typedef NS_ENUM(NSInteger, KSDOversoldOverbought) {
   UIPopoverController *_popoverController;
   NSMutableDictionary *_chartDataDictionary;
   KSDStockDataRetriever *_stockDataRetriever, *_chartDataRetriever;
+  Reachability *_hostReachable;
 }
 
 - (void)awakeFromNib
 {
   self.clearsSelectionOnViewWillAppear = NO;
   self.preferredContentSize = CGSizeMake(320.0, 600.0);
-    [super awakeFromNib];
+  [super awakeFromNib];
+  [self startReachabilityNotifierFor:@"finance.yahoo.com"];
+}
+
+- (void) startReachabilityNotifierFor:(NSString *)hostName {
+  // check for internet connection
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
+  
+  // check if a pathway to a random host exists
+  _hostReachable = [Reachability reachabilityWithHostName: hostName];
+  [_hostReachable startNotifier];
 }
 
 - (void) checkNetworkStatus:(NSNotification *)notice {
-  NSString *reachable = [[notice userInfo] objectForKey:KhrNextbusUserInfoReachableKey];
-  self.canReachStockDataServer = [reachable compare:@"yes"] == NSOrderedSame;
+  NetworkStatus hostStatus = [_hostReachable currentReachabilityStatus];
+  if (hostStatus == NotReachable) {
+    self.canReachStockDataServer = NO;
+  } else {
+    self.canReachStockDataServer = YES;
+    [self refreshStockLists:nil];
+  }
 }
 
 - (void)viewDidLoad
 {
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(checkNetworkStatus:)
-                                               name:KhrNextbusReachable object:nil];
   [super viewDidLoad];
-  
   
 	// Do any additional setup after loading the view, typically from a nib.
   UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
@@ -94,8 +104,8 @@ typedef NS_ENUM(NSInteger, KSDOversoldOverbought) {
 #pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-  return [[self.fetchedResultsController sections] count];
+{  
+  return self.canReachStockDataServer ? [[self.fetchedResultsController sections] count] : 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
