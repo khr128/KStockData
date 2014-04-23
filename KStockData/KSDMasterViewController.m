@@ -53,6 +53,14 @@ typedef NS_ENUM(NSInteger, KSDOversoldOverbought) {
   NetworkStatus hostStatus = [_hostReachable currentReachabilityStatus];
   if (hostStatus == NotReachable) {
     self.canReachStockDataServer = NO;
+    UIAlertView *alert = [[UIAlertView alloc]
+													initWithTitle:@"Data feed problem"
+													message:@"Please make sure that your iPad is connected to the Internet"
+													delegate:nil
+													cancelButtonTitle:@"Dismiss"
+													otherButtonTitles:nil];
+		[alert show];
+
   } else {
     self.canReachStockDataServer = YES;
     [self refreshStockLists:nil];
