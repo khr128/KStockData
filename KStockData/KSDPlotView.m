@@ -99,11 +99,11 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
                         color:(UIColor *)color
                        yRange:(KSDRange)yRange
 {
-  if (data.count < 2) {
+  long count = data.count;
+  if (count < 2) {
     return;
   }
   
-  long count = data.count;
   long priceCount = self.data.prices.count;
   CGContextMoveToPoint(context, priceCount-1, [data[0] floatValue]);
   for (int i=1; i < count; ++i) {

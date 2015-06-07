@@ -19,7 +19,6 @@
 		AE05C92818D10DC400C60920 /* KSDMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE05C92718D10DC400C60920 /* KSDMasterViewController.m */; };
 		AE05C92B18D10DC400C60920 /* KSDDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE05C92A18D10DC400C60920 /* KSDDetailViewController.m */; };
 		AE05C92D18D10DC400C60920 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE05C92C18D10DC400C60920 /* Images.xcassets */; };
-		AE05C93418D10DC400C60920 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE05C93318D10DC400C60920 /* XCTest.framework */; };
 		AE05C93518D10DC400C60920 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE05C90C18D10DC400C60920 /* Foundation.framework */; };
 		AE05C93618D10DC400C60920 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE05C91018D10DC400C60920 /* UIKit.framework */; };
 		AE05C93718D10DC400C60920 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE05C91218D10DC400C60920 /* CoreData.framework */; };
@@ -83,7 +82,6 @@
 		AE05C92A18D10DC400C60920 /* KSDDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KSDDetailViewController.m; sourceTree = "<group>"; };
 		AE05C92C18D10DC400C60920 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AE05C93218D10DC400C60920 /* KStockDataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KStockDataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE05C93318D10DC400C60920 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		AE05C93C18D10DC400C60920 /* KStockDataTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KStockDataTests-Info.plist"; sourceTree = "<group>"; };
 		AE05C93E18D10DC400C60920 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AE05C94018D10DC400C60920 /* NSStringKhrCSVTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSStringKhrCSVTests.m; sourceTree = "<group>"; };
@@ -150,7 +148,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE05C93418D10DC400C60920 /* XCTest.framework in Frameworks */,
 				AE05C93718D10DC400C60920 /* CoreData.framework in Frameworks */,
 				AE05C93618D10DC400C60920 /* UIKit.framework in Frameworks */,
 				AE05C93518D10DC400C60920 /* Foundation.framework in Frameworks */,
@@ -186,7 +183,6 @@
 				AE05C90E18D10DC400C60920 /* CoreGraphics.framework */,
 				AE05C91018D10DC400C60920 /* UIKit.framework */,
 				AE05C91218D10DC400C60920 /* CoreData.framework */,
-				AE05C93318D10DC400C60920 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -370,6 +366,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = khr;
 				TargetAttributes = {
+					AE05C90818D10DC400C60920 = {
+						DevelopmentTeam = 894E7KZ4VA;
+					};
 					AE05C93118D10DC400C60920 = {
 						TestTargetID = AE05C90818D10DC400C60920;
 					};
@@ -580,6 +579,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KStockData/KStockData-Prefix.pch";
 				INFOPLIST_FILE = "KStockData/KStockData-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -593,6 +593,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KStockData/KStockData-Prefix.pch";
 				INFOPLIST_FILE = "KStockData/KStockData-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
