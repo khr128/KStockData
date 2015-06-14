@@ -37,6 +37,7 @@
 		AE37E60C18ED95A100C1B028 /* KSDFractalDimensionMinMaxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE37E60B18ED95A100C1B028 /* KSDFractalDimensionMinMaxTests.m */; };
 		AE37E60F18ED97F200C1B028 /* KSDFractalDimensionMinMax.m in Sources */ = {isa = PBXBuildFile; fileRef = AE37E60E18ED97F200C1B028 /* KSDFractalDimensionMinMax.m */; };
 		AE3D0A0518F821C3008B1B3B /* KSDStockDataRetrieverTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE3D0A0418F821C3008B1B3B /* KSDStockDataRetrieverTests.m */; };
+		AE6AFDF11B2D1AFB00B305F2 /* FractalDimensionMinMax.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6AFDF01B2D1AFB00B305F2 /* FractalDimensionMinMax.swift */; };
 		AE7A815A18E78B2B00AB9674 /* KSDMacdChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7A815918E78B2B00AB9674 /* KSDMacdChartView.m */; };
 		AE9A4B5418E2255F00580338 /* KSDPlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9A4B5318E2255F00580338 /* KSDPlotView.m */; };
 		AE9A4B5718E24D8E00580338 /* KSDRsiChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9A4B5618E24D8E00580338 /* KSDRsiChartView.m */; };
@@ -107,6 +108,8 @@
 		AE37E60D18ED97F200C1B028 /* KSDFractalDimensionMinMax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDFractalDimensionMinMax.h; sourceTree = "<group>"; };
 		AE37E60E18ED97F200C1B028 /* KSDFractalDimensionMinMax.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDFractalDimensionMinMax.m; sourceTree = "<group>"; };
 		AE3D0A0418F821C3008B1B3B /* KSDStockDataRetrieverTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDStockDataRetrieverTests.m; sourceTree = "<group>"; };
+		AE6AFDEF1B2D1AFA00B305F2 /* KStockData-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KStockData-Bridging-Header.h"; sourceTree = "<group>"; };
+		AE6AFDF01B2D1AFB00B305F2 /* FractalDimensionMinMax.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FractalDimensionMinMax.swift; sourceTree = "<group>"; };
 		AE7A815818E78B2B00AB9674 /* KSDMacdChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDMacdChartView.h; sourceTree = "<group>"; };
 		AE7A815918E78B2B00AB9674 /* KSDMacdChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDMacdChartView.m; sourceTree = "<group>"; };
 		AE9A4B5218E2255F00580338 /* KSDPlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDPlotView.h; sourceTree = "<group>"; };
@@ -190,6 +193,7 @@
 		AE05C91418D10DC400C60920 /* KStockData */ = {
 			isa = PBXGroup;
 			children = (
+				AE6AFDF21B2D1B0300B305F2 /* Swift Interop */,
 				AE9DFD2D18FDA832003558AB /* Reachability */,
 				AE3055CC18DDBEDA00392C23 /* Categories */,
 				AE3055CB18DDBEBC00392C23 /* Charts */,
@@ -285,6 +289,7 @@
 				AE37E60E18ED97F200C1B028 /* KSDFractalDimensionMinMax.m */,
 				AE2EC77E18EE112D00C92F3A /* KSDFractalDimensionChartView.h */,
 				AE2EC77F18EE112D00C92F3A /* KSDFractalDimensionChartView.m */,
+				AE6AFDF01B2D1AFB00B305F2 /* FractalDimensionMinMax.swift */,
 			);
 			name = Charts;
 			sourceTree = "<group>";
@@ -298,6 +303,14 @@
 				AE3055D118DDDAA400392C23 /* NSArray+KhrMinMax.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		AE6AFDF21B2D1B0300B305F2 /* Swift Interop */ = {
+			isa = PBXGroup;
+			children = (
+				AE6AFDEF1B2D1AFA00B305F2 /* KStockData-Bridging-Header.h */,
+			);
+			name = "Swift Interop";
 			sourceTree = "<group>";
 		};
 		AE9DFD2D18FDA832003558AB /* Reachability */ = {
@@ -427,6 +440,7 @@
 				AE05C92518D10DC400C60920 /* KStockData.xcdatamodeld in Sources */,
 				AE9A4B5418E2255F00580338 /* KSDPlotView.m in Sources */,
 				AE37E60F18ED97F200C1B028 /* KSDFractalDimensionMinMax.m in Sources */,
+				AE6AFDF11B2D1AFB00B305F2 /* FractalDimensionMinMax.swift in Sources */,
 				AE307A4118DCBFD5007A0F00 /* KSDPriceChartsView.m in Sources */,
 				AEAB83F418E9E37B002FA6AB /* KSDChartsAnimationController.m in Sources */,
 				AE3055CF18DDBF8600392C23 /* KSDChartData.m in Sources */,
@@ -576,11 +590,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KStockData/KStockData-Prefix.pch";
 				INFOPLIST_FILE = "KStockData/KStockData-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "KStockData/KStockData-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -590,11 +608,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KStockData/KStockData-Prefix.pch";
 				INFOPLIST_FILE = "KStockData/KStockData-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "KStockData/KStockData-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
