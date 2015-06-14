@@ -63,7 +63,7 @@ static NSString *yahooChartFormat = @"%ss=%@&d=%d&e=%@&f=%@&g=d&a=%d&b=%@&c=%@&i
   
   NSCalendar *cal = [NSCalendar currentCalendar];
   [cal setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
-  NSDateComponents *dateComp = [cal components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSWeekdayCalendarUnit
+  NSDateComponents *dateComp = [cal components: NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitWeekday
                                       fromDate:now];
   
   //Report as open after it opens on this day (even after in closes on this day)

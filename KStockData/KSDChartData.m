@@ -340,7 +340,8 @@ static NSDictionary *monthAbbrev = nil;
   NSUInteger start = MIN(_allDates.count - 1, maxDrawCount + periods - 1);
   CGFloat averageLoss = 0.0f;
   CGFloat averageGain = 0.0f;
-  for (int i = 1; i < periods; ++i) {
+  unsigned long maxPeriods = MIN(periods, _allDates.count);
+  for (int i = 1; i < maxPeriods; ++i) {
     CGFloat diff = [_allPrices[start - i] floatValue] - [_allPrices[start - i + 1] floatValue];
     if (diff < 0.0f) {
       averageLoss -= diff;
@@ -353,7 +354,7 @@ static NSDictionary *monthAbbrev = nil;
   
   [rsi addObject:[NSNumber numberWithFloat:[self rsi:averageLoss averageGain:averageGain]]];
   
-  for (long i = start - periods - 1; i > -1; --i) {
+  for (long i = start - maxPeriods - 1; i > -1; --i) {
     CGFloat diff = [_allPrices[i] floatValue] - [_allPrices[i + 1] floatValue];
     if (diff < 0.0f) {
       averageLoss = [self rsiAverageWithWindow:periods previous:averageLoss current:-diff];

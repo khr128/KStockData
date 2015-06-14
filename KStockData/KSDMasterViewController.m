@@ -439,18 +439,20 @@ static const NSString *loadingGuard = @"Loading...";
     dispatch_async(mainQueue, ^{
       NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
       NSArray *array = [csv khr_csv];
-      NSString *change = array[0];
-      
-      UILabel *changeLabel = ((KSDSymbolTableViewCell*) cell).changeLabel;
-      changeLabel.text = change;
-      UIFont *font = [UIFont fontWithName:@"LED BOARD REVERSED" size:17];
-      changeLabel.font = font;
-      
-      cell.textLabel.Text = symbol;
+      if (array.count > 0) {
+        NSString *change = array[0];
 
-      UIColor *textColor =  ([change characterAtIndex:0] == '+' ? [UIColor greenColor] : [UIColor redColor]);
-      changeLabel.textColor = textColor;
-      cell.textLabel.textColor = textColor;
+        UILabel *changeLabel = ((KSDSymbolTableViewCell*) cell).changeLabel;
+        changeLabel.text = change;
+        UIFont *font = [UIFont fontWithName:@"LED BOARD REVERSED" size:17];
+        changeLabel.font = font;
+
+        cell.textLabel.text = symbol;
+
+        UIColor *textColor =  ([change characterAtIndex:0] == '+' ? [UIColor greenColor] : [UIColor redColor]);
+        changeLabel.textColor = textColor;
+        cell.textLabel.textColor = textColor;
+      }
     });
   };
   
