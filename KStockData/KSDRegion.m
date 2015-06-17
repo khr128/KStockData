@@ -9,7 +9,7 @@
 #import "KSDRegion.h"
 
 @implementation KSDRegion
-- (instancetype)initWithLeft:(CGFloat)left range:(KSDRange)range right:(CGFloat)right base:(CGFloat)base{
+- (instancetype)initWithLeft:(CGFloat)left range:(KSDRange*)range right:(CGFloat)right base:(CGFloat)base{
   if (self = [super init]) {
     _left = left;
     _range = range;

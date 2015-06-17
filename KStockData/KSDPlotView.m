@@ -97,7 +97,7 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
                       context:(CGContextRef)context
                          data:(NSArray *)data
                         color:(UIColor *)color
-                       yRange:(KSDRange)yRange
+                       yRange:(KSDRange *)yRange
 {
   long count = data.count;
   if (count < 2) {
@@ -134,7 +134,7 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
   return context;
 }
 
-- (void)scaleAndTranslateCTM:(CGContextRef)context withYRange:(KSDRange)yRange
+- (void)scaleAndTranslateCTM:(CGContextRef)context withYRange:(KSDRange*)yRange
 {
   CGFloat dataWidth = self.data.timeRange.max - self.data.timeRange.min;
   _unadjustedDataHeight = yRange.max - yRange.min;
@@ -160,7 +160,7 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
 
 - (void)drawMonthlyLabelsAndGridLines:(CGAffineTransform)scaledTransform
                               context:(CGContextRef)context
-                               yRange:(KSDRange)yRange
+                               yRange:(KSDRange*)yRange
 {
   long count = self.data.prices.count;
 
@@ -272,7 +272,7 @@ const CGFloat kKSDTopBottomMarginFraction = 0.04;
 - (void)strokePathWithoutScaling: (CGContextRef)context
                        lineWidth: (CGFloat)lineWidth
                            color: (UIColor *)color
-                          yRange: (KSDRange)yRange
+                          yRange: (KSDRange *)yRange
 {
   CGContextRestoreGState(context);
   

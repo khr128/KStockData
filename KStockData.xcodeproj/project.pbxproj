@@ -40,7 +40,6 @@
 		AE7A815A18E78B2B00AB9674 /* KSDMacdChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE7A815918E78B2B00AB9674 /* KSDMacdChartView.m */; };
 		AE9A4B5418E2255F00580338 /* KSDPlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9A4B5318E2255F00580338 /* KSDPlotView.m */; };
 		AE9A4B5718E24D8E00580338 /* KSDRsiChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9A4B5618E24D8E00580338 /* KSDRsiChartView.m */; };
-		AE9A4B5A18E26CDA00580338 /* KSDRange.c in Sources */ = {isa = PBXBuildFile; fileRef = AE9A4B5918E26CDA00580338 /* KSDRange.c */; };
 		AE9A4B5D18E273A800580338 /* KSDRegion.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9A4B5C18E273A800580338 /* KSDRegion.m */; };
 		AE9DFD3018FDA859003558AB /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9DFD2F18FDA859003558AB /* Reachability.m */; };
 		AEAB83F418E9E37B002FA6AB /* KSDChartsAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAB83F318E9E37B002FA6AB /* KSDChartsAnimationController.m */; };
@@ -48,6 +47,7 @@
 		AEABC8EA1B30FF61009AE950 /* FractalDimensionMinMax.swift in Resources */ = {isa = PBXBuildFile; fileRef = AE6AFDF01B2D1AFB00B305F2 /* FractalDimensionMinMax.swift */; };
 		AEB6643718D352BC003D504A /* LEDBDREV.TTF in Resources */ = {isa = PBXBuildFile; fileRef = AEB6643618D3526E003D504A /* LEDBDREV.TTF */; };
 		AEB6643918D369EE003D504A /* scoreboard.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEB6643818D369E1003D504A /* scoreboard.ttf */; };
+		AECA018C1B319B5000C14553 /* KSDRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECA018B1B319B5000C14553 /* KSDRange.swift */; };
 		AEDE338318E068FB005F1046 /* KSDChartDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDE338218E068FB005F1046 /* KSDChartDataTests.m */; };
 		AEE22F6218E48C5100FF95BA /* KSDIndicatorChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE22F6118E48C5100FF95BA /* KSDIndicatorChartViewController.m */; };
 		AEE4C02F18DA160D00695BF3 /* KSDStockDataRetriever.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE4C02E18DA160D00695BF3 /* KSDStockDataRetriever.m */; };
@@ -115,8 +115,6 @@
 		AE9A4B5318E2255F00580338 /* KSDPlotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDPlotView.m; sourceTree = "<group>"; };
 		AE9A4B5518E24D8E00580338 /* KSDRsiChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDRsiChartView.h; sourceTree = "<group>"; };
 		AE9A4B5618E24D8E00580338 /* KSDRsiChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDRsiChartView.m; sourceTree = "<group>"; };
-		AE9A4B5818E26B7D00580338 /* KSDRange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSDRange.h; sourceTree = "<group>"; };
-		AE9A4B5918E26CDA00580338 /* KSDRange.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = KSDRange.c; sourceTree = "<group>"; };
 		AE9A4B5B18E273A800580338 /* KSDRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDRegion.h; sourceTree = "<group>"; };
 		AE9A4B5C18E273A800580338 /* KSDRegion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDRegion.m; sourceTree = "<group>"; };
 		AE9DFD2E18FDA859003558AB /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -125,6 +123,7 @@
 		AEAB83F318E9E37B002FA6AB /* KSDChartsAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDChartsAnimationController.m; sourceTree = "<group>"; };
 		AEB6643618D3526E003D504A /* LEDBDREV.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = LEDBDREV.TTF; sourceTree = "<group>"; };
 		AEB6643818D369E1003D504A /* scoreboard.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = scoreboard.ttf; sourceTree = "<group>"; };
+		AECA018B1B319B5000C14553 /* KSDRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KSDRange.swift; sourceTree = "<group>"; };
 		AEDE338218E068FB005F1046 /* KSDChartDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDChartDataTests.m; sourceTree = "<group>"; };
 		AEE22F6018E48C5100FF95BA /* KSDIndicatorChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDIndicatorChartViewController.h; sourceTree = "<group>"; };
 		AEE22F6118E48C5100FF95BA /* KSDIndicatorChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDIndicatorChartViewController.m; sourceTree = "<group>"; };
@@ -274,8 +273,6 @@
 				AE9A4B5318E2255F00580338 /* KSDPlotView.m */,
 				AE9A4B5518E24D8E00580338 /* KSDRsiChartView.h */,
 				AE9A4B5618E24D8E00580338 /* KSDRsiChartView.m */,
-				AE9A4B5818E26B7D00580338 /* KSDRange.h */,
-				AE9A4B5918E26CDA00580338 /* KSDRange.c */,
 				AE9A4B5B18E273A800580338 /* KSDRegion.h */,
 				AE9A4B5C18E273A800580338 /* KSDRegion.m */,
 				AEE22F6018E48C5100FF95BA /* KSDIndicatorChartViewController.h */,
@@ -287,6 +284,7 @@
 				AE2EC77E18EE112D00C92F3A /* KSDFractalDimensionChartView.h */,
 				AE2EC77F18EE112D00C92F3A /* KSDFractalDimensionChartView.m */,
 				AE6AFDF01B2D1AFB00B305F2 /* FractalDimensionMinMax.swift */,
+				AECA018B1B319B5000C14553 /* KSDRange.swift */,
 			);
 			name = Charts;
 			sourceTree = "<group>";
@@ -434,6 +432,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AECA018C1B319B5000C14553 /* KSDRange.swift in Sources */,
 				AE307A3818DBB582007A0F00 /* KSDChartsViewController.m in Sources */,
 				AE05C92518D10DC400C60920 /* KStockData.xcdatamodeld in Sources */,
 				AE9A4B5418E2255F00580338 /* KSDPlotView.m in Sources */,
@@ -447,7 +446,6 @@
 				AEE22F6218E48C5100FF95BA /* KSDIndicatorChartViewController.m in Sources */,
 				AE3055D218DDDAA400392C23 /* NSArray+KhrMinMax.m in Sources */,
 				AE05C91B18D10DC400C60920 /* main.m in Sources */,
-				AE9A4B5A18E26CDA00580338 /* KSDRange.c in Sources */,
 				AE05C92B18D10DC400C60920 /* KSDDetailViewController.m in Sources */,
 				AE9A4B5718E24D8E00580338 /* KSDRsiChartView.m in Sources */,
 				AE7A815A18E78B2B00AB9674 /* KSDMacdChartView.m in Sources */,

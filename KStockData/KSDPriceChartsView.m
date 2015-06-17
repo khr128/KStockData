@@ -14,7 +14,7 @@
 
 - (void)drawHighLowBarsWithWidth: (CGFloat)lineWidth
                          context: (CGContextRef)context
-                          yRange: (KSDRange)yRange
+                          yRange: (KSDRange*)yRange
 {
   long count = self.data.prices.count;
   for (int i=0; i < count; ++i) {
@@ -27,7 +27,7 @@
 
 - (void)drawOpenCloseCandlesInContext: (CGContextRef)context
                                 width: (CGFloat)candleWidth
-                               yRange: (KSDRange)yRange
+                               yRange: (KSDRange*)yRange
 {
   long count = self.data.prices.count;
   for (int i=0; i < count; ++i) {

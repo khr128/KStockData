@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "KStockData-Swift.h"
 
 @class KSDChartData;
-typedef struct KSDRange KSDRange;
 
 extern const CGFloat kKSDChartFrameMargin;
 extern const CGFloat kKSDTopBottomMarginFraction;
@@ -27,7 +27,7 @@ extern const CGFloat kKSDTopBottomMarginFraction;
                       context: (CGContextRef)context
                          data: (NSArray*)data
                         color: (UIColor*)color
-                       yRange: (KSDRange)yRange;
+                       yRange: (KSDRange*)yRange;
 
 @property (nonatomic, assign, readonly) CGFloat chartWidth;
 
@@ -39,17 +39,17 @@ extern const CGFloat kKSDTopBottomMarginFraction;
 
 @property (nonatomic, assign, readonly) CGFloat unadjustedDataHeight;
 
-- (void)scaleAndTranslateCTM: (CGContextRef)context  withYRange:(KSDRange)yRange;
+- (void)scaleAndTranslateCTM: (CGContextRef)context  withYRange:(KSDRange*)yRange;
 
 - (void)unscaleCTM: (CGContextRef)context rect: (CGRect)rect;
 
-- (void)drawMonthlyLabelsAndGridLines: (CGAffineTransform)scaledTransform context: (CGContextRef)context yRange: (KSDRange)yRange;
+- (void)drawMonthlyLabelsAndGridLines: (CGAffineTransform)scaledTransform context: (CGContextRef)context yRange: (KSDRange*)yRange;
 
 - (void)setGridlineStyle: (CGContextRef)context;
 
 - (void)drawValueLabelsAndGridLines: (NSArray*)values transform: (CGAffineTransform)transform context: (CGContextRef)context;
 
 - (void)highlightRegions: (NSArray*)regions withColor: (UIColor*)color context: (CGContextRef)context;
-- (void)strokePathWithoutScaling: (CGContextRef)context lineWidth: (CGFloat)lineWidth color: (UIColor*)color yRange: (KSDRange)yRange;
+- (void)strokePathWithoutScaling: (CGContextRef)context lineWidth: (CGFloat)lineWidth color: (UIColor*)color yRange: (KSDRange *)yRange;
 
 @end

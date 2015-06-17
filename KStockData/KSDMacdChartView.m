@@ -13,7 +13,7 @@
 
 - (void)drawHistogramInContext: (CGContextRef)context
                                 width: (CGFloat)candleWidth
-                               yRange: (KSDRange)yRange
+                               yRange: (KSDRange*)yRange
 {
   long count = self.data.macdLine.count;
   long priceCount = self.data.prices.count;

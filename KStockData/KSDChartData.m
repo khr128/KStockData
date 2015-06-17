@@ -49,7 +49,7 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
     maxPrice = MAX(maxPrice, [_tenDMA floatMax]);
   }
   
-  _priceRange = KSDRangeMake(minPrice, maxPrice);
+  _priceRange = [KSDRange make:minPrice max:maxPrice];
 }
 
 - (void)calculateMacdRange {
@@ -66,13 +66,13 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
   minMacd = MIN(minMacd, [histogram floatMin]);
   maxMacd = MAX(maxMacd, [histogram floatMax]);
   
-  _macdRange = KSDRangeMake(minMacd, maxMacd);
+  _macdRange = [KSDRange make:minMacd max:maxMacd];
 }
 
 - (void)calculateYRanges {
   [self calculatePriceRange];
   [self calculateMacdRange];
-  _fractalDimensionRange = KSDRangeMake(1, 2);
+  _fractalDimensionRange = [KSDRange make:1 max:2];
 }
 
 - (void)adjustDrawCounts {
@@ -115,7 +115,7 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
     _fractalDimensions = [_fractalDimensions subarrayWithRange:drawRange];
   }
 
-  _timeRange = KSDRangeMake(-1, drawCount);
+  _timeRange = [KSDRange make:-1 max:drawCount];
 }
 
 - (void)calculateDerivedData {
@@ -124,7 +124,7 @@ static const NSUInteger fractalDimensionHalfPeriod = 19;
   _twoHundredDMA = [self generateSMA:200];
   
   _rsi = [self generateRSI:14];
-  _rsiRange = KSDRangeMake(0, 100);
+  _rsiRange = [KSDRange make:0 max:100];
   
   _macdLine = [self generateMacdLine];
   _macdSignalLine = [self exponentialMovingAverageOf:_macdLine withWindow:macdSignalPeriod];
@@ -298,7 +298,9 @@ static NSDictionary *monthAbbrev = nil;
     } else if (value > rsiOversoldLevel && (inOversoldRegion == YES && inOverboughtRegion == NO)) {
       max = i - 1;
       right = [self intersectionWithLevel:rsiOversoldLevel forIndex:i inArray:rsiData];
-      region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right base:rsiOversoldLevel];
+      region = [[KSDRegion alloc] initWithLeft:left
+                                         range:[KSDRange make:min max:max]
+                                         right:right base:rsiOversoldLevel];
       [oversold addObject:region];
       inOversoldRegion = NO;
     } else if (value > rsiOverboughtLevel  && (inOversoldRegion == NO && inOverboughtRegion == NO)) {
@@ -308,7 +310,9 @@ static NSDictionary *monthAbbrev = nil;
     } else if (value < rsiOverboughtLevel && (inOversoldRegion == NO && inOverboughtRegion == YES)) {
       max = i - 1;
       right = [self intersectionWithLevel:rsiOverboughtLevel forIndex:i inArray:rsiData];
-      region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right base:rsiOverboughtLevel];
+      region = [[KSDRegion alloc] initWithLeft:left
+                                         range:[KSDRange make:min max:max]
+                                         right:right base:rsiOverboughtLevel];
       [overbought addObject:region];
       inOverboughtRegion = NO;
     }
@@ -317,13 +321,17 @@ static NSDictionary *monthAbbrev = nil;
   if (inOverboughtRegion == YES) {
     max = rsiData.count - 1;
     right = max;
-    region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right base:rsiOverboughtLevel];
+    region = [[KSDRegion alloc] initWithLeft:left
+                                       range:[KSDRange make:min max:max]
+                                       right:right base:rsiOverboughtLevel];
     [overbought addObject:region];
     inOverboughtRegion = NO;
   } else if (inOversoldRegion == YES) {
     max = rsiData.count - 1;
     right = max;
-    region = [[KSDRegion alloc] initWithLeft:left range:KSDRangeMake(min, max) right:right base:rsiOversoldLevel];
+    region = [[KSDRegion alloc] initWithLeft:left
+                                       range:[KSDRange make:min max:max]
+                                       right:right base:rsiOversoldLevel];
     [oversold addObject:region];
     inOversoldRegion = NO;
   }

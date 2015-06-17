@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "KSDRange.h"
+#import "KStockData-Swift.h"
 
 @interface KSDRegion : NSObject
 @property (nonatomic, assign, readonly) CGFloat left;
-@property (nonatomic, assign, readonly) KSDRange range;
+@property (nonatomic, strong, readonly) KSDRange* range;
 @property (nonatomic, assign, readonly) CGFloat right;
 @property (nonatomic, assign, readonly) CGFloat base;
 
-- (instancetype)initWithLeft:(CGFloat)left range:(KSDRange)range right:(CGFloat)right base:(CGFloat)base;
+- (instancetype)initWithLeft:(CGFloat)left range:(KSDRange*)range right:(CGFloat)right base:(CGFloat)base;
 @end

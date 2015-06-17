@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "KSDRange.h"
+#import "KStockData-Swift.h"
 
 @interface KSDChartData : NSObject
 - (id)initWithColumns:(NSDictionary *)columns andSymbol:(NSString *)symbol;
@@ -17,8 +17,8 @@
 
 @property (readonly, strong, nonatomic) NSString *symbol;
 
-@property (readonly, nonatomic) KSDRange timeRange;
-@property (readonly, nonatomic) KSDRange priceRange;
+@property (readonly, nonatomic, strong) KSDRange* timeRange;
+@property (readonly, nonatomic, strong) KSDRange* priceRange;
 
 @property (strong, nonatomic, readonly) NSArray *dates;
 @property (strong, nonatomic, readonly) NSDictionary *monthLabels;
@@ -37,19 +37,19 @@
 //RSI
 @property (strong, nonatomic, readonly) NSArray *rsi;
 @property (strong, nonatomic, readonly) NSArray *rsiLabels;
-@property (readonly, nonatomic) KSDRange rsiRange;
+@property (readonly, nonatomic, strong) KSDRange* rsiRange;
 @property (readonly, nonatomic) NSArray *rsiOversoldRegions;
 @property (readonly, nonatomic) NSArray *rsiOverboughtRegions;
 
 //MACD
 @property (strong, nonatomic, readonly) NSArray *macdLine;
 @property (strong, nonatomic, readonly) NSArray *macdSignalLine;
-@property (assign, nonatomic, readonly) KSDRange macdRange;
+@property (strong, nonatomic, readonly) KSDRange* macdRange;
 @property (strong, nonatomic, readonly) NSArray *macdLabels;
 
 //Fractal Dimension
 @property (strong, nonatomic, readonly) NSArray *fractalDimensions;
 @property (strong, nonatomic, readonly) NSArray *fractalDimensionLabels;
-@property (readonly, assign, nonatomic) KSDRange fractalDimensionRange;
+@property (readonly, strong, nonatomic) KSDRange* fractalDimensionRange;
 
 @end
