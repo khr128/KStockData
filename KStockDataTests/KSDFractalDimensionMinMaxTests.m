@@ -7,7 +7,9 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "KSDFractalDimensionMinMax.h"
+//#import "KSDFractalDimensionMinMax.h"
+
+#import "KStockDataTests-Swift.h"
 
 @interface KSDFractalDimensionMinMaxTests : XCTestCase
 
@@ -16,7 +18,7 @@
 @implementation KSDFractalDimensionMinMaxTests {
   NSArray *_testData;
   NSArray *_expectedMins, *_expectedMaxes;
-  KSDFractalDimensionMinMax *_minMax;
+  FractalDimensionMinMax *_minMax;
 }
 
 - (void)setUp {
@@ -26,7 +28,7 @@
   _expectedMaxes = @[@15, @15, @10, @10];
   _expectedMins = @[@-15, @-16, @-16, @-16];
   
-  _minMax = [[KSDFractalDimensionMinMax alloc] initWithArray:_testData startIndex:0 period:5];
+  _minMax = [[FractalDimensionMinMax alloc] initWithArray:_testData startIndex:0 period:5];
 }
 
 - (void)tearDown

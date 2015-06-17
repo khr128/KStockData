@@ -9,7 +9,9 @@
 #import "KSDChartData.h"
 #import "NSArray+KhrMinMax.h"
 #import "KSDRegion.h"
-#import "KSDFractalDimensionMinMax.h"
+//#import "KSDFractalDimensionMinMax.h"
+
+#import "KStockData-Swift.h"
 
 static const NSUInteger maxDrawCount = 252;
 static const NSUInteger labelDivisions = 5;
@@ -446,10 +448,10 @@ static NSDictionary *monthAbbrev = nil;
   }
   
   NSMutableArray *fractalDimensions = [@[] mutableCopy];
-  KSDFractalDimensionMinMax *firstHalfMinMax = [[KSDFractalDimensionMinMax alloc] initWithArray:data
+  FractalDimensionMinMax *firstHalfMinMax = [[FractalDimensionMinMax alloc] initWithArray:data
                                                                                      startIndex:0
                                                                                          period:fractalDimensionHalfPeriod];
-  KSDFractalDimensionMinMax *secondHalfMinMax = [[KSDFractalDimensionMinMax alloc] initWithArray:data
+  FractalDimensionMinMax *secondHalfMinMax = [[FractalDimensionMinMax alloc] initWithArray:data
                                                                                      startIndex:fractalDimensionHalfPeriod-1
                                                                                          period:fractalDimensionHalfPeriod];
   

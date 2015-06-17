@@ -8,7 +8,7 @@
 
 import Foundation
 
-class FractalDimensionMinMax {
+class FractalDimensionMinMax: NSObject {
   var min: Float
   var max: Float
   var data: [Float]
@@ -41,7 +41,7 @@ class FractalDimensionMinMax {
         (index: Int, stop: UnsafeMutablePointer<ObjCBool>) in
         let v = self.data[index]
         if minV > v {
-          minV = v;
+          minV = v
           self.currentMinIndex = index;
         }
       }
@@ -49,6 +49,25 @@ class FractalDimensionMinMax {
     }
 
     //Add code for max here
+    if currentIndexSet.containsIndex(currentMaxIndex) {
+      let lastIndexInPeriod = currentIndexSet.lastIndex
+      let lastValueInPeriod = data[lastIndexInPeriod]
+      if max < lastValueInPeriod {
+        max = lastValueInPeriod
+        currentMaxIndex = lastIndexInPeriod
+      }
+    } else {
+      var maxV = data[currentIndexSet.firstIndex]
+      currentIndexSet.enumerateIndexesUsingBlock {
+        (index: Int, stop: UnsafeMutablePointer<ObjCBool>) in
+        let v = self.data[index]
+        if maxV < v {
+          maxV = v
+          self.currentMaxIndex = index
+        }
+      }
+      max = maxV
+    }
 
     currentIndexSet.shiftIndexesStartingAtIndex(currentIndexSet.firstIndex, by: 1)
   }
