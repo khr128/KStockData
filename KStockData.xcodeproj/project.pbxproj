@@ -34,6 +34,7 @@
 		AE307A3818DBB582007A0F00 /* KSDChartsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE307A3718DBB582007A0F00 /* KSDChartsViewController.m */; };
 		AE307A4118DCBFD5007A0F00 /* KSDPriceChartsView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE307A4018DCBFD5007A0F00 /* KSDPriceChartsView.m */; };
 		AE36C1A518EC411600E2ED27 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = AE36C1A418EC411600E2ED27 /* Default-Landscape@2x~ipad.png */; };
+		AE372A741B36254500B8A665 /* StockDataRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE372A731B36254500B8A665 /* StockDataRetriever.swift */; };
 		AE37E60C18ED95A100C1B028 /* KSDFractalDimensionMinMaxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE37E60B18ED95A100C1B028 /* KSDFractalDimensionMinMaxTests.m */; };
 		AE3D0A0518F821C3008B1B3B /* KSDStockDataRetrieverTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE3D0A0418F821C3008B1B3B /* KSDStockDataRetrieverTests.m */; };
 		AE6AFDF11B2D1AFB00B305F2 /* FractalDimensionMinMax.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6AFDF01B2D1AFB00B305F2 /* FractalDimensionMinMax.swift */; };
@@ -105,6 +106,7 @@
 		AE307A3F18DCBFD5007A0F00 /* KSDPriceChartsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDPriceChartsView.h; sourceTree = "<group>"; };
 		AE307A4018DCBFD5007A0F00 /* KSDPriceChartsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDPriceChartsView.m; sourceTree = "<group>"; };
 		AE36C1A418EC411600E2ED27 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = SOURCE_ROOT; };
+		AE372A731B36254500B8A665 /* StockDataRetriever.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockDataRetriever.swift; sourceTree = "<group>"; };
 		AE37E60B18ED95A100C1B028 /* KSDFractalDimensionMinMaxTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDFractalDimensionMinMaxTests.m; sourceTree = "<group>"; };
 		AE3D0A0418F821C3008B1B3B /* KSDStockDataRetrieverTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDStockDataRetrieverTests.m; sourceTree = "<group>"; };
 		AE6AFDEF1B2D1AFA00B305F2 /* KStockData-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KStockData-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 			children = (
 				AEE4C02D18DA160D00695BF3 /* KSDStockDataRetriever.h */,
 				AEE4C02E18DA160D00695BF3 /* KSDStockDataRetriever.m */,
+				AE372A731B36254500B8A665 /* StockDataRetriever.swift */,
 			);
 			name = WebService;
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 				AEAB83F418E9E37B002FA6AB /* KSDChartsAnimationController.m in Sources */,
 				AE3055CF18DDBF8600392C23 /* KSDChartData.m in Sources */,
 				AE05C92818D10DC400C60920 /* KSDMasterViewController.m in Sources */,
+				AE372A741B36254500B8A665 /* StockDataRetriever.swift in Sources */,
 				AEE4C02F18DA160D00695BF3 /* KSDStockDataRetriever.m in Sources */,
 				AE287D7818D2457100F16174 /* KSDAddStockPopoverViewController.m in Sources */,
 				AEE22F6218E48C5100FF95BA /* KSDIndicatorChartViewController.m in Sources */,
