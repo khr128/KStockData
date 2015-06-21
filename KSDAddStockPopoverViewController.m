@@ -9,15 +9,16 @@
 #import "KSDAddStockPopoverViewController.h"
 #import "KSDMasterViewController.h"
 #import "KSDDetailViewController.h"
-#import "KSDStockDataRetriever.h"
 #import "NSString+NSString_KhrCSV.h"
+
+#import "KStockData-Swift.h"
 
 @interface KSDAddStockPopoverViewController ()
 
 @end
 
 @implementation KSDAddStockPopoverViewController {
-  KSDStockDataRetriever *_stockDataRetriever;
+  StockDataRetriever *_stockDataRetriever;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -32,7 +33,7 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  _stockDataRetriever = [KSDStockDataRetriever new];
+  _stockDataRetriever = [StockDataRetriever new];
 }
 
 - (void)didReceiveMemoryWarning
@@ -48,7 +49,7 @@
   NSString *symbol = [textField.text uppercaseString];
   [_stockDataRetriever stockDataFor:symbol
                            commands:@"e1"
-                   completionHadler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                      NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                      NSArray *array = [csv khr_csv];
                      

@@ -51,7 +51,6 @@
 		AECA018C1B319B5000C14553 /* KSDRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECA018B1B319B5000C14553 /* KSDRange.swift */; };
 		AEDE338318E068FB005F1046 /* KSDChartDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDE338218E068FB005F1046 /* KSDChartDataTests.m */; };
 		AEE22F6218E48C5100FF95BA /* KSDIndicatorChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE22F6118E48C5100FF95BA /* KSDIndicatorChartViewController.m */; };
-		AEE4C02F18DA160D00695BF3 /* KSDStockDataRetriever.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE4C02E18DA160D00695BF3 /* KSDStockDataRetriever.m */; };
 		AEE4C03218DA3AD700695BF3 /* KSDSymbolTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE4C03118DA3AD700695BF3 /* KSDSymbolTableViewCell.m */; };
 /* End PBXBuildFile section */
 
@@ -129,8 +128,6 @@
 		AEDE338218E068FB005F1046 /* KSDChartDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDChartDataTests.m; sourceTree = "<group>"; };
 		AEE22F6018E48C5100FF95BA /* KSDIndicatorChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDIndicatorChartViewController.h; sourceTree = "<group>"; };
 		AEE22F6118E48C5100FF95BA /* KSDIndicatorChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDIndicatorChartViewController.m; sourceTree = "<group>"; };
-		AEE4C02D18DA160D00695BF3 /* KSDStockDataRetriever.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDStockDataRetriever.h; sourceTree = "<group>"; };
-		AEE4C02E18DA160D00695BF3 /* KSDStockDataRetriever.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDStockDataRetriever.m; sourceTree = "<group>"; };
 		AEE4C03018DA3AD700695BF3 /* KSDSymbolTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDSymbolTableViewCell.h; sourceTree = "<group>"; };
 		AEE4C03118DA3AD700695BF3 /* KSDSymbolTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDSymbolTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -322,8 +319,6 @@
 		AEE4C02C18DA15BA00695BF3 /* WebService */ = {
 			isa = PBXGroup;
 			children = (
-				AEE4C02D18DA160D00695BF3 /* KSDStockDataRetriever.h */,
-				AEE4C02E18DA160D00695BF3 /* KSDStockDataRetriever.m */,
 				AE372A731B36254500B8A665 /* StockDataRetriever.swift */,
 			);
 			name = WebService;
@@ -445,7 +440,6 @@
 				AE3055CF18DDBF8600392C23 /* KSDChartData.m in Sources */,
 				AE05C92818D10DC400C60920 /* KSDMasterViewController.m in Sources */,
 				AE372A741B36254500B8A665 /* StockDataRetriever.swift in Sources */,
-				AEE4C02F18DA160D00695BF3 /* KSDStockDataRetriever.m in Sources */,
 				AE287D7818D2457100F16174 /* KSDAddStockPopoverViewController.m in Sources */,
 				AEE22F6218E48C5100FF95BA /* KSDIndicatorChartViewController.m in Sources */,
 				AE3055D218DDDAA400392C23 /* NSArray+KhrMinMax.m in Sources */,

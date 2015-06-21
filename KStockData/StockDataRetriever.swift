@@ -10,21 +10,27 @@ import UIKit
 
 class StockDataRetriever: NSObject {
   let YAHOO_FINANCE_COMMAND_URL = "http://finance.yahoo.com/d/quotes.csv?"
-  let yahooCommandFormat = "%ss=%@&f=%@"
   let YAHOO_CHART_URL = "http://ichart.finance.yahoo.com/table.csv?"
   let SECONDS_IN_YEAR = 365*24*3600
-  //"ichart.finance.yahoo.com/table.csv?s=AAPL&d=4&e=2&f=2011&g=d&a=0&b=1&c=2008&ignore.csv"
-  let yahooChartFormat = "%ss=%@&d=%d&e=%@&f=%@&g=d&a=%d&b=%@&c=%@&ignore.csv"
 
   func sendRequest(url: String,
-    completionHandler: (data: NSData!, response: NSURLResponse!, error: NSError!) -> (Void)
-    )
+    completionHandler: (data: NSData!, response: NSURLResponse!, error: NSError!) -> (Void))
   {
     let webServiceURL = NSURL(string: url)
     let session = NSURLSession.sharedSession()
-    session.dataTaskWithURL(webServiceURL!, completionHandler: completionHandler)
+    let task = session.dataTaskWithURL(webServiceURL!, completionHandler: completionHandler)
+
+    task.resume()
   }
 
+  func stockDataFor(
+    symbol: String,
+    commands: String,
+    completionHandler:(data: NSData!, response: NSURLResponse!, error: NSError!) -> (Void))
+  {
+    let url = "\(YAHOO_FINANCE_COMMAND_URL)s=\(symbol)&f=\(commands)"
+    sendRequest(url, completionHandler: completionHandler)
+  }
 
   func chartDataFor(
     symbol: String,
@@ -32,7 +38,7 @@ class StockDataRetriever: NSObject {
     completionHandler:(data: NSData!, response: NSURLResponse!, error: NSError!) -> (Void))
   {
     let today = NSDate()
-    let yearAgo = NSDate(timeIntervalSinceNow: -SECONDS_IN_YEAR*years)
+    let yearAgo = NSDate(timeIntervalSinceNow: NSTimeInterval(-Float(SECONDS_IN_YEAR)*years))
     let dayFormatter = NSDateFormatter()
     dayFormatter.dateFormat = "dd"
     let monthFormatter = NSDateFormatter()
@@ -40,11 +46,30 @@ class StockDataRetriever: NSObject {
     let yearFormatter = NSDateFormatter()
     yearFormatter.dateFormat = "yyyy"
 
-    let url = "%ss=\(YAHOO_CHART_URL)" + "&d=%d&e=%@&f=%@&g=d&a=%d&b=%@&c=%@&ignore.csv"
+    let monthNow = monthFormatter.stringFromDate(today).toInt()!-1
+    let dayNow = dayFormatter.stringFromDate(today)
+    let yearNow = yearFormatter.stringFromDate(today)
 
+    let monthYearsAgo = monthFormatter.stringFromDate(yearAgo).toInt()!-1
+    let dayYearsAgo = dayFormatter.stringFromDate(yearAgo)
+    let yearYearsAgo = yearFormatter.stringFromDate(yearAgo)
+
+    //"ichart.finance.yahoo.com/table.csv?s=AAPL&d=4&e=2&f=2011&g=d&a=0&b=1&c=2008&ignore.csv"
+    let url = "\(YAHOO_CHART_URL)" +
+      "s=\(symbol)" +
+      "&d=\(monthNow)" +
+      "&e=\(dayNow)" +
+      "&f=\(yearNow)" +
+      "&g=d" +
+      "&a=\(monthYearsAgo)" +
+      "&b=\(dayYearsAgo)" +
+      "&c=\(yearYearsAgo)" +
+    "&ignore.csv"
+
+    sendRequest(url, completionHandler: completionHandler)
   }
 
-  func isStockMarketOpen() -> (Bool) {
+  class func isStockMarketOpen() -> (Bool) {
     let now = NSDate()
     let cal = NSCalendar.currentCalendar()
     cal.timeZone = NSTimeZone(abbreviation: "EST")!

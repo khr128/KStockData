@@ -9,11 +9,12 @@
 #import "KSDMasterViewController.h"
 #import "KSDDetailViewController.h"
 #import "KSDAddStockPopoverViewController.h"
-#import "KSDStockDataRetriever.h"
 #import "NSString+NSString_KhrCSV.h"
 #import "KSDSymbolTableViewCell.h"
 #import "KSDChartData.h"
 #import "Reachability.h"
+
+#import "KStockData-Swift.h"
 
 typedef NS_ENUM(NSInteger, KSDOversoldOverbought) {
   KSDOversold = 1,
@@ -28,7 +29,7 @@ typedef NS_ENUM(NSInteger, KSDOversoldOverbought) {
 @implementation KSDMasterViewController {
   UIPopoverController *_popoverController;
   NSMutableDictionary *_chartDataDictionary;
-  KSDStockDataRetriever *_stockDataRetriever, *_chartDataRetriever;
+  StockDataRetriever *_stockDataRetriever, *_chartDataRetriever;
   Reachability *_hostReachable;
 }
 
@@ -83,8 +84,8 @@ typedef NS_ENUM(NSInteger, KSDOversoldOverbought) {
   self.detailViewController = (KSDDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
   
   _chartDataDictionary = [@{} mutableCopy];
-  _stockDataRetriever = [KSDStockDataRetriever new];
-  _chartDataRetriever = [KSDStockDataRetriever new];
+  _stockDataRetriever = [StockDataRetriever new];
+  _chartDataRetriever = [StockDataRetriever new];
 }
 
 - (void)didReceiveMemoryWarning
@@ -335,10 +336,10 @@ static const NSString *loadingGuard = @"Loading...";
     return;
   }
   
-  if ([KSDStockDataRetriever isStockMarketOpen] == YES) {
+  if ([StockDataRetriever isStockMarketOpen] == YES) {
     [_stockDataRetriever stockDataFor:symbol
                              commands:@"ohgl1v"
-                     completionHadler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                        NSString *csv = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                        NSArray *array = [csv khr_csv];
                        KSDChartData *chartData = _chartDataDictionary[symbol];
@@ -408,7 +409,7 @@ static const NSString *loadingGuard = @"Loading...";
       _chartDataDictionary[symbol] = loadingGuard;
       [_chartDataRetriever chartDataFor: symbol
                                   years: 2.0
-                       completionHadler: chartRetrievalHandler];
+                       completionHandler: chartRetrievalHandler];
     } else {
       if (!cache) {
         dispatch_queue_t queue = dispatch_queue_create("com.khr.KStock.ChartDataQueue", NULL);
@@ -456,7 +457,7 @@ static const NSString *loadingGuard = @"Loading...";
     });
   };
   
-  [_stockDataRetriever stockDataFor:symbol commands:@"c" completionHadler:changeRetrievalHandler];
+  [_stockDataRetriever stockDataFor:symbol commands:@"c" completionHandler:changeRetrievalHandler];
   
   NSManagedObject *stock = [self.fetchedResultsController objectAtIndexPath:indexPath];
   [self retrieveChartData:stock section:indexPath.section symbol:symbol];

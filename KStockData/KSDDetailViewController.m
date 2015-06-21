@@ -9,7 +9,6 @@
 #import "KSDDetailViewController.h"
 #import <objc/message.h>
 #import "NSString+NSString_KhrCSV.h"
-#import "KSDStockDataRetriever.h"
 #import "KSDChartData.h"
 #import "KSDChartsViewController.h"
 #import "KSDChartsAnimationController.h"
@@ -25,7 +24,7 @@ NSString *KSD_STOCK_SYMBOL_SELECTED = @"KSDStockSymbolSelected";
   NSArray *_yahooCommandTags;
   NSDictionary *_labelDictionary;
   KSDChartsAnimationController *_chartsAnimationController;
-  KSDStockDataRetriever *_stockDataRetriever;
+  StockDataRetriever *_stockDataRetriever;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -62,7 +61,7 @@ NSString *KSD_STOCK_SYMBOL_SELECTED = @"KSDStockSymbolSelected";
                        @"x"  :  @"stockExchangeLabel"
                        };
   
-  _stockDataRetriever = [KSDStockDataRetriever new];
+  _stockDataRetriever = [StockDataRetriever new];
  }
 
 #pragma mark - Managing the detail item
@@ -124,7 +123,7 @@ static void (^chartRetrievalHandler)(NSData *data, NSURLResponse *response, NSEr
   
   [_stockDataRetriever stockDataFor:symbol
                              commands:[_yahooCommandTags componentsJoinedByString:@""]
-                     completionHadler:dataRetrievalHandler];
+                     completionHandler:dataRetrievalHandler];
   
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:KSD_STOCK_SYMBOL_SELECTED object:self];
