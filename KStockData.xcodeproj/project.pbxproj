@@ -46,6 +46,7 @@
 		AEAB83F418E9E37B002FA6AB /* KSDChartsAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAB83F318E9E37B002FA6AB /* KSDChartsAnimationController.m */; };
 		AEABC8E91B30FCA6009AE950 /* FractalDimensionMinMax.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6AFDF01B2D1AFB00B305F2 /* FractalDimensionMinMax.swift */; };
 		AEABC8EA1B30FF61009AE950 /* FractalDimensionMinMax.swift in Resources */ = {isa = PBXBuildFile; fileRef = AE6AFDF01B2D1AFB00B305F2 /* FractalDimensionMinMax.swift */; };
+		AEB58FA61B4760B2003C5C18 /* AddStockPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB58FA51B4760B2003C5C18 /* AddStockPopoverViewController.swift */; };
 		AEB6643718D352BC003D504A /* LEDBDREV.TTF in Resources */ = {isa = PBXBuildFile; fileRef = AEB6643618D3526E003D504A /* LEDBDREV.TTF */; };
 		AEB6643918D369EE003D504A /* scoreboard.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEB6643818D369E1003D504A /* scoreboard.ttf */; };
 		AECA018C1B319B5000C14553 /* KSDRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECA018B1B319B5000C14553 /* KSDRange.swift */; };
@@ -122,6 +123,7 @@
 		AE9DFD2F18FDA859003558AB /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		AEAB83F218E9E37B002FA6AB /* KSDChartsAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSDChartsAnimationController.h; sourceTree = "<group>"; };
 		AEAB83F318E9E37B002FA6AB /* KSDChartsAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSDChartsAnimationController.m; sourceTree = "<group>"; };
+		AEB58FA51B4760B2003C5C18 /* AddStockPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddStockPopoverViewController.swift; sourceTree = "<group>"; };
 		AEB6643618D3526E003D504A /* LEDBDREV.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = LEDBDREV.TTF; sourceTree = "<group>"; };
 		AEB6643818D369E1003D504A /* scoreboard.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = scoreboard.ttf; sourceTree = "<group>"; };
 		AECA018B1B319B5000C14553 /* KSDRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KSDRange.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				AE3055CB18DDBEBC00392C23 /* Charts */,
 				AEE4C02C18DA15BA00695BF3 /* WebService */,
 				AE287D7D18D3473600F16174 /* Resources */,
+				AEB58FA51B4760B2003C5C18 /* AddStockPopoverViewController.swift */,
 				AE287D7518D2457100F16174 /* KSDAddStockPopoverViewController.h */,
 				AE287D7618D2457100F16174 /* KSDAddStockPopoverViewController.m */,
 				AE287D7718D2457100F16174 /* KSDAddStockPopoverViewController.xib */,
@@ -451,6 +454,7 @@
 				AE287D7C18D2659500F16174 /* NSString+NSString_KhrCSV.m in Sources */,
 				AE05C91F18D10DC400C60920 /* KSDAppDelegate.m in Sources */,
 				AE9A4B5D18E273A800580338 /* KSDRegion.m in Sources */,
+				AEB58FA61B4760B2003C5C18 /* AddStockPopoverViewController.swift in Sources */,
 				AEE4C03218DA3AD700695BF3 /* KSDSymbolTableViewCell.m in Sources */,
 				AE2EC78018EE112D00C92F3A /* KSDFractalDimensionChartView.m in Sources */,
 			);
