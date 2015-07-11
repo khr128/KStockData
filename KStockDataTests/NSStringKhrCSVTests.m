@@ -45,13 +45,13 @@
   NSArray *csv = [_testCSVString khr_csv];
   XCTAssertEqual(csv.count, 8, @"Incorrect CSV value count");
   [csv enumerateObjectsUsingBlock:^(NSString *valueString, NSUInteger index, BOOL *stop) {
-    NSString *expectedString = [NSString stringWithFormat:@"%u", index + 1];
+    NSString *expectedString = [NSString stringWithFormat:@"%lu", index + 1];
     if (index == 2) {
       expectedString = @"3,4";
     } else if (index == 3) {
       expectedString = @"5";
     } else if (index > 3) {
-      expectedString = [NSString stringWithFormat:@"%u", index + 2];
+      expectedString = [NSString stringWithFormat:@"%lu", index + 2];
     }
     XCTAssertEqualObjects(valueString, expectedString, @"Incorrect value");
   }];

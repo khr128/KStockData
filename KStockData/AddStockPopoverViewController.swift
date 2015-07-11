@@ -26,14 +26,14 @@ class AddStockPopoverViewController: UIViewController, UITextFieldDelegate {
   }
 
   func textFieldShouldReturn(textField: UITextField) -> Bool {
-    let symbol = textField.text.uppercaseString
+    let symbol = textField.text!.uppercaseString
     stockDataRetriever.stockDataFor(symbol, commands: "e1") {
-      (data: NSData!, response: NSURLResponse!, error: NSError!) in
-      let csv = NSString(data: data, encoding: NSUTF8StringEncoding)
+      (data: NSData?, response: NSURLResponse?, error: NSError?) in
+      let csv = NSString(data: data!, encoding: NSUTF8StringEncoding)
       let array = csv!.khr_csv()
 
       if array[0] as! String == "N/A" {
-        let context = self.masterViewController.fetchedResultsController.managedObjectContext
+        _ = self.masterViewController.fetchedResultsController.managedObjectContext
         let entity = self.masterViewController.fetchedResultsController.fetchRequest.entity
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = entity

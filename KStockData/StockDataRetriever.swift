@@ -14,19 +14,19 @@ class StockDataRetriever: NSObject {
   let SECONDS_IN_YEAR = 365*24*3600
 
   func sendRequest(url: String,
-    completionHandler: (data: NSData!, response: NSURLResponse!, error: NSError!) -> (Void))
+    completionHandler: ((NSData?, NSURLResponse?, NSError?) -> Void))
   {
     let webServiceURL = NSURL(string: url)
     let session = NSURLSession.sharedSession()
     let task = session.dataTaskWithURL(webServiceURL!, completionHandler: completionHandler)
 
-    task.resume()
+    task!.resume()
   }
 
   func stockDataFor(
     symbol: String,
     commands: String,
-    completionHandler:(data: NSData!, response: NSURLResponse!, error: NSError!) -> (Void))
+    completionHandler:(data: NSData?, response: NSURLResponse?, error: NSError?) -> (Void))
   {
     let url = "\(YAHOO_FINANCE_COMMAND_URL)s=\(symbol)&f=\(commands)"
     sendRequest(url, completionHandler: completionHandler)
@@ -35,7 +35,7 @@ class StockDataRetriever: NSObject {
   func chartDataFor(
     symbol: String,
     years: Float,
-    completionHandler:(data: NSData!, response: NSURLResponse!, error: NSError!) -> (Void))
+    completionHandler:(data: NSData?, response: NSURLResponse?, error: NSError?) -> (Void))
   {
     let today = NSDate()
     let yearAgo = NSDate(timeIntervalSinceNow: NSTimeInterval(-Float(SECONDS_IN_YEAR)*years))
@@ -46,11 +46,11 @@ class StockDataRetriever: NSObject {
     let yearFormatter = NSDateFormatter()
     yearFormatter.dateFormat = "yyyy"
 
-    let monthNow = monthFormatter.stringFromDate(today).toInt()!-1
+    let monthNow = Int(monthFormatter.stringFromDate(today))!-1
     let dayNow = dayFormatter.stringFromDate(today)
     let yearNow = yearFormatter.stringFromDate(today)
 
-    let monthYearsAgo = monthFormatter.stringFromDate(yearAgo).toInt()!-1
+    let monthYearsAgo = Int(monthFormatter.stringFromDate(yearAgo))!-1
     let dayYearsAgo = dayFormatter.stringFromDate(yearAgo)
     let yearYearsAgo = yearFormatter.stringFromDate(yearAgo)
 
@@ -74,7 +74,7 @@ class StockDataRetriever: NSObject {
     let cal = NSCalendar.currentCalendar()
     cal.timeZone = NSTimeZone(abbreviation: "EST")!
     let dateComp = cal.components(
-      NSCalendarUnit.CalendarUnitHour | NSCalendarUnit.CalendarUnitMinute | NSCalendarUnit.CalendarUnitWeekday,
+      [NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Weekday],
       fromDate: now)
 
     return (dateComp.weekday > 1 && dateComp.weekday < 7) &&
