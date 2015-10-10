@@ -35,7 +35,9 @@
     KSDChartsViewController *parentController = ((KSDChartsViewController *)self.parentViewController);
     CGPoint snapPoint = [parentController dockingSnapPoint];
 
-    self.view.frame = CGRectMake(0, snapPoint.y+1, self.view.superview.frame.size.width, 0.4*self.view.superview.frame.size.height);
+    self.view.frame = CGRectMake(0, snapPoint.y+1,
+                                 self.view.superview.frame.size.width - 318,
+                                 0.4*self.view.superview.frame.size.height);
 
     UICollisionBehavior *collision = [[UICollisionBehavior alloc] initWithItems:@[self.view]];
     collision.collisionMode = UICollisionBehaviorModeBoundaries;

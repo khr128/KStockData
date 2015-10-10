@@ -192,6 +192,7 @@
 		AE05C91418D10DC400C60920 /* KStockData */ = {
 			isa = PBXGroup;
 			children = (
+				AE3F18251BC9A3B7000A2684 /* Core Data */,
 				AE6AFDF21B2D1B0300B305F2 /* Swift Interop */,
 				AE9DFD2D18FDA832003558AB /* Reachability */,
 				AE3055CC18DDBEDA00392C23 /* Categories */,
@@ -199,7 +200,6 @@
 				AEE4C02C18DA15BA00695BF3 /* WebService */,
 				AE287D7D18D3473600F16174 /* Resources */,
 				AEB58FA51B4760B2003C5C18 /* AddStockPopoverViewController.swift */,
-				AE287D7518D2457100F16174 /* KSDAddStockPopoverViewController.h */,
 				AE287D7618D2457100F16174 /* KSDAddStockPopoverViewController.m */,
 				AE287D7718D2457100F16174 /* KSDAddStockPopoverViewController.xib */,
 				AE05C91D18D10DC400C60920 /* KSDAppDelegate.h */,
@@ -210,7 +210,6 @@
 				AE05C92918D10DC400C60920 /* KSDDetailViewController.h */,
 				AE05C92A18D10DC400C60920 /* KSDDetailViewController.m */,
 				AE05C92C18D10DC400C60920 /* Images.xcassets */,
-				AE05C92318D10DC400C60920 /* KStockData.xcdatamodeld */,
 				AE05C91518D10DC400C60920 /* Supporting Files */,
 				AEE4C03018DA3AD700695BF3 /* KSDSymbolTableViewCell.h */,
 				AEE4C03118DA3AD700695BF3 /* KSDSymbolTableViewCell.m */,
@@ -287,6 +286,7 @@
 				AE2EC77F18EE112D00C92F3A /* KSDFractalDimensionChartView.m */,
 				AE6AFDF01B2D1AFB00B305F2 /* FractalDimensionMinMax.swift */,
 				AECA018B1B319B5000C14553 /* KSDRange.swift */,
+				AE287D7518D2457100F16174 /* KSDAddStockPopoverViewController.h */,
 			);
 			name = Charts;
 			sourceTree = "<group>";
@@ -300,6 +300,14 @@
 				AE3055D118DDDAA400392C23 /* NSArray+KhrMinMax.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		AE3F18251BC9A3B7000A2684 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				AE05C92318D10DC400C60920 /* KStockData.xcdatamodeld */,
+			);
+			name = "Core Data";
 			sourceTree = "<group>";
 		};
 		AE6AFDF21B2D1B0300B305F2 /* Swift Interop */ = {
@@ -594,6 +602,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KStockData/KStockData-Prefix.pch";
 				INFOPLIST_FILE = "KStockData/KStockData-Info.plist";
@@ -601,6 +611,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.khr.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "KStockData/KStockData-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
@@ -613,6 +624,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KStockData/KStockData-Prefix.pch";
 				INFOPLIST_FILE = "KStockData/KStockData-Info.plist";
@@ -620,6 +633,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.khr.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "KStockData/KStockData-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};

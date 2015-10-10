@@ -13,6 +13,8 @@
 #import "KSDChartsViewController.h"
 #import "KSDChartsAnimationController.h"
 
+#import "KStockData-Swift.h"
+
 NSString *KSD_STOCK_SYMBOL_SELECTED = @"KSDStockSymbolSelected";
 
 @interface KSDDetailViewController () <UIViewControllerTransitioningDelegate>

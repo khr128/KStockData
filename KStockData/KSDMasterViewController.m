@@ -131,7 +131,7 @@ typedef NS_ENUM(NSInteger, KSDOversoldOverbought) {
   UIView *bgColorView = [[UIView alloc] init];
   bgColorView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0.3 alpha:1.0];
 //  bgColorView.layer.cornerRadius = 7;
-  bgColorView.layer.masksToBounds = YES;
+//  bgColorView.layer.masksToBounds = YES;
   [cell setSelectedBackgroundView:bgColorView];
   return cell;
 }

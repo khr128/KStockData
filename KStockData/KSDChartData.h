@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "KStockData-Swift.h"
+@class KSDRange;
 
 @interface KSDChartData : NSObject
 - (id)initWithColumns:(NSDictionary *)columns andSymbol:(NSString *)symbol;

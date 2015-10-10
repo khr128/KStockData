@@ -20,7 +20,7 @@ class StockDataRetriever: NSObject {
     let session = NSURLSession.sharedSession()
     let task = session.dataTaskWithURL(webServiceURL!, completionHandler: completionHandler)
 
-    task!.resume()
+    task.resume()
   }
 
   func stockDataFor(
