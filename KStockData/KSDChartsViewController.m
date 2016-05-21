@@ -209,7 +209,11 @@
     if (indicatorViewController.dynamic == YES && indicatorViewController.view != view) {
       [UIView transitionWithView:indicatorViewController.view duration:0.5
                          options:UIViewAnimationOptionCurveEaseInOut
-                      animations:^{ indicatorViewController.view.alpha = alpha; }
+                      animations:^{
+                        indicatorViewController.view.alpha = alpha;
+                        CGFloat w = view.superview.frame.size.width - 10;
+                        indicatorViewController.view.bounds = CGRectMake(0, 0, w, view.frame.size.height);
+                      }
                       completion:nil];
     };
   };

@@ -524,7 +524,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="tintColor" patternImage="70EFE4DB-E337-4115-A911-AA8657F776B4" colorSpace="pattern"/>
+                        <color key="tintColor" patternImage="8F4E2BE1-D1D9-4B01-8D25-117CAB8F2C03" colorSpace="pattern"/>
                         <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -580,19 +580,11 @@
         <scene sceneID="ZDW-Zl-BvK">
             <objects>
                 <viewController storyboardIdentifier="IndicatorChartVC" id="Lod-Z0-UC6" customClass="KSDIndicatorChartViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="D8l-1e-K8A"/>
-                        <viewControllerLayoutGuide type="bottom" id="New-ti-3a4"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="K0c-st-jL7" customClass="KSDRsiChartView">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
+                    <splitViewDetailSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0wT-QK-jgD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1203" y="-809"/>
+            <point key="canvasLocation" x="1428" y="-535"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="r7l-gg-dq7">
@@ -611,7 +603,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="70EFE4DB-E337-4115-A911-AA8657F776B4" width="256" height="256">
+        <image name="8F4E2BE1-D1D9-4B01-8D25-117CAB8F2C03" width="256" height="256">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
